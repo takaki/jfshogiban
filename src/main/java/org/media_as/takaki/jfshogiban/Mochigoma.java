@@ -35,8 +35,8 @@ public final class Mochigoma {
     private final Map<Koma, Integer> komaMap;
 
     public static Mochigoma initialize() {
-        return new Mochigoma(
-                MOCHI_GOMA.stream().collect(Collectors.toMap(koma -> koma, koma -> 0)));
+        return new Mochigoma(MOCHI_GOMA.stream()
+                .collect(Collectors.toMap(koma -> koma, koma -> 0)));
     }
 
     private Mochigoma(final Map<Koma, Integer> komaMap) {
@@ -53,9 +53,6 @@ public final class Mochigoma {
     }
 
     public Mochigoma remove(final Koma koma) throws IllegalMoveException {
-        if (!MOCHI_GOMA.contains(koma)) {
-            throw new IllegalMoveException();
-        }
         if (komaMap.get(koma) <= 0) {
             throw new IllegalMoveException();
         }

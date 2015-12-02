@@ -23,7 +23,7 @@ import spock.lang.Specification
 class ShogiBanTest extends Specification {
     def board = ShogiBan.initialize()
 
-    def "intialized board is empty"() {
+    def "intialized board is entire empty"() {
         expect:
         //noinspection GroovyAssignabilityCheck
         board.get(x, y) == Koma.EMPTY
@@ -31,7 +31,7 @@ class ShogiBanTest extends Specification {
         [x, y] << [0..8, 0..8].combinations()
     }
 
-    def "out bound location throws exception"() {
+    def "Can't set out bound location" () {
         when:
         board.get(-1, 0)
         then:
@@ -47,14 +47,15 @@ class ShogiBanTest extends Specification {
         thrown(IllegalMoveException)
     }
 
-    def "set piece and get piece"() {
-        when:
-        def board2 = board.set(1, 1, Koma.GOTE_KAKU)
-        then:
-        board2.get(1, 1) == Koma.GOTE_KAKU
+    def "set piece and got piece are same"() {
+        expect:
+        board.set(x, y, p).get(1,1) == p
+        where:
+        x | y || p
+        1 | 1 || Koma.GOTE_FU
     }
 
-    def "can't place piece on illegal locatioin" () {
+    def "can't place some kinds piece on illegal locatioin"() {
         when:
         board.set(0, 0, Koma.SENTE_FU)
         then:
@@ -62,6 +63,20 @@ class ShogiBanTest extends Specification {
 
         when:
         board.set(0, 8, Koma.GOTE_FU)
+        then:
+        thrown(IllegalMoveException)
+    }
+
+    def "can't remove empty location"() {
+        when:
+        board.remove(0, 0)
+        then:
+        thrown(IllegalMoveException)
+    }
+
+    def "can't move empty location"() {
+        when:
+        board.move(0, 0, 1, 1)
         then:
         thrown(IllegalMoveException)
     }

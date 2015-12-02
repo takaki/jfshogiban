@@ -65,7 +65,14 @@ class KyokumenTest extends Specification {
         k2.countMochigoma(Koma.SENTE_FU) == 1
     }
 
-    def "can drop piece"() {
+    def "Can't capture empty"() {
+        when:
+        kyokumen.capture(0,0,Player.SENTEBAN)
+        then:
+        thrown(IllegalMoveException)
+    }
+
+    def "drop piece"() {
         when:
         def k2 = kyokumen.pushMochigoma(Koma.SENTE_FU).drop(8, 8, Koma.SENTE_FU)
         then:

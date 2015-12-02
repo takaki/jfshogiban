@@ -26,7 +26,6 @@ public final class Kyokumen {
         return new Kyokumen(ShogiBan.initialize(), Mochigoma.initialize());
     }
 
-
     private Kyokumen(final ShogiBan shogiBan, final Mochigoma mochigoma) {
         this.shogiBan = shogiBan;
         this.mochigoma = mochigoma;
@@ -39,9 +38,6 @@ public final class Kyokumen {
 
     public Kyokumen set(final int x, final int y,
                         final Koma koma) throws IllegalMoveException {
-        if (shogiBan.get(x, y) != Koma.EMPTY) {
-            throw new IllegalMoveException();
-        }
         return new Kyokumen(shogiBan.set(x, y, koma), mochigoma);
     }
 
@@ -65,9 +61,6 @@ public final class Kyokumen {
 
     public Kyokumen capture(final int x, final int y,
                             final Player player) throws IllegalMoveException {
-        if (shogiBan.isEmpty(x, y)) {
-            throw new IllegalMoveException();
-        }
         final Koma koma = shogiBan.get(x, y);
         return remove(x, y).pushMochigoma(koma.changeCaptured(player));
     }

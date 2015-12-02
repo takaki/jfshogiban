@@ -23,14 +23,23 @@ import spock.lang.Specification
 class MochigomaTest extends Specification {
     def mochigoma = Mochigoma.initialize()
 
-    def "put and get"() {
-        when:
-        def mochigoma2 = mochigoma.push(Koma.SENTE_FU)
-        then:
-        mochigoma2.remove(Koma.SENTE_FU)
+    def "initial mochigoma is empty"() {
+        expect:
+        mochigoma.count(x) == 0
+        where:
+        x << [Koma.GOTE_FU, Koma.GOTE_GIN, Koma.SENTE_FU]
     }
 
-    def "get throw Exception"() {
+    def "can put on piece and remove"() {
+        when:
+        def mochigoma2 = mochigoma.push(Koma.SENTE_FU)
+        def mochigoma3 = mochigoma2.remove(Koma.SENTE_FU)
+        then:
+        mochigoma2.count(Koma.SENTE_FU) == 1
+        mochigoma3.count(Koma.SENTE_FU) == 0
+    }
+
+    def "can't get piece from empty mochigoma"() {
         when:
         mochigoma.remove(Koma.SENTE_FU)
 
@@ -39,30 +48,20 @@ class MochigomaTest extends Specification {
 
         when:
         mochigoma.remove(Koma.SENTE_KYOSHA)
-
         then:
         thrown(IllegalMoveException)
-    }
-
-    def "count"() {
-        when:
-        def mochigoma2 = mochigoma.push(Koma.SENTE_FU)
-
-        then:
-        mochigoma2.count(Koma.SENTE_FU) == 1
 
         when:
-        def mochigoma3 = mochigoma.push(Koma.SENTE_FU)
-                .push(Koma.SENTE_FU)
-                .push(Koma.SENTE_FU)
-                .push(Koma.SENTE_KYOSHA)
-                .push(Koma.SENTE_KEIMA)
-                .remove(Koma.SENTE_KYOSHA)
-
+        mochigoma.push(Koma.SENTE_KYOSHA).remove(Koma.SENTE_FU)
         then:
-        mochigoma3.count(Koma.SENTE_FU) == 3
-        mochigoma3.count(Koma.SENTE_KYOSHA) == 0
-        mochigoma3.count(Koma.SENTE_KEIMA) == 1
+        thrown(IllegalMoveException)
+
+        when:
+        mochigoma.push(Koma.SENTE_FU).remove(Koma.SENTE_FU).remove(Koma.SENTE_FU)
+        then:
+        thrown(IllegalMoveException)
+
     }
+
 
 }

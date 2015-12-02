@@ -26,11 +26,11 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public final class ShogiBan {
-    // 3四 is 19.
+
 
     private static final int HEIGHT = 9;
     private static final int WIDTH = 9;
-    private static final EnumSet<Koma> ILLEGAL_SENATE = EnumSet
+    private static final EnumSet<Koma> ILLEGAL_SENTE = EnumSet
             .of(Koma.SENTE_FU, Koma.SENTE_KYOSHA, Koma.SENTE_KEIMA);
     private static final EnumSet<Koma> ILLEGAL_GOTE = EnumSet
             .of(Koma.GOTE_FU, Koma.GOTE_KYOSHA, Koma.GOTE_KEIMA);
@@ -53,7 +53,10 @@ public final class ShogiBan {
 
     public ShogiBan set(final int x, final int y,
                         final Koma koma) throws IllegalMoveException {
-        if (ILLEGAL_SENATE.contains(koma) && y == 0 ||
+        if (!isEmpty(x, y)) {
+            throw new IllegalMoveException();
+        }
+        if (ILLEGAL_SENTE.contains(koma) && y == 0 ||
                 koma == Koma.SENTE_KEIMA && y <= 1 ||
                 ILLEGAL_GOTE.contains(koma) && y == 8 ||
                 koma == Koma.GOTE_KEIMA && y >= 7) {
@@ -66,6 +69,9 @@ public final class ShogiBan {
 
     public ShogiBan remove(final int x,
                            final int y) throws IllegalMoveException {
+        if (isEmpty(x, y)) {
+            throw new IllegalMoveException();
+        }
         final List<Koma> board = new ArrayList<>(this.board);
         board.set(calcIndex(x, y), Koma.EMPTY);
         return new ShogiBan(board);
@@ -73,18 +79,15 @@ public final class ShogiBan {
 
     public boolean isEmpty(final int x,
                            final int y) throws IllegalMoveException {
-        return board.get(calcIndex(x, y)) == Koma.EMPTY;
+        return get(x, y) == Koma.EMPTY;
     }
 
     public ShogiBan move(final int fx, final int fy, final int tx,
                          final int ty) throws IllegalMoveException {
-        if (isEmpty(fx, fy) || !isEmpty(tx, ty)) {
-            throw new IllegalMoveException();
-        }
-        final Koma from = get(fx, fy);
-        return remove(fx, fy).set(tx, ty, from);
+        return remove(fx, fy).set(tx, ty, get(fx, fy));
     }
 
+    // 3四 is 19.
     private static int calcIndex(final int x,
                                  final int y) throws IllegalMoveException {
         if (x < 0 || x > 8 || y < 0 || y > 8) {
