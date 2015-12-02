@@ -54,15 +54,30 @@ public final class Kyokumen {
         return new Kyokumen(shogiBan.remove(x, y), komaDai);
     }
 
-    public Kyokumen putKomaDai(final Koma koma) throws IllegalMoveException {
+    public Kyokumen pushMochigoma(final Koma koma) throws IllegalMoveException {
         return new Kyokumen(shogiBan, komaDai.push(koma));
     }
 
-    public Kyokumen removeKomaDai(final Koma koma) throws IllegalMoveException {
+    public Kyokumen removeMochigoma(
+            final Koma koma) throws IllegalMoveException {
         return new Kyokumen(shogiBan, komaDai.remove(koma));
     }
 
-    public int countDai(final Koma koma) {
+    public Kyokumen capture(final int x, final int y,
+                            final Player player) throws IllegalMoveException {
+        if (shogiBan.isEmpty(x, y)) {
+            throw new IllegalMoveException();
+        }
+        final Koma koma = shogiBan.get(x, y);
+        return remove(x, y).pushMochigoma(koma.changeCaptured(player));
+    }
+
+    public Kyokumen drop(final int x, final int y,
+                         final Koma koma) throws IllegalMoveException {
+        return removeMochigoma(koma).set(x, y, koma);
+    }
+
+    public int countMochigoma(final Koma koma) {
         return komaDai.count(koma);
     }
 }

@@ -19,5 +19,5 @@
 package org.media_as.takaki.jfshogiban;
 
 public enum Player {
-    SENTE, GOTE
+    SENTEBAN, GOTEBAN
 }
