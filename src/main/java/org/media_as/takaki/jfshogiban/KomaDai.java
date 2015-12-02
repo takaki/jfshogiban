@@ -25,35 +25,35 @@ import java.util.stream.Collectors;
 
 import static org.media_as.takaki.jfshogiban.Koma.*;
 
-public class Mochigoma {
+public class KomaDai {
     private static final EnumSet<Koma> NAMA_GOMA = EnumSet
             .of(SENTE_HISYA, SENTE_KAKU, SENTE_KIN, SENTE_GIN, SENTE_KEIMA,
                     SENTE_KYOSHA, SENTE_FU, GOTE_HISYA, GOTE_KAKU, GOTE_KIN,
                     GOTE_GIN, GOTE_KEIMA, GOTE_KYOSHA, GOTE_FU);
     private final Map<Koma, Integer> komaMap;
 
-    public static Mochigoma initialize() {
-        return new Mochigoma();
+    public static KomaDai initialize() {
+        return new KomaDai();
     }
 
-    private Mochigoma() {
+    private KomaDai() {
         komaMap = NAMA_GOMA.stream().collect(Collectors.toMap(s -> s, s -> 0));
     }
 
-    private Mochigoma(Map<Koma, Integer> komaMap) {
+    private KomaDai(Map<Koma, Integer> komaMap) {
         this.komaMap = komaMap;
     }
 
-    public Mochigoma put(Koma koma) throws IllegalMoveException {
+    public KomaDai put(Koma koma) throws IllegalMoveException {
         if (!NAMA_GOMA.contains(koma)) {
             throw new IllegalMoveException();
         }
         final Map<Koma, Integer> komaMap = new HashMap<>(this.komaMap);
         komaMap.computeIfPresent(koma, (p, n) -> n + 1);
-        return new Mochigoma(komaMap);
+        return new KomaDai(komaMap);
     }
 
-    public Mochigoma get(Koma koma) throws IllegalMoveException {
+    public KomaDai get(Koma koma) throws IllegalMoveException {
         if (!NAMA_GOMA.contains(koma)) {
             throw new IllegalMoveException();
         }
@@ -62,7 +62,7 @@ public class Mochigoma {
         }
         final Map<Koma, Integer> komaMap = new HashMap<>(this.komaMap);
         komaMap.computeIfPresent(koma, (p, n) -> n - 1);
-        return new Mochigoma(komaMap);
+        return new KomaDai(komaMap);
     }
 
     public int count(Koma koma) {

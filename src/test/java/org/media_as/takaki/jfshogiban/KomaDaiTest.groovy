@@ -20,8 +20,8 @@ package org.media_as.takaki.jfshogiban
 
 import spock.lang.Specification
 
-class MochigomaTest extends Specification {
-    def mochigoma = Mochigoma.initialize()
+class KomaDaiTest extends Specification {
+    def mochigoma = KomaDai.initialize()
 
     def "put and get"() {
         when:
