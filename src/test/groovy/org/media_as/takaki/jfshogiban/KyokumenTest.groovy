@@ -59,14 +59,14 @@ class KyokumenTest extends Specification {
 
     def "KomaDai put and remove"() {
         when:
-        kyokumen.putKomaDai(Koma.SENTE_FU)
+        def k2 = kyokumen.putKomaDai(Koma.SENTE_FU)
         then:
-        kyokumen.countDai(Koma.SENTE_FU) == 1
+        k2.countDai(Koma.SENTE_FU) == 1
 
         when:
-        kyokumen.removeKomaDai(Koma.SENTE_FU)
+        def k3 = k2.removeKomaDai(Koma.SENTE_FU)
         then:
-        kyokumen.countDai(Koma.SENTE_FU) == 0
+        k3.countDai(Koma.SENTE_FU) == 0
     }
 
 }

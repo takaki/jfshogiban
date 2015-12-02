@@ -2,16 +2,20 @@ group 'org.media_as.takaki'
 version '0.0.0-SNAPSHOT'
 
 apply plugin: 'java'
+apply plugin: 'groovy'
 
 //noinspection GroovyUnusedAssignment
 sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.11'
     compile "org.codehaus.groovy:groovy-all:2.4.3"
-    testCompile "org.spockframework:spock-core:1.0-groovy-2.4"
+    testCompile (
+        'junit:junit:4.12',
+        "org.spockframework:spock-core:1.0-groovy-2.4"
+    )
 }
