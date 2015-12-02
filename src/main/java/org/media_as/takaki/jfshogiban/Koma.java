@@ -18,7 +18,7 @@
 
 package org.media_as.takaki.jfshogiban;
 
-enum Koma {
+public enum Koma {
     EMPTY,
 
     SENTE_GYOKU,
@@ -34,7 +34,7 @@ enum Koma {
     SENTE_NARIGIN,
     SENTE_NARIKEI,
     SENTE_NARIKYO,
-    SENTE_TO,
+    SENTE_TOKIN,
 
 
     GOTE_GYOKU,
@@ -50,6 +50,6 @@ enum Koma {
     GOTE_NARIGIN,
     GOTE_NARIKEI,
     GOTE_NARIKYO,
-    GOTE_TO,
+    GOTE_TOKIN,
 
 }

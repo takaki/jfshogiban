@@ -23,9 +23,9 @@ import spock.lang.Specification
 class KyokumenTest extends Specification {
     def kyokumen = Kyokumen.initialize()
 
-    def "put, check and remove"() {
+    def "set, check and remove"() {
         when:
-        def kyokumen2 = kyokumen.put(0, 0, Koma.GOTE_KYOSHA)
+        def kyokumen2 = kyokumen.set(0, 0, Koma.GOTE_KYOSHA)
         then:
         kyokumen2.get(0, 0) == Koma.GOTE_KYOSHA
 
@@ -35,24 +35,24 @@ class KyokumenTest extends Specification {
         kyokumen3.get(0, 0) == Koma.EMPTY
     }
 
-    def "put and move"() {
+    def "set and move"() {
         when:
-        def kyokumen2 = kyokumen.put(0, 8, Koma.SENTE_FU).move(0, 8, 0, 7)
+        def kyokumen2 = kyokumen.set(0, 8, Koma.SENTE_FU).move(0, 8, 0, 7)
         then:
         kyokumen2.get(0, 8) == Koma.EMPTY
         kyokumen2.get(0, 7) == Koma.SENTE_FU
     }
 
-    def "put and exception"() {
+    def "set and exception"() {
         when:
-        kyokumen.put(0, 8, Koma.SENTE_FU).put(0, 8, Koma.SENTE_FU)
+        kyokumen.set(0, 8, Koma.SENTE_FU).set(0, 8, Koma.SENTE_FU)
         then:
         thrown(IllegalMoveException)
     }
 
     def "move and exception"() {
         when:
-        kyokumen.put(0, 8, Koma.SENTE_FU).put(0, 7, Koma.SENTE_KYOSHA).move(0, 8, 0, 7)
+        kyokumen.set(0, 8, Koma.SENTE_FU).set(0, 7, Koma.SENTE_KYOSHA).move(0, 8, 0, 7)
         then:
         thrown(IllegalMoveException)
     }

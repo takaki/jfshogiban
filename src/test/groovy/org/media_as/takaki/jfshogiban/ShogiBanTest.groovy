@@ -44,13 +44,13 @@ class ShogiBanTest extends Specification {
 
     def "put and error"() {
         when:
-        board.put(0, 9, Koma.GOTE_KAKU)
+        board.set(0, 9, Koma.GOTE_KAKU)
         then:
         thrown(IllegalMoveException)
     }
     def "put and check"() {
         when:
-        def board2 = board.put(1, 1, Koma.GOTE_KAKU)
+        def board2 = board.set(1, 1, Koma.GOTE_KAKU)
         then:
         board2.get(1, 1) == Koma.GOTE_KAKU
     }

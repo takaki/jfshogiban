@@ -19,53 +19,52 @@
 package org.media_as.takaki.jfshogiban;
 
 import java.util.Collections;
+import java.util.EnumMap;
 import java.util.EnumSet;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
-import static org.media_as.takaki.jfshogiban.Koma.*;
-
-public class KomaDai {
+public final class KomaDai {
     private static final EnumSet<Koma> MOCHI_GOMA = EnumSet
-            .of(SENTE_HISYA, SENTE_KAKU, SENTE_KIN, SENTE_GIN, SENTE_KEIMA,
-                    SENTE_KYOSHA, SENTE_FU, GOTE_HISYA, GOTE_KAKU, GOTE_KIN,
-                    GOTE_GIN, GOTE_KEIMA, GOTE_KYOSHA, GOTE_FU);
+            .of(Koma.SENTE_HISYA, Koma.SENTE_KAKU, Koma.SENTE_KIN,
+                    Koma.SENTE_GIN, Koma.SENTE_KEIMA, Koma.SENTE_KYOSHA,
+                    Koma.SENTE_FU, Koma.GOTE_HISYA, Koma.GOTE_KAKU,
+                    Koma.GOTE_KIN, Koma.GOTE_GIN, Koma.GOTE_KEIMA,
+                    Koma.GOTE_KYOSHA, Koma.GOTE_FU);
 
     private final Map<Koma, Integer> komaMap;
 
     public static KomaDai initialize() {
         return new KomaDai(
-                MOCHI_GOMA.stream().collect(Collectors.toMap(s -> s, s -> 0)));
+                MOCHI_GOMA.stream().collect(Collectors.toMap(koma -> koma, koma -> 0)));
     }
 
-    private KomaDai(Map<Koma, Integer> komaMap) {
+    private KomaDai(final Map<Koma, Integer> komaMap) {
         this.komaMap = Collections.unmodifiableMap(komaMap);
     }
 
-    public KomaDai put(Koma koma) throws IllegalMoveException {
+    public KomaDai push(final Koma koma) throws IllegalMoveException {
         if (!MOCHI_GOMA.contains(koma)) {
             throw new IllegalMoveException();
         }
-        final Map<Koma, Integer> komaMap = new HashMap<>(this.komaMap);
+        final Map<Koma, Integer> komaMap = new EnumMap<>(this.komaMap);
         komaMap.computeIfPresent(koma, (p, n) -> n + 1);
         return new KomaDai(komaMap);
     }
 
-    public KomaDai remove(Koma koma) throws IllegalMoveException {
+    public KomaDai remove(final Koma koma) throws IllegalMoveException {
         if (!MOCHI_GOMA.contains(koma)) {
             throw new IllegalMoveException();
         }
         if (komaMap.get(koma) <= 0) {
             throw new IllegalMoveException();
         }
-        final Map<Koma, Integer> komaMap = new HashMap<>(this.komaMap);
+        final Map<Koma, Integer> komaMap = new EnumMap<>(this.komaMap);
         komaMap.computeIfPresent(koma, (p, n) -> n - 1);
         return new KomaDai(komaMap);
     }
 
-    public int count(Koma koma) {
+    public int count(final Koma koma) {
         return komaMap.getOrDefault(koma, 0);
     }
 

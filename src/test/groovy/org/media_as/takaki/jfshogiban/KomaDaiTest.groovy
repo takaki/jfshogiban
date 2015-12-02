@@ -25,7 +25,7 @@ class KomaDaiTest extends Specification {
 
     def "put and get"() {
         when:
-        def mochigoma2 = mochigoma.put(Koma.SENTE_FU)
+        def mochigoma2 = mochigoma.push(Koma.SENTE_FU)
         then:
         mochigoma2.remove(Koma.SENTE_FU)
     }
@@ -46,17 +46,17 @@ class KomaDaiTest extends Specification {
 
     def "count"() {
         when:
-        def mochigoma2 = mochigoma.put(Koma.SENTE_FU)
+        def mochigoma2 = mochigoma.push(Koma.SENTE_FU)
 
         then:
         mochigoma2.count(Koma.SENTE_FU) == 1
 
         when:
-        def mochigoma3 = mochigoma.put(Koma.SENTE_FU)
-                .put(Koma.SENTE_FU)
-                .put(Koma.SENTE_FU)
-                .put(Koma.SENTE_KYOSHA)
-                .put(Koma.SENTE_KEIMA)
+        def mochigoma3 = mochigoma.push(Koma.SENTE_FU)
+                .push(Koma.SENTE_FU)
+                .push(Koma.SENTE_FU)
+                .push(Koma.SENTE_KYOSHA)
+                .push(Koma.SENTE_KEIMA)
                 .remove(Koma.SENTE_KYOSHA)
 
         then:

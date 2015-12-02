@@ -19,10 +19,12 @@
 package org.media_as.takaki.jfshogiban;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class ShogiBan {
+public final class ShogiBan {
     // 3四 is 26.
 
     private static final int HEIGHT = 9;
@@ -31,34 +33,53 @@ public class ShogiBan {
     private final List<Koma> board;
 
     public static ShogiBan initialize() {
-        return new ShogiBan();
+        return new ShogiBan(
+                IntStream.range(0, HEIGHT * WIDTH).mapToObj(i -> Koma.EMPTY)
+                        .collect(Collectors.toList()));
     }
 
-    private ShogiBan() {
-        board = new ArrayList<>(HEIGHT * WIDTH);
-        IntStream.range(0, HEIGHT * WIDTH)
-                .forEach(i -> board.add(Koma.EMPTY));
+    private ShogiBan(final List<Koma> board) {
+        this.board = Collections.unmodifiableList(board);
     }
 
-    private ShogiBan(List<Koma> board) {
-        this.board = board;
+    public Koma get(final int x, final int y) throws IllegalMoveException {
+        return board.get(getIndex(x, y));
     }
 
-    public Koma get(int x, int y) throws IllegalMoveException {
-        if (x < 0 || x > 8 || y < 0 || y > 8) {
-            throw new IllegalMoveException();
-        }
-        return board.get(x + HEIGHT * y);
-    }
-
-    public ShogiBan put(int x, int y,
-                        Koma koma) throws IllegalMoveException {
-        if (x < 0 || x > 8 || y < 0 || y > 8) {
-            throw new IllegalMoveException();
-        }
+    public ShogiBan set(final int x, final int y,
+                        final Koma koma) throws IllegalMoveException {
         final List<Koma> board = new ArrayList<>(this.board);
-        board.set(x + HEIGHT * y, koma);
+        board.set(getIndex(x, y), koma);
         return new ShogiBan(board);
+    }
+
+    public ShogiBan remove(final int x,
+                           final int y) throws IllegalMoveException {
+        final List<Koma> board = new ArrayList<>(this.board);
+        board.set(getIndex(x, y), Koma.EMPTY);
+        return new ShogiBan(board);
+    }
+
+    public boolean isEmpty(final int x,
+                           final int y) throws IllegalMoveException {
+        return board.get(getIndex(x, y)) == Koma.EMPTY;
+    }
+
+    public ShogiBan move(final int fx, final int fy, final int tx,
+                         final int ty) throws IllegalMoveException {
+        if (isEmpty(fx, fy) || !isEmpty(tx, ty)) {
+            throw new IllegalMoveException();
+        }
+        final Koma from = get(fx, fy);
+        return remove(fx, fy).set(tx, ty, from);
+    }
+
+    private static int getIndex(final int x,
+                                final int y) throws IllegalMoveException {
+        if (x < 0 || x > 8 || y < 0 || y > 8) {
+            throw new IllegalMoveException();
+        }
+        return x + y * HEIGHT;
     }
 
 }

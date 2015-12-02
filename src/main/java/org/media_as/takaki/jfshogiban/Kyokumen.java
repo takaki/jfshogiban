@@ -18,7 +18,7 @@
 
 package org.media_as.takaki.jfshogiban;
 
-public class Kyokumen {
+public final class Kyokumen {
     private final ShogiBan shogiBan;
     private final KomaDai komaDai;
 
@@ -26,45 +26,43 @@ public class Kyokumen {
         return new Kyokumen(ShogiBan.initialize(), KomaDai.initialize());
     }
 
-    private Kyokumen(ShogiBan shogiBan, KomaDai komaDai) {
+
+    private Kyokumen(final ShogiBan shogiBan, final KomaDai komaDai) {
         this.shogiBan = shogiBan;
         this.komaDai = komaDai;
     }
 
-    public Kyokumen move(int fx, int fy, int tx,
-                         int ty) throws IllegalMoveException {
-        Koma from = shogiBan.get(fx, fy);
-        if (from == Koma.EMPTY || shogiBan.get(tx, ty) != Koma.EMPTY) {
-            throw new IllegalMoveException();
-        }
-        return new Kyokumen(shogiBan.put(fx, fy, Koma.EMPTY).put(tx, ty, from),
-                komaDai);
+    public Kyokumen move(final int fx, final int fy, final int tx,
+                         final int ty) throws IllegalMoveException {
+        return new Kyokumen(shogiBan.move(fx, fy, tx, ty), komaDai);
     }
 
-    public Kyokumen put(int x, int y, Koma koma) throws IllegalMoveException {
+    public Kyokumen set(final int x, final int y,
+                        final Koma koma) throws IllegalMoveException {
         if (shogiBan.get(x, y) != Koma.EMPTY) {
             throw new IllegalMoveException();
         }
-        return new Kyokumen(shogiBan.put(x, y, koma), komaDai);
+        return new Kyokumen(shogiBan.set(x, y, koma), komaDai);
     }
 
-    public Koma get(int x, int y) throws IllegalMoveException {
+    public Koma get(final int x, final int y) throws IllegalMoveException {
         return shogiBan.get(x, y);
     }
 
-    public Kyokumen remove(int x, int y) throws IllegalMoveException {
-        return new Kyokumen(shogiBan.put(x, y, Koma.EMPTY), komaDai);
+    public Kyokumen remove(final int x,
+                           final int y) throws IllegalMoveException {
+        return new Kyokumen(shogiBan.remove(x, y), komaDai);
     }
 
-    public Kyokumen putKomaDai(Koma koma) throws IllegalMoveException {
-        return new Kyokumen(shogiBan, komaDai.put(koma));
+    public Kyokumen putKomaDai(final Koma koma) throws IllegalMoveException {
+        return new Kyokumen(shogiBan, komaDai.push(koma));
     }
 
-    public Kyokumen removeKomaDai(Koma koma) throws IllegalMoveException {
+    public Kyokumen removeKomaDai(final Koma koma) throws IllegalMoveException {
         return new Kyokumen(shogiBan, komaDai.remove(koma));
     }
 
-    public int countDai(Koma koma) {
+    public int countDai(final Koma koma) {
         return komaDai.count(koma);
     }
 }
