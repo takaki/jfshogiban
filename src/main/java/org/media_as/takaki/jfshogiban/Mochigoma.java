@@ -24,7 +24,7 @@ import java.util.EnumSet;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public final class KomaDai {
+public final class Mochigoma {
     private static final EnumSet<Koma> MOCHI_GOMA = EnumSet
             .of(Koma.SENTE_HISYA, Koma.SENTE_KAKU, Koma.SENTE_KIN,
                     Koma.SENTE_GIN, Koma.SENTE_KEIMA, Koma.SENTE_KYOSHA,
@@ -34,25 +34,25 @@ public final class KomaDai {
 
     private final Map<Koma, Integer> komaMap;
 
-    public static KomaDai initialize() {
-        return new KomaDai(
+    public static Mochigoma initialize() {
+        return new Mochigoma(
                 MOCHI_GOMA.stream().collect(Collectors.toMap(koma -> koma, koma -> 0)));
     }
 
-    private KomaDai(final Map<Koma, Integer> komaMap) {
+    private Mochigoma(final Map<Koma, Integer> komaMap) {
         this.komaMap = Collections.unmodifiableMap(komaMap);
     }
 
-    public KomaDai push(final Koma koma) throws IllegalMoveException {
+    public Mochigoma push(final Koma koma) throws IllegalMoveException {
         if (!MOCHI_GOMA.contains(koma)) {
             throw new IllegalMoveException();
         }
         final Map<Koma, Integer> komaMap = new EnumMap<>(this.komaMap);
         komaMap.computeIfPresent(koma, (p, n) -> n + 1);
-        return new KomaDai(komaMap);
+        return new Mochigoma(komaMap);
     }
 
-    public KomaDai remove(final Koma koma) throws IllegalMoveException {
+    public Mochigoma remove(final Koma koma) throws IllegalMoveException {
         if (!MOCHI_GOMA.contains(koma)) {
             throw new IllegalMoveException();
         }
@@ -61,7 +61,7 @@ public final class KomaDai {
         }
         final Map<Koma, Integer> komaMap = new EnumMap<>(this.komaMap);
         komaMap.computeIfPresent(koma, (p, n) -> n - 1);
-        return new KomaDai(komaMap);
+        return new Mochigoma(komaMap);
     }
 
     public int count(final Koma koma) {

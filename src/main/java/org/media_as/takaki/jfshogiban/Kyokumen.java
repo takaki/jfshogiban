@@ -20,21 +20,21 @@ package org.media_as.takaki.jfshogiban;
 
 public final class Kyokumen {
     private final ShogiBan shogiBan;
-    private final KomaDai komaDai;
+    private final Mochigoma mochigoma;
 
     public static Kyokumen initialize() {
-        return new Kyokumen(ShogiBan.initialize(), KomaDai.initialize());
+        return new Kyokumen(ShogiBan.initialize(), Mochigoma.initialize());
     }
 
 
-    private Kyokumen(final ShogiBan shogiBan, final KomaDai komaDai) {
+    private Kyokumen(final ShogiBan shogiBan, final Mochigoma mochigoma) {
         this.shogiBan = shogiBan;
-        this.komaDai = komaDai;
+        this.mochigoma = mochigoma;
     }
 
     public Kyokumen move(final int fx, final int fy, final int tx,
                          final int ty) throws IllegalMoveException {
-        return new Kyokumen(shogiBan.move(fx, fy, tx, ty), komaDai);
+        return new Kyokumen(shogiBan.move(fx, fy, tx, ty), mochigoma);
     }
 
     public Kyokumen set(final int x, final int y,
@@ -42,7 +42,7 @@ public final class Kyokumen {
         if (shogiBan.get(x, y) != Koma.EMPTY) {
             throw new IllegalMoveException();
         }
-        return new Kyokumen(shogiBan.set(x, y, koma), komaDai);
+        return new Kyokumen(shogiBan.set(x, y, koma), mochigoma);
     }
 
     public Koma get(final int x, final int y) throws IllegalMoveException {
@@ -51,16 +51,16 @@ public final class Kyokumen {
 
     public Kyokumen remove(final int x,
                            final int y) throws IllegalMoveException {
-        return new Kyokumen(shogiBan.remove(x, y), komaDai);
+        return new Kyokumen(shogiBan.remove(x, y), mochigoma);
     }
 
     public Kyokumen pushMochigoma(final Koma koma) throws IllegalMoveException {
-        return new Kyokumen(shogiBan, komaDai.push(koma));
+        return new Kyokumen(shogiBan, mochigoma.push(koma));
     }
 
     public Kyokumen removeMochigoma(
             final Koma koma) throws IllegalMoveException {
-        return new Kyokumen(shogiBan, komaDai.remove(koma));
+        return new Kyokumen(shogiBan, mochigoma.remove(koma));
     }
 
     public Kyokumen capture(final int x, final int y,
@@ -78,6 +78,6 @@ public final class Kyokumen {
     }
 
     public int countMochigoma(final Koma koma) {
-        return komaDai.count(koma);
+        return mochigoma.count(koma);
     }
 }
