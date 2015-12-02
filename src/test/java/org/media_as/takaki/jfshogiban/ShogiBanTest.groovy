@@ -8,7 +8,7 @@ class ShogiBanTest extends Specification {
     def "get"() {
         expect:
         //noinspection GroovyAssignabilityCheck
-        board.get(x, y) == KomaType.SPACE
+        board.get(x, y) == Koma.EMPTY
         where:
         [x, y] << [0..8, 0..8].combinations()
     }
@@ -24,11 +24,17 @@ class ShogiBanTest extends Specification {
         thrown(IllegalMoveException)
     }
 
+    def "put and error"() {
+        when:
+        board.put(0, 9, Koma.GOTE_KAKU)
+        then:
+        thrown(IllegalMoveException)
+    }
     def "put and check"() {
         when:
-        def board2 = board.put(1, 1, KomaType.GOTE_KAKU)
+        def board2 = board.put(1, 1, Koma.GOTE_KAKU)
         then:
-        board2.get(1, 1) == KomaType.GOTE_KAKU
+        board2.get(1, 1) == Koma.GOTE_KAKU
     }
 
 }

@@ -1,7 +1,7 @@
 package org.media_as.takaki.jfshogiban;
 
-enum KomaType {
-    SPACE,
+enum Koma {
+    EMPTY,
 
     SENTE_GYOKU,
     SENTE_HISYA,

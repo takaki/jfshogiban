@@ -10,7 +10,7 @@ public class ShogiBan {
     private static final int HEIGHT = 9;
     private static final int WIDTH = 9;
 
-    private final List<KomaType> board;
+    private final List<Koma> board;
 
     public static ShogiBan initialize() {
         return new ShogiBan();
@@ -19,14 +19,14 @@ public class ShogiBan {
     private ShogiBan() {
         board = new ArrayList<>(HEIGHT * WIDTH);
         IntStream.range(0, HEIGHT * WIDTH)
-                .forEach(i -> board.add(KomaType.SPACE));
+                .forEach(i -> board.add(Koma.EMPTY));
     }
 
-    private ShogiBan(List<KomaType> board) {
+    private ShogiBan(List<Koma> board) {
         this.board = board;
     }
 
-    public KomaType get(int x, int y) throws IllegalMoveException {
+    public Koma get(int x, int y) throws IllegalMoveException {
         if (x < 0 || x > 8 || y < 0 || y > 8) {
             throw new IllegalMoveException();
         }
@@ -34,11 +34,11 @@ public class ShogiBan {
     }
 
     public ShogiBan put(int x, int y,
-                        KomaType koma) throws IllegalMoveException {
+                        Koma koma) throws IllegalMoveException {
         if (x < 0 || x > 8 || y < 0 || y > 8) {
             throw new IllegalMoveException();
         }
-        final List<KomaType> board = new ArrayList<>(this.board);
+        final List<Koma> board = new ArrayList<>(this.board);
         board.set(x + HEIGHT * y, koma);
         return new ShogiBan(board);
     }
