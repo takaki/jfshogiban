@@ -27,18 +27,18 @@ class KomaDaiTest extends Specification {
         when:
         def mochigoma2 = mochigoma.put(Koma.SENTE_FU)
         then:
-        mochigoma2.get(Koma.SENTE_FU)
+        mochigoma2.remove(Koma.SENTE_FU)
     }
 
     def "get throw Exception"() {
         when:
-        mochigoma.get(Koma.SENTE_FU)
+        mochigoma.remove(Koma.SENTE_FU)
 
         then:
         thrown(IllegalMoveException)
 
         when:
-        mochigoma.get(Koma.SENTE_KYOSHA)
+        mochigoma.remove(Koma.SENTE_KYOSHA)
 
         then:
         thrown(IllegalMoveException)
@@ -57,7 +57,7 @@ class KomaDaiTest extends Specification {
                 .put(Koma.SENTE_FU)
                 .put(Koma.SENTE_KYOSHA)
                 .put(Koma.SENTE_KEIMA)
-                .get(Koma.SENTE_KYOSHA)
+                .remove(Koma.SENTE_KYOSHA)
 
         then:
         mochigoma3.count(Koma.SENTE_FU) == 3

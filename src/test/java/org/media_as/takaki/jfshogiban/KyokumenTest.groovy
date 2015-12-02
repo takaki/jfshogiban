@@ -23,11 +23,16 @@ import spock.lang.Specification
 class KyokumenTest extends Specification {
     def kyokumen = Kyokumen.initialize()
 
-    def "put and check"() {
+    def "put, check and remove"() {
         when:
         def kyokumen2 = kyokumen.put(0, 0, Koma.GOTE_KYOSHA)
         then:
         kyokumen2.get(0, 0) == Koma.GOTE_KYOSHA
+
+        when:
+        def kyokumen3 = kyokumen2.remove(0, 0)
+        then:
+        kyokumen3.get(0, 0) == Koma.EMPTY
     }
 
     def "put and move"() {
@@ -51,4 +56,17 @@ class KyokumenTest extends Specification {
         then:
         thrown(IllegalMoveException)
     }
+
+    def "KomaDai put and remove"() {
+        when:
+        kyokumen.putKomaDai(Koma.SENTE_FU)
+        then:
+        kyokumen.countDai(Koma.SENTE_FU) == 1
+
+        when:
+        kyokumen.removeKomaDai(Koma.SENTE_FU)
+        then:
+        kyokumen.countDai(Koma.SENTE_FU) == 0
+    }
+
 }

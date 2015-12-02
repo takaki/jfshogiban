@@ -18,34 +18,34 @@
 
 package org.media_as.takaki.jfshogiban;
 
+import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static org.media_as.takaki.jfshogiban.Koma.*;
 
 public class KomaDai {
-    private static final EnumSet<Koma> NAMA_GOMA = EnumSet
+    private static final EnumSet<Koma> MOCHI_GOMA = EnumSet
             .of(SENTE_HISYA, SENTE_KAKU, SENTE_KIN, SENTE_GIN, SENTE_KEIMA,
                     SENTE_KYOSHA, SENTE_FU, GOTE_HISYA, GOTE_KAKU, GOTE_KIN,
                     GOTE_GIN, GOTE_KEIMA, GOTE_KYOSHA, GOTE_FU);
+
     private final Map<Koma, Integer> komaMap;
 
     public static KomaDai initialize() {
-        return new KomaDai();
-    }
-
-    private KomaDai() {
-        komaMap = NAMA_GOMA.stream().collect(Collectors.toMap(s -> s, s -> 0));
+        return new KomaDai(
+                MOCHI_GOMA.stream().collect(Collectors.toMap(s -> s, s -> 0)));
     }
 
     private KomaDai(Map<Koma, Integer> komaMap) {
-        this.komaMap = komaMap;
+        this.komaMap = Collections.unmodifiableMap(komaMap);
     }
 
     public KomaDai put(Koma koma) throws IllegalMoveException {
-        if (!NAMA_GOMA.contains(koma)) {
+        if (!MOCHI_GOMA.contains(koma)) {
             throw new IllegalMoveException();
         }
         final Map<Koma, Integer> komaMap = new HashMap<>(this.komaMap);
@@ -53,8 +53,8 @@ public class KomaDai {
         return new KomaDai(komaMap);
     }
 
-    public KomaDai get(Koma koma) throws IllegalMoveException {
-        if (!NAMA_GOMA.contains(koma)) {
+    public KomaDai remove(Koma koma) throws IllegalMoveException {
+        if (!MOCHI_GOMA.contains(koma)) {
             throw new IllegalMoveException();
         }
         if (komaMap.get(koma) <= 0) {
@@ -68,4 +68,5 @@ public class KomaDai {
     public int count(Koma koma) {
         return komaMap.getOrDefault(koma, 0);
     }
+
 }
