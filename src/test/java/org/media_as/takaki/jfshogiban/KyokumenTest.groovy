@@ -1,5 +1,5 @@
 /*
- * jfshogiban: GUI Shogi playing board written in Java
+ * jfshogiban: GUI Shogi playing board
  * Copyright (C) 2015 TANIGUCHI Takaki <takaki@asis.media-as.org>
  *
  * This program is free software: you can redistribute it and/or modify
