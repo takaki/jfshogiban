@@ -31,9 +31,8 @@ public final class Kyokumen {
         this.mochigoma = mochigoma;
     }
 
-    public Kyokumen move(final int fx, final int fy, final int tx,
-                         final int ty) throws IllegalMoveException {
-        return new Kyokumen(shogiBan.move(fx, fy, tx, ty), mochigoma);
+    public Koma get(final int x, final int y) throws IllegalMoveException {
+        return shogiBan.get(x, y);
     }
 
     public Kyokumen set(final int x, final int y,
@@ -41,13 +40,14 @@ public final class Kyokumen {
         return new Kyokumen(shogiBan.set(x, y, koma), mochigoma);
     }
 
-    public Koma get(final int x, final int y) throws IllegalMoveException {
-        return shogiBan.get(x, y);
-    }
-
     public Kyokumen remove(final int x,
                            final int y) throws IllegalMoveException {
         return new Kyokumen(shogiBan.remove(x, y), mochigoma);
+    }
+
+    public Kyokumen move(final int fx, final int fy, final int tx,
+                         final int ty) throws IllegalMoveException {
+        return new Kyokumen(shogiBan.move(fx, fy, tx, ty), mochigoma);
     }
 
     public Kyokumen pushMochigoma(final Koma koma) throws IllegalMoveException {

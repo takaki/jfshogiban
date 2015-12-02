@@ -31,11 +31,12 @@ class ShogiBanTest extends Specification {
         [x, y] << [0..8, 0..8].combinations()
     }
 
-    def "Can't set out bound location" () {
+    def "can't set out bound location" () {
         when:
         board.get(-1, 0)
         then:
         thrown(IllegalMoveException)
+
         when:
         board.get(2, 9)
         then:
@@ -80,5 +81,14 @@ class ShogiBanTest extends Specification {
         then:
         thrown(IllegalMoveException)
     }
+
+    def "toString test" (){
+        when:
+        def s = ShogiBan.startPosition().toString()
+        print(s)
+        then:
+        notThrown(IllegalMoveException)
+    }
+
 
 }

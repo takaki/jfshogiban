@@ -26,8 +26,6 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public final class ShogiBan {
-
-
     private static final int HEIGHT = 9;
     private static final int WIDTH = 9;
     private static final EnumSet<Koma> ILLEGAL_SENTE = EnumSet
@@ -41,6 +39,46 @@ public final class ShogiBan {
         return new ShogiBan(
                 IntStream.range(0, HEIGHT * WIDTH).mapToObj(i -> Koma.EMPTY)
                         .collect(Collectors.toList()));
+    }
+
+    public static ShogiBan startPosition() throws IllegalMoveException {
+        return initialize().set(0, 0, Koma.GOTE_KYOSHA)
+                .set(1, 0, Koma.GOTE_KEIMA).set(2, 0, Koma.GOTE_GIN)
+                .set(3, 0, Koma.GOTE_KIN).set(4, 0, Koma.GOTE_GYOKU)
+                .set(5, 0, Koma.GOTE_KIN).set(6, 0, Koma.GOTE_GIN)
+                .set(7, 0, Koma.GOTE_KEIMA).set(8, 0, Koma.GOTE_KYOSHA)
+                .set(1, 1, Koma.GOTE_KAKU).set(7, 1, Koma.GOTE_HISYA)
+                .set(0, 2, Koma.GOTE_FU).set(1, 2, Koma.GOTE_FU)
+                .set(2, 2, Koma.GOTE_FU).set(3, 2, Koma.GOTE_FU)
+                .set(4, 2, Koma.GOTE_FU).set(5, 2, Koma.GOTE_FU)
+                .set(6, 2, Koma.GOTE_FU).set(7, 2, Koma.GOTE_FU)
+                .set(8, 2, Koma.GOTE_FU).set(0, 6, Koma.SENTE_FU)
+                .set(1, 6, Koma.SENTE_FU).set(2, 6, Koma.SENTE_FU)
+                .set(3, 6, Koma.SENTE_FU).set(4, 6, Koma.SENTE_FU)
+                .set(5, 6, Koma.SENTE_FU).set(6, 6, Koma.SENTE_FU)
+                .set(7, 6, Koma.SENTE_FU).set(8, 6, Koma.SENTE_FU)
+                .set(0, 8, Koma.SENTE_KYOSHA).set(1, 8, Koma.SENTE_KEIMA)
+                .set(2, 8, Koma.SENTE_GIN).set(3, 8, Koma.SENTE_KIN)
+                .set(4, 8, Koma.SENTE_GYOKU).set(5, 8, Koma.SENTE_KIN)
+                .set(6, 8, Koma.SENTE_GIN).set(7, 8, Koma.SENTE_KEIMA)
+                .set(8, 8, Koma.SENTE_KYOSHA).set(7, 7, Koma.SENTE_KAKU)
+                .set(1, 7, Koma.SENTE_HISYA);
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder builder = new StringBuilder();
+        for (int y = 0; y < 9; y++) {
+            for (int x = 8; x >= 0; x--) {
+                try {
+                    builder.append(get(x, y));
+                } catch (IllegalMoveException e) {
+                    return "";
+                }
+            }
+            builder.append('\n');
+        }
+        return builder.toString();
     }
 
     private ShogiBan(final List<Koma> board) {

@@ -51,6 +51,73 @@ public enum Koma {
     GOTE_NARIKYO,
     GOTE_TOKIN;
 
+    @SuppressWarnings({"HardCodedStringLiteral", "MethodWithMultipleReturnPoints", "OverlyComplexMethod", "OverlyLongMethod"})
+    @Override
+    public String toString() {
+        //noinspection SwitchStatementWithTooManyBranches,SwitchStatement
+        switch (this) {
+            case SENTE_HISYA:
+                return " 飛";
+            case SENTE_RYU:
+                return " 龍";
+            case GOTE_HISYA:
+                return "v飛";
+            case GOTE_RYU:
+                return "v龍";
+            case SENTE_KAKU:
+                return " 角";
+            case SENTE_UMA:
+                return " 馬";
+            case GOTE_KAKU:
+                return "v角";
+            case GOTE_UMA:
+                return "v馬";
+            case SENTE_KIN:
+                return " 金";
+            case GOTE_KIN:
+                return "v金";
+            case SENTE_GIN:
+                return " 銀";
+            case SENTE_NARIGIN:
+                return " 全";
+            case GOTE_GIN:
+                return "v銀";
+            case GOTE_NARIGIN:
+                return "v全";
+            case SENTE_KEIMA:
+                return " 桂";
+            case SENTE_NARIKEI:
+                return " 圭";
+            case GOTE_KEIMA:
+                return "v桂";
+            case GOTE_NARIKEI:
+                return "v圭";
+            case SENTE_KYOSHA:
+                return " 香";
+            case SENTE_NARIKYO:
+                return " 杏";
+            case GOTE_KYOSHA:
+                return "v香";
+            case GOTE_NARIKYO:
+                return "v杏";
+            case SENTE_FU:
+                return " 歩";
+            case SENTE_TOKIN:
+                return " と";
+            case GOTE_FU:
+                return "v歩";
+            case GOTE_TOKIN:
+                return "vと";
+            case SENTE_GYOKU:
+                return " 王";
+            case GOTE_GYOKU:
+                return "v玉";
+            case EMPTY:
+                return "   ";
+        }
+        return "   ";
+    }
+
     @SuppressWarnings({"MethodWithMultipleReturnPoints", "OverlyComplexMethod", "OverlyLongMethod"})
     public Koma changeCaptured(
             final Player player) throws IllegalMoveException {

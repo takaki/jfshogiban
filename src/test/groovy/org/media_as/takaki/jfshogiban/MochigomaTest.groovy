@@ -63,5 +63,12 @@ class MochigomaTest extends Specification {
 
     }
 
+    def "can't put on narigoma" () {
+        when:
+        mochigoma.push(Koma.GOTE_NARIGIN)
+        then:
+        thrown(IllegalMoveException)
+    }
+
 
 }
