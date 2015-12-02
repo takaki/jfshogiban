@@ -59,9 +59,9 @@ class KyokumenTest extends Specification {
 
     def "captured piece is moved to KomaDai"() {
         when:
-        def k2 = kyokumen.set(0, 0, Koma.SENTE_FU).capture(0, 0, Player.SENTEBAN)
+        def k2 = kyokumen.set(8, 8, Koma.SENTE_FU).capture(8, 8, Player.SENTEBAN)
         then:
-        k2.get(0, 0) == Koma.EMPTY
+        k2.get(8, 8) == Koma.EMPTY
         k2.countMochigoma(Koma.SENTE_FU) == 1
     }
 

@@ -20,15 +20,20 @@ package org.media_as.takaki.jfshogiban;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public final class ShogiBan {
-    // 3四 is 26.
+    // 3四 is 19.
 
     private static final int HEIGHT = 9;
     private static final int WIDTH = 9;
+    private static final EnumSet<Koma> ILLEGAL_SENATE = EnumSet
+            .of(Koma.SENTE_FU, Koma.SENTE_KYOSHA, Koma.SENTE_KEIMA);
+    private static final EnumSet<Koma> ILLEGAL_GOTE = EnumSet
+            .of(Koma.GOTE_FU, Koma.GOTE_KYOSHA, Koma.GOTE_KEIMA);
 
     private final List<Koma> board;
 
@@ -43,26 +48,32 @@ public final class ShogiBan {
     }
 
     public Koma get(final int x, final int y) throws IllegalMoveException {
-        return board.get(getIndex(x, y));
+        return board.get(calcIndex(x, y));
     }
 
     public ShogiBan set(final int x, final int y,
                         final Koma koma) throws IllegalMoveException {
+        if (ILLEGAL_SENATE.contains(koma) && y == 0 ||
+                koma == Koma.SENTE_KEIMA && y <= 1 ||
+                ILLEGAL_GOTE.contains(koma) && y == 8 ||
+                koma == Koma.GOTE_KEIMA && y >= 7) {
+            throw new IllegalMoveException();
+        }
         final List<Koma> board = new ArrayList<>(this.board);
-        board.set(getIndex(x, y), koma);
+        board.set(calcIndex(x, y), koma);
         return new ShogiBan(board);
     }
 
     public ShogiBan remove(final int x,
                            final int y) throws IllegalMoveException {
         final List<Koma> board = new ArrayList<>(this.board);
-        board.set(getIndex(x, y), Koma.EMPTY);
+        board.set(calcIndex(x, y), Koma.EMPTY);
         return new ShogiBan(board);
     }
 
     public boolean isEmpty(final int x,
                            final int y) throws IllegalMoveException {
-        return board.get(getIndex(x, y)) == Koma.EMPTY;
+        return board.get(calcIndex(x, y)) == Koma.EMPTY;
     }
 
     public ShogiBan move(final int fx, final int fy, final int tx,
@@ -74,8 +85,8 @@ public final class ShogiBan {
         return remove(fx, fy).set(tx, ty, from);
     }
 
-    private static int getIndex(final int x,
-                                final int y) throws IllegalMoveException {
+    private static int calcIndex(final int x,
+                                 final int y) throws IllegalMoveException {
         if (x < 0 || x > 8 || y < 0 || y > 8) {
             throw new IllegalMoveException();
         }
