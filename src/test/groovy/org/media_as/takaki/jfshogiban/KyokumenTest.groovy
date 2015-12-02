@@ -66,7 +66,7 @@ class KyokumenTest extends Specification {
         when:
         def k3 = k2.removeKomaDai(Koma.SENTE_FU)
         then:
-        k3.countDai(Koma.SENTE_FU) == 0
+        k3.countDai(Koma.SENTE_FU) == 100
     }
 
 }
