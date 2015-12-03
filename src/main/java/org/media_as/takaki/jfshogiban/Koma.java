@@ -60,9 +60,6 @@ public enum Koma {
     private static final Map<Koma, Koma> CAPTURE_GOTE = new EnumMap<>(
             Koma.class);
 
-    private static final Map<Koma, String> STRING_MAP = new EnumMap<>(
-            Koma.class);
-
     static {
         CAPTURE_SENTE.put(SENTE_GYOKU, SENTE_GYOKU);
         CAPTURE_SENTE.put(SENTE_HISYA, SENTE_HISYA);
@@ -124,41 +121,6 @@ public enum Koma {
         CAPTURE_GOTE.put(GOTE_NARIKYO, GOTE_KYOSHA);
         CAPTURE_GOTE.put(GOTE_TOKIN, GOTE_FU);
 
-        STRING_MAP.put(SENTE_HISYA, " 飛");
-        STRING_MAP.put(SENTE_RYU, " 龍");
-        STRING_MAP.put(GOTE_HISYA, "v飛");
-        STRING_MAP.put(GOTE_RYU, "v龍");
-        STRING_MAP.put(SENTE_KAKU, " 角");
-        STRING_MAP.put(SENTE_UMA, " 馬");
-        STRING_MAP.put(GOTE_KAKU, "v角");
-        STRING_MAP.put(GOTE_UMA, "v馬");
-        STRING_MAP.put(SENTE_KIN, " 金");
-        STRING_MAP.put(GOTE_KIN, "v金");
-        STRING_MAP.put(SENTE_GIN, " 銀");
-        STRING_MAP.put(SENTE_NARIGIN, " 全");
-        STRING_MAP.put(GOTE_GIN, "v銀");
-        STRING_MAP.put(GOTE_NARIGIN, "v全");
-        STRING_MAP.put(SENTE_KEIMA, " 桂");
-        STRING_MAP.put(SENTE_NARIKEI, " 圭");
-        STRING_MAP.put(GOTE_KEIMA, "v桂");
-        STRING_MAP.put(GOTE_NARIKEI, "v圭");
-        STRING_MAP.put(SENTE_KYOSHA, " 香");
-        STRING_MAP.put(SENTE_NARIKYO, " 杏");
-        STRING_MAP.put(GOTE_KYOSHA, "v香");
-        STRING_MAP.put(GOTE_NARIKYO, "v杏");
-        STRING_MAP.put(SENTE_FU, " 歩");
-        STRING_MAP.put(SENTE_TOKIN, " と");
-        STRING_MAP.put(GOTE_FU, "v歩");
-        STRING_MAP.put(GOTE_TOKIN, "vと");
-        STRING_MAP.put(SENTE_GYOKU, " 王");
-        STRING_MAP.put(GOTE_GYOKU, "v玉");
-        STRING_MAP.put(EMPTY, "   ");
-
-    }
-
-    @Override
-    public String toString() {
-        return STRING_MAP.get(this);
     }
 
     public Koma changeCaptured(

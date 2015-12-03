@@ -18,13 +18,11 @@
 
 package org.media_as.takaki.jfshogiban;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.EnumSet;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+@SuppressWarnings("HardCodedStringLiteral")
 public final class ShogiBan {
     private static final int HEIGHT = 9;
     private static final int WIDTH = 9;
@@ -33,6 +31,42 @@ public final class ShogiBan {
     private static final EnumSet<Koma> ILLEGAL_GOTE = EnumSet
             .of(Koma.GOTE_FU, Koma.GOTE_KYOSHA, Koma.GOTE_KEIMA);
 
+    private static final Map<Koma, String> STRING_MAP = new EnumMap<>(
+            Koma.class);
+
+    static {
+        STRING_MAP.put(Koma.SENTE_HISYA, " 飛");
+        STRING_MAP.put(Koma.SENTE_RYU, " 龍");
+        STRING_MAP.put(Koma.GOTE_HISYA, "v飛");
+        STRING_MAP.put(Koma.GOTE_RYU, "v龍");
+        STRING_MAP.put(Koma.SENTE_KAKU, " 角");
+        STRING_MAP.put(Koma.SENTE_UMA, " 馬");
+        STRING_MAP.put(Koma.GOTE_KAKU, "v角");
+        STRING_MAP.put(Koma.GOTE_UMA, "v馬");
+        STRING_MAP.put(Koma.SENTE_KIN, " 金");
+        STRING_MAP.put(Koma.GOTE_KIN, "v金");
+        STRING_MAP.put(Koma.SENTE_GIN, " 銀");
+        STRING_MAP.put(Koma.SENTE_NARIGIN, " 全");
+        STRING_MAP.put(Koma.GOTE_GIN, "v銀");
+        STRING_MAP.put(Koma.GOTE_NARIGIN, "v全");
+        STRING_MAP.put(Koma.SENTE_KEIMA, " 桂");
+        STRING_MAP.put(Koma.SENTE_NARIKEI, " 圭");
+        STRING_MAP.put(Koma.GOTE_KEIMA, "v桂");
+        STRING_MAP.put(Koma.GOTE_NARIKEI, "v圭");
+        STRING_MAP.put(Koma.SENTE_KYOSHA, " 香");
+        STRING_MAP.put(Koma.SENTE_NARIKYO, " 杏");
+        STRING_MAP.put(Koma.GOTE_KYOSHA, "v香");
+        STRING_MAP.put(Koma.GOTE_NARIKYO, "v杏");
+        STRING_MAP.put(Koma.SENTE_FU, " 歩");
+        STRING_MAP.put(Koma.SENTE_TOKIN, " と");
+        STRING_MAP.put(Koma.GOTE_FU, "v歩");
+        STRING_MAP.put(Koma.GOTE_TOKIN, "vと");
+        STRING_MAP.put(Koma.SENTE_GYOKU, " 王");
+        STRING_MAP.put(Koma.GOTE_GYOKU, "v玉");
+        STRING_MAP.put(Koma.EMPTY, "   ");
+    }
+
+    @SuppressWarnings("FieldNotUsedInToString")
     private final List<Koma> board;
 
     public static ShogiBan initialize() {
@@ -65,17 +99,18 @@ public final class ShogiBan {
                 .set(1, 7, Koma.SENTE_HISYA);
     }
 
+    @SuppressWarnings({"FieldRepeatedlyAccessedInMethod", "MethodWithMultipleLoops"})
     @Override
     public String toString() {
-        final StringBuilder builder = new StringBuilder();
-        for (int y = 0; y < 9; y++) {
-            for (int x = 8; x >= 0; x--) {
+        final StringBuilder builder = new StringBuilder(90);
+        for (int y = 0; y < HEIGHT; y++) {
+            for (int x = WIDTH - 1; x >= 0; x--) {
                 try {
-                    builder.append(get(x, y));
-                } catch (IllegalMoveException e) {
-                    return "";
+                    builder.append(STRING_MAP.get(get(x, y)));
+                } catch (final IllegalMoveException ignored) {
                 }
             }
+            //noinspection MagicCharacter,HardcodedLineSeparator
             builder.append('\n');
         }
         return builder.toString();
