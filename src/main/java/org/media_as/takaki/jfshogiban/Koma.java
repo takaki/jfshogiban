@@ -21,6 +21,7 @@ package org.media_as.takaki.jfshogiban;
 import java.util.EnumMap;
 import java.util.Map;
 
+@SuppressWarnings("HardCodedStringLiteral")
 public enum Koma {
     EMPTY,
 
@@ -57,6 +58,9 @@ public enum Koma {
     private static final Map<Koma, Koma> CAPTURE_SENTE = new EnumMap<>(
             Koma.class);
     private static final Map<Koma, Koma> CAPTURE_GOTE = new EnumMap<>(
+            Koma.class);
+
+    private static final Map<Koma, String> STRING_MAP = new EnumMap<>(
             Koma.class);
 
     static {
@@ -120,75 +124,42 @@ public enum Koma {
         CAPTURE_GOTE.put(GOTE_NARIKYO, GOTE_KYOSHA);
         CAPTURE_GOTE.put(GOTE_TOKIN, GOTE_FU);
 
+        STRING_MAP.put(SENTE_HISYA, " 飛");
+        STRING_MAP.put(SENTE_RYU, " 龍");
+        STRING_MAP.put(GOTE_HISYA, "v飛");
+        STRING_MAP.put(GOTE_RYU, "v龍");
+        STRING_MAP.put(SENTE_KAKU, " 角");
+        STRING_MAP.put(SENTE_UMA, " 馬");
+        STRING_MAP.put(GOTE_KAKU, "v角");
+        STRING_MAP.put(GOTE_UMA, "v馬");
+        STRING_MAP.put(SENTE_KIN, " 金");
+        STRING_MAP.put(GOTE_KIN, "v金");
+        STRING_MAP.put(SENTE_GIN, " 銀");
+        STRING_MAP.put(SENTE_NARIGIN, " 全");
+        STRING_MAP.put(GOTE_GIN, "v銀");
+        STRING_MAP.put(GOTE_NARIGIN, "v全");
+        STRING_MAP.put(SENTE_KEIMA, " 桂");
+        STRING_MAP.put(SENTE_NARIKEI, " 圭");
+        STRING_MAP.put(GOTE_KEIMA, "v桂");
+        STRING_MAP.put(GOTE_NARIKEI, "v圭");
+        STRING_MAP.put(SENTE_KYOSHA, " 香");
+        STRING_MAP.put(SENTE_NARIKYO, " 杏");
+        STRING_MAP.put(GOTE_KYOSHA, "v香");
+        STRING_MAP.put(GOTE_NARIKYO, "v杏");
+        STRING_MAP.put(SENTE_FU, " 歩");
+        STRING_MAP.put(SENTE_TOKIN, " と");
+        STRING_MAP.put(GOTE_FU, "v歩");
+        STRING_MAP.put(GOTE_TOKIN, "vと");
+        STRING_MAP.put(SENTE_GYOKU, " 王");
+        STRING_MAP.put(GOTE_GYOKU, "v玉");
+        STRING_MAP.put(EMPTY, "   ");
+
     }
 
-    @SuppressWarnings({"HardCodedStringLiteral", "MethodWithMultipleReturnPoints", "OverlyComplexMethod", "OverlyLongMethod"})
     @Override
     public String toString() {
-        //noinspection SwitchStatementWithTooManyBranches,SwitchStatement
-        switch (this) {
-            case SENTE_HISYA:
-                return " 飛";
-            case SENTE_RYU:
-                return " 龍";
-            case GOTE_HISYA:
-                return "v飛";
-            case GOTE_RYU:
-                return "v龍";
-            case SENTE_KAKU:
-                return " 角";
-            case SENTE_UMA:
-                return " 馬";
-            case GOTE_KAKU:
-                return "v角";
-            case GOTE_UMA:
-                return "v馬";
-            case SENTE_KIN:
-                return " 金";
-            case GOTE_KIN:
-                return "v金";
-            case SENTE_GIN:
-                return " 銀";
-            case SENTE_NARIGIN:
-                return " 全";
-            case GOTE_GIN:
-                return "v銀";
-            case GOTE_NARIGIN:
-                return "v全";
-            case SENTE_KEIMA:
-                return " 桂";
-            case SENTE_NARIKEI:
-                return " 圭";
-            case GOTE_KEIMA:
-                return "v桂";
-            case GOTE_NARIKEI:
-                return "v圭";
-            case SENTE_KYOSHA:
-                return " 香";
-            case SENTE_NARIKYO:
-                return " 杏";
-            case GOTE_KYOSHA:
-                return "v香";
-            case GOTE_NARIKYO:
-                return "v杏";
-            case SENTE_FU:
-                return " 歩";
-            case SENTE_TOKIN:
-                return " と";
-            case GOTE_FU:
-                return "v歩";
-            case GOTE_TOKIN:
-                return "vと";
-            case SENTE_GYOKU:
-                return " 王";
-            case GOTE_GYOKU:
-                return "v玉";
-            case EMPTY:
-                return "   ";
-        }
-        return "   ";
+        return STRING_MAP.get(this);
     }
-
 
     public Koma changeCaptured(
             final Player player) throws IllegalMoveException {
