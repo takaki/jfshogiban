@@ -20,15 +20,15 @@ package org.media_as.takaki.jfshogiban;
 
 // PlayingBoard understands Shogi move rule.
 public final class PlayingBoard {
-    private final Kyokumen kyokumen;
+    private final EditableBoard editableBoard;
     private final Player turn;
 
     public static PlayingBoard startPosition() throws IllegalMoveException {
-        return new PlayingBoard(Kyokumen.startPosition(), Player.SENTEBAN);
+        return new PlayingBoard(EditableBoard.startPosition(), Player.SENTEBAN);
     }
 
-    private PlayingBoard(final Kyokumen kyokumen, final Player turn) {
-        this.kyokumen = kyokumen;
+    private PlayingBoard(final EditableBoard editableBoard, final Player turn) {
+        this.editableBoard = editableBoard;
         this.turn = turn;
     }
 
@@ -37,7 +37,7 @@ public final class PlayingBoard {
     }
 
     public Koma get(final int x, final int y) throws IllegalMoveException {
-        return kyokumen.get(x, y);
+        return editableBoard.get(x, y);
     }
 
     public PlayingBoard move(final int fx, final int fy, final int tx,
@@ -47,12 +47,13 @@ public final class PlayingBoard {
             throw new IllegalMoveException();
         }
         return get(tx, ty).isOwn(turn.next()) ? new PlayingBoard(
-                kyokumen.capture(tx, ty, turn).move(fx, fy, tx, ty),
-                turn.next()) : new PlayingBoard(kyokumen.move(fx, fy, tx, ty),
+                editableBoard.capture(tx, ty, turn).move(fx, fy, tx, ty),
+                turn.next()) : new PlayingBoard(
+                editableBoard.move(fx, fy, tx, ty),
                 turn.next());
     }
 
     public int countMochigoma(Koma koma) {
-        return kyokumen.countMochigoma(koma);
+        return editableBoard.countMochigoma(koma);
     }
 }

@@ -20,12 +20,12 @@ package org.media_as.takaki.jfshogiban
 
 import spock.lang.Specification
 
-class KyokumenTest extends Specification {
-    def kyokumen = Kyokumen.initialize()
+class EditableBoardTest extends Specification {
+    def board = EditableBoard.initialize()
 
     def "put on piece and remove piece"() {
         when:
-        def kyokumen2 = kyokumen.set(0, 0, Koma.GOTE_KYOSHA)
+        def kyokumen2 = board.set(0, 0, Koma.GOTE_KYOSHA)
         then:
         kyokumen2.get(0, 0) == Koma.GOTE_KYOSHA
 
@@ -37,7 +37,7 @@ class KyokumenTest extends Specification {
 
     def "put on piece and move that piece"() {
         when:
-        def kyokumen2 = kyokumen.set(0, 8, Koma.SENTE_FU).move(0, 8, 0, 7)
+        def kyokumen2 = board.set(0, 8, Koma.SENTE_FU).move(0, 8, 0, 7)
         then:
         kyokumen2.get(0, 8) == Koma.EMPTY
         kyokumen2.get(0, 7) == Koma.SENTE_FU
@@ -45,21 +45,21 @@ class KyokumenTest extends Specification {
 
     def "can't put on piece on other piece"() {
         when:
-        kyokumen.set(0, 8, Koma.SENTE_FU).set(0, 8, Koma.SENTE_FU)
+        board.set(0, 8, Koma.SENTE_FU).set(0, 8, Koma.SENTE_FU)
         then:
         thrown(IllegalMoveException)
     }
 
     def "can't move piece on other piece"() {
         when:
-        kyokumen.set(0, 8, Koma.SENTE_FU).set(0, 7, Koma.SENTE_KYOSHA).move(0, 8, 0, 7)
+        board.set(0, 8, Koma.SENTE_FU).set(0, 7, Koma.SENTE_KYOSHA).move(0, 8, 0, 7)
         then:
         thrown(IllegalMoveException)
     }
 
     def "captured piece is moved to KomaDai"() {
         when:
-        def k2 = kyokumen.set(8, 8, Koma.SENTE_FU).capture(8, 8, Player.SENTEBAN)
+        def k2 = board.set(8, 8, Koma.SENTE_FU).capture(8, 8, Player.SENTEBAN)
         then:
         k2.get(8, 8) == Koma.EMPTY
         k2.countMochigoma(Koma.SENTE_FU) == 1
@@ -67,14 +67,14 @@ class KyokumenTest extends Specification {
 
     def "Can't capture empty"() {
         when:
-        kyokumen.capture(0,0,Player.SENTEBAN)
+        board.capture(0,0,Player.SENTEBAN)
         then:
         thrown(IllegalMoveException)
     }
 
     def "drop piece"() {
         when:
-        def k2 = kyokumen.pushMochigoma(Koma.SENTE_FU).drop(8, 8, Koma.SENTE_FU)
+        def k2 = board.pushMochigoma(Koma.SENTE_FU).drop(8, 8, Koma.SENTE_FU)
         then:
         k2.get(8, 8) == Koma.SENTE_FU
         k2.countMochigoma(Koma.SENTE_FU) == 0
@@ -82,14 +82,14 @@ class KyokumenTest extends Specification {
 
     def "Can't drop when empty mochigoma"() {
         when:
-        kyokumen.drop(8, 8, Koma.SENTE_FU)
+        board.drop(8, 8, Koma.SENTE_FU)
         then:
         thrown(IllegalMoveException)
     }
 
     def "Can't drop on other piece"() {
         when:
-        kyokumen.pushMochigoma(Koma.SENTE_FU).set(8, 8, Koma.SENTE_FU).drop(8, 8, Koma.SENTE_FU)
+        board.pushMochigoma(Koma.SENTE_FU).set(8, 8, Koma.SENTE_FU).drop(8, 8, Koma.SENTE_FU)
         then:
         thrown(IllegalMoveException)
     }
