@@ -69,12 +69,6 @@ public final class ShogiBan {
     @SuppressWarnings("FieldNotUsedInToString")
     private final List<Koma> board;
 
-    public static ShogiBan initialize() {
-        return new ShogiBan(
-                IntStream.range(0, HEIGHT * WIDTH).mapToObj(i -> Koma.EMPTY)
-                        .collect(Collectors.toList()));
-    }
-
     public static ShogiBan startPosition() throws IllegalMoveException {
         return initialize().set(0, 0, Koma.GOTE_KYOSHA)
                 .set(1, 0, Koma.GOTE_KEIMA).set(2, 0, Koma.GOTE_GIN)
@@ -99,21 +93,10 @@ public final class ShogiBan {
                 .set(1, 7, Koma.SENTE_HISYA);
     }
 
-    @SuppressWarnings({"FieldRepeatedlyAccessedInMethod", "MethodWithMultipleLoops"})
-    @Override
-    public String toString() {
-        final StringBuilder builder = new StringBuilder(90);
-        for (int y = 0; y < HEIGHT; y++) {
-            for (int x = WIDTH - 1; x >= 0; x--) {
-                try {
-                    builder.append(STRING_MAP.get(get(x, y)));
-                } catch (final IllegalMoveException ignored) {
-                }
-            }
-            //noinspection MagicCharacter,HardcodedLineSeparator
-            builder.append('\n');
-        }
-        return builder.toString();
+    public static ShogiBan initialize() {
+        return new ShogiBan(
+                IntStream.range(0, HEIGHT * WIDTH).mapToObj(i -> Koma.EMPTY)
+                        .collect(Collectors.toList()));
     }
 
     private ShogiBan(final List<Koma> board) {
@@ -169,4 +152,20 @@ public final class ShogiBan {
         return x + y * HEIGHT;
     }
 
+    @SuppressWarnings({"FieldRepeatedlyAccessedInMethod", "MethodWithMultipleLoops"})
+    @Override
+    public String toString() {
+        final StringBuilder builder = new StringBuilder(90);
+        for (int y = 0; y < HEIGHT; y++) {
+            for (int x = WIDTH - 1; x >= 0; x--) {
+                try {
+                    builder.append(STRING_MAP.get(get(x, y)));
+                } catch (final IllegalMoveException ignored) {
+                }
+            }
+            //noinspection MagicCharacter,HardcodedLineSeparator
+            builder.append('\n');
+        }
+        return builder.toString();
+    }
 }
