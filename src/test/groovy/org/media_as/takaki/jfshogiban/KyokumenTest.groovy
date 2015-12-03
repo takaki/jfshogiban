@@ -115,4 +115,41 @@ class KyokumenTest extends Specification {
         then:
         thrown(IllegalMoveException)
     }
+
+    def "Keep Gin move rule"() {
+        when:
+        start.move(2, 8, 4, 7)
+        then:
+        thrown(IllegalMoveException)
+    }
+
+    def "Keep Kin move rule"() {
+        when:
+        start.move(3, 8, 5, 7)
+        then:
+        thrown(IllegalMoveException)
+    }
+
+    def "Keep Kaku move rule"() {
+        when:
+        start.move(7, 7, 6, 7)
+        then:
+        thrown(IllegalMoveException)
+
+        when:
+        start.move(7, 7, 5, 5)
+        then:
+        thrown(IllegalMoveException)
+    }
+
+    def "Keep Hisha move rule"() {
+        when:
+        start.move(1, 7, 1, 5)
+        then:
+        thrown(IllegalMoveException)
+        when:
+        start.move(1, 7, 8, 7)
+        then:
+        thrown(IllegalMoveException)
+    }
 }

@@ -90,21 +90,21 @@ public final class Kyokumen {
                 //noinspection fallthrough
             case SENTE_HISYA:
             case GOTE_HISYA:
-                if (fx == tx && autoIntRange(fy, ty).anyMatch(y -> {
+                if (fx == tx && autoIntRange(fy, ty).allMatch(y -> {
                     try {
-                        return !isEmpty(fx, y);
+                        return isEmpty(fx, y);
                     } catch (final IllegalMoveException ignored) {
-                        return true;
+                        return false;
                     }
                 })) {
                     return;
 
                 }
-                if (fy == ty && autoIntRange(fx, tx).anyMatch(x -> {
+                if (fy == ty && autoIntRange(fx, tx).allMatch(x -> {
                     try {
-                        return !isEmpty(x, fy);
+                        return isEmpty(x, fy);
                     } catch (final IllegalMoveException ignored) {
-                        return true;
+                        return false;
                     }
                 })) {
                     return;
@@ -115,7 +115,6 @@ public final class Kyokumen {
             case GOTE_UMA:
                 if (fx == tx && Math.abs(fy - ty) == 1) {
                     return;
-
                 }
                 if (Math.abs(fx - tx) == 1 && fy == ty) {
                     return;
