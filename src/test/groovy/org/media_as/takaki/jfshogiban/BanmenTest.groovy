@@ -20,8 +20,8 @@ package org.media_as.takaki.jfshogiban
 
 import spock.lang.Specification
 
-class EditableBoardTest extends Specification {
-    def board = EditableBoard.initialize()
+class BanmenTest extends Specification {
+    def board = Banmen.initialize()
 
     def "put on piece and remove piece"() {
         when:

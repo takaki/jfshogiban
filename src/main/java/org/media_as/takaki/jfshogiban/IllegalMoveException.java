@@ -21,4 +21,12 @@ package org.media_as.takaki.jfshogiban;
 public class IllegalMoveException extends Exception {
     private static final long serialVersionUID = -3047309423218446728L;
 
+    public IllegalMoveException() {
+    }
+
+    public IllegalMoveException(final String message) {
+        super(message);
+    }
+
 }
+

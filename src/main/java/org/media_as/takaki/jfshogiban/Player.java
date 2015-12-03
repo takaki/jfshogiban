@@ -21,7 +21,11 @@ package org.media_as.takaki.jfshogiban;
 public enum Player {
     SENTEBAN, GOTEBAN;
 
-    public Player next(){
+    public Player next() {
         return this == SENTEBAN ? GOTEBAN : SENTEBAN;
+    }
+
+    public int sign() {
+        return this == SENTEBAN ? 1 : -1;
     }
 }

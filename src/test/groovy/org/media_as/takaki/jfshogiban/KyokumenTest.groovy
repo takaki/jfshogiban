@@ -20,12 +20,12 @@ package org.media_as.takaki.jfshogiban
 
 import spock.lang.Specification
 
-class PlayingBoardTest extends Specification {
-    def board = PlayingBoard.startPosition()
+class KyokumenTest extends Specification {
+    def start = Kyokumen.startPosition()
 
     def "can't move empty"() {
         when:
-        board.move(4, 4, 5, 5)
+        start.move(4, 4, 5, 5)
 
         then:
         thrown(IllegalMoveException)
@@ -33,7 +33,7 @@ class PlayingBoardTest extends Specification {
 
     def "move own piece"() {
         when:
-        def b2 = board.move(6, 6, 6, 5)
+        def b2 = start.move(6, 6, 6, 5)
 
         then:
         b2.get(6, 5) == Koma.SENTE_FU
@@ -41,7 +41,7 @@ class PlayingBoardTest extends Specification {
 
     def "can't move not own piece"() {
         when:
-        board.move(0, 2, 0, 3)
+        start.move(0, 2, 0, 3)
 
         then:
         thrown(IllegalMoveException)
@@ -49,7 +49,7 @@ class PlayingBoardTest extends Specification {
 
     def "change turn"() {
         when:
-        def b2 = board.move(6, 6, 6, 5)
+        def b2 = start.move(6, 6, 6, 5)
 
         then:
         b2.getTurn() == Player.GOTEBAN;
@@ -57,16 +57,62 @@ class PlayingBoardTest extends Specification {
 
     def "capture piece"() {
         when:
-        def b2 = board.move(0,6,0,5).move(0,2,0,3).move(0,5,0,4).move(0,3,0,4)
+        def b2 = start.move(0, 6, 0, 5).move(0, 2, 0, 3).move(0, 5, 0, 4).move(0, 3, 0, 4)
         then:
         b2.countMochigoma(Koma.GOTE_FU) == 1
     }
 
     def "can't capture own piece"() {
         when:
-        board.move(0,8,0,6)
+        start.move(0, 8, 0, 6)
         then:
         thrown(IllegalMoveException)
     }
 
+    def "Keep Fu move rule"() {
+        when:
+        start.move(6, 6, 6, 4)
+        then:
+        thrown(IllegalMoveException)
+
+        when:
+        start.move(0, 6, 0, 5).move(0, 2, 0, 1)
+        then:
+        thrown(IllegalMoveException)
+    }
+
+    def "Keep Kyosha move rule"() {
+        when:
+        start.move(0, 8, 0, 7)
+        start.move(0, 8, 0, 7).move(0, 0, 0, 1)
+        then:
+        notThrown(IllegalMoveException)
+
+        when:
+        start.move(0, 8, 0, 7).move(0, 0, 0, 5)
+        then:
+        thrown(IllegalMoveException)
+
+        when:
+        start.move(0, 8, 5, 5)
+        then:
+        thrown(IllegalMoveException)
+
+        when:
+        start.move(0, 8, 0, 5)
+        then:
+        thrown(IllegalMoveException)
+    }
+
+    def "Keep Keima move rule"() {
+        when:
+        start.move(6, 6, 6, 5).move(2, 2, 2, 3).move(7, 8, 6, 6)
+        then:
+        notThrown(IllegalMoveException)
+
+        when:
+        start.move(6, 6, 6, 7).move(2, 2, 2, 3).move(7, 8, 7, 7)
+        then:
+        thrown(IllegalMoveException)
+    }
 }

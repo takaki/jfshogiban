@@ -35,35 +35,35 @@ public final class ShogiBan {
             Koma.class);
 
     static {
-        STRING_MAP.put(Koma.SENTE_HISYA, " 飛");
-        STRING_MAP.put(Koma.SENTE_RYU, " 龍");
-        STRING_MAP.put(Koma.GOTE_HISYA, "v飛");
-        STRING_MAP.put(Koma.GOTE_RYU, "v龍");
-        STRING_MAP.put(Koma.SENTE_KAKU, " 角");
-        STRING_MAP.put(Koma.SENTE_UMA, " 馬");
-        STRING_MAP.put(Koma.GOTE_KAKU, "v角");
-        STRING_MAP.put(Koma.GOTE_UMA, "v馬");
-        STRING_MAP.put(Koma.SENTE_KIN, " 金");
-        STRING_MAP.put(Koma.GOTE_KIN, "v金");
-        STRING_MAP.put(Koma.SENTE_GIN, " 銀");
-        STRING_MAP.put(Koma.SENTE_NARIGIN, " 全");
-        STRING_MAP.put(Koma.GOTE_GIN, "v銀");
-        STRING_MAP.put(Koma.GOTE_NARIGIN, "v全");
-        STRING_MAP.put(Koma.SENTE_KEIMA, " 桂");
-        STRING_MAP.put(Koma.SENTE_NARIKEI, " 圭");
-        STRING_MAP.put(Koma.GOTE_KEIMA, "v桂");
-        STRING_MAP.put(Koma.GOTE_NARIKEI, "v圭");
-        STRING_MAP.put(Koma.SENTE_KYOSHA, " 香");
-        STRING_MAP.put(Koma.SENTE_NARIKYO, " 杏");
-        STRING_MAP.put(Koma.GOTE_KYOSHA, "v香");
-        STRING_MAP.put(Koma.GOTE_NARIKYO, "v杏");
-        STRING_MAP.put(Koma.SENTE_FU, " 歩");
-        STRING_MAP.put(Koma.SENTE_TOKIN, " と");
-        STRING_MAP.put(Koma.GOTE_FU, "v歩");
-        STRING_MAP.put(Koma.GOTE_TOKIN, "vと");
-        STRING_MAP.put(Koma.SENTE_GYOKU, " 王");
-        STRING_MAP.put(Koma.GOTE_GYOKU, "v玉");
-        STRING_MAP.put(Koma.EMPTY, "   ");
+        STRING_MAP.put(Koma.SENTE_HISYA, "+HI");
+        STRING_MAP.put(Koma.SENTE_RYU, "+RY");
+        STRING_MAP.put(Koma.GOTE_HISYA, "-HI");
+        STRING_MAP.put(Koma.GOTE_RYU, "-RY龍");
+        STRING_MAP.put(Koma.SENTE_KAKU, "+KA");
+        STRING_MAP.put(Koma.SENTE_UMA, "+UM");
+        STRING_MAP.put(Koma.GOTE_KAKU, "-KA");
+        STRING_MAP.put(Koma.GOTE_UMA, "-UM");
+        STRING_MAP.put(Koma.SENTE_KIN, "+KI");
+        STRING_MAP.put(Koma.GOTE_KIN, "-KI");
+        STRING_MAP.put(Koma.SENTE_GIN, "+GI");
+        STRING_MAP.put(Koma.SENTE_NARIGIN, "+NG");
+        STRING_MAP.put(Koma.GOTE_GIN, "-GI");
+        STRING_MAP.put(Koma.GOTE_NARIGIN, "-NG");
+        STRING_MAP.put(Koma.SENTE_KEIMA, "+KE");
+        STRING_MAP.put(Koma.SENTE_NARIKEI, "+NK");
+        STRING_MAP.put(Koma.GOTE_KEIMA, "-KE");
+        STRING_MAP.put(Koma.GOTE_NARIKEI, "-NK");
+        STRING_MAP.put(Koma.SENTE_KYOSHA, "+KY");
+        STRING_MAP.put(Koma.SENTE_NARIKYO, "+NK");
+        STRING_MAP.put(Koma.GOTE_KYOSHA, "-KY");
+        STRING_MAP.put(Koma.GOTE_NARIKYO, "-NK");
+        STRING_MAP.put(Koma.SENTE_FU, "+FU");
+        STRING_MAP.put(Koma.SENTE_TOKIN, "+TO");
+        STRING_MAP.put(Koma.GOTE_FU, "-FU");
+        STRING_MAP.put(Koma.GOTE_TOKIN, "-TO");
+        STRING_MAP.put(Koma.SENTE_GYOKU, "+OU");
+        STRING_MAP.put(Koma.GOTE_GYOKU, "-OU");
+        STRING_MAP.put(Koma.EMPTY, " * ");
     }
 
     @SuppressWarnings("FieldNotUsedInToString")
@@ -110,13 +110,13 @@ public final class ShogiBan {
     public ShogiBan set(final int x, final int y,
                         final Koma koma) throws IllegalMoveException {
         if (!isEmpty(x, y)) {
-            throw new IllegalMoveException();
+            throw new IllegalMoveException("Try to put on other piece.");
         }
         if (ILLEGAL_SENTE.contains(koma) && y == 0 ||
                 koma == Koma.SENTE_KEIMA && y <= 1 ||
                 ILLEGAL_GOTE.contains(koma) && y == 8 ||
                 koma == Koma.GOTE_KEIMA && y >= 7) {
-            throw new IllegalMoveException();
+            throw new IllegalMoveException("Out of bound.");
         }
         final List<Koma> board = new ArrayList<>(this.board);
         board.set(calcIndex(x, y), koma);
@@ -126,7 +126,7 @@ public final class ShogiBan {
     public ShogiBan remove(final int x,
                            final int y) throws IllegalMoveException {
         if (isEmpty(x, y)) {
-            throw new IllegalMoveException();
+            throw new IllegalMoveException("Try to remove piece from empty.");
         }
         final List<Koma> board = new ArrayList<>(this.board);
         board.set(calcIndex(x, y), Koma.EMPTY);
@@ -147,7 +147,8 @@ public final class ShogiBan {
     private static int calcIndex(final int x,
                                  final int y) throws IllegalMoveException {
         if (x < 0 || x > 8 || y < 0 || y > 8) {
-            throw new IllegalMoveException();
+            throw new IllegalMoveException(
+                    String.format("Out of bound x = %d, y = %d", x, y));
         }
         return x + y * HEIGHT;
     }
@@ -155,8 +156,10 @@ public final class ShogiBan {
     @SuppressWarnings({"FieldRepeatedlyAccessedInMethod", "MethodWithMultipleLoops"})
     @Override
     public String toString() {
-        final StringBuilder builder = new StringBuilder(90);
+        final StringBuilder builder = new StringBuilder(120);
         for (int y = 0; y < HEIGHT; y++) {
+            //noinspection MagicCharacter
+            builder.append('P').append(y + 1);
             for (int x = WIDTH - 1; x >= 0; x--) {
                 try {
                     builder.append(STRING_MAP.get(get(x, y)));

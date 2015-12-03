@@ -31,7 +31,7 @@ class ShogiBanTest extends Specification {
         [x, y] << [0..8, 0..8].combinations()
     }
 
-    def "can't set out bound location" () {
+    def "can't set out bound location"() {
         when:
         board.get(-1, 0)
         then:
@@ -50,7 +50,7 @@ class ShogiBanTest extends Specification {
 
     def "set piece and got piece are same"() {
         expect:
-        board.set(x, y, p).get(1,1) == p
+        board.set(x, y, p).get(1, 1) == p
         where:
         x | y || p
         1 | 1 || Koma.GOTE_FU
@@ -82,12 +82,18 @@ class ShogiBanTest extends Specification {
         thrown(IllegalMoveException)
     }
 
-    def "toString test" (){
-        when:
-        def s = ShogiBan.startPosition().toString()
-        print(s)
-        then:
-        notThrown(IllegalMoveException)
+    def "toString test"() {
+        expect:
+        ShogiBan.startPosition().toString() ==
+                "P1-KY-KE-GI-KI-OU-KI-GI-KE-KY\n" +
+                "P2 * -HI *  *  *  *  * -KA * \n" +
+                "P3-FU-FU-FU-FU-FU-FU-FU-FU-FU\n" +
+                "P4 *  *  *  *  *  *  *  *  * \n" +
+                "P5 *  *  *  *  *  *  *  *  * \n" +
+                "P6 *  *  *  *  *  *  *  *  * \n" +
+                "P7+FU+FU+FU+FU+FU+FU+FU+FU+FU\n" +
+                "P8 * +KA *  *  *  *  * +HI * \n" +
+                "P9+KY+KE+GI+KI+OU+KI+GI+KE+KY\n"
     }
 
 
