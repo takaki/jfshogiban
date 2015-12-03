@@ -26,6 +26,10 @@ public final class Kyokumen {
         return new Kyokumen(ShogiBan.initialize(), Mochigoma.initialize());
     }
 
+    public static Kyokumen startPosition() throws IllegalMoveException {
+        return new Kyokumen(ShogiBan.startPosition(), Mochigoma.initialize());
+    }
+
     private Kyokumen(final ShogiBan shogiBan, final Mochigoma mochigoma) {
         this.shogiBan = shogiBan;
         this.mochigoma = mochigoma;
