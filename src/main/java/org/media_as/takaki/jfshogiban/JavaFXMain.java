@@ -24,12 +24,14 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-public class JFShogiBan extends Application {
+@SuppressWarnings({"HardCodedStringLiteral", "DuplicateStringLiteralInspection"})
+public class JavaFXMain extends Application {
 
-    static public void main(final String[] args) {
+    public static void main(final String[] args) {
         launch(args);
     }
 
+    @SuppressWarnings({"ProhibitedExceptionDeclared", "UseOfSystemOutOrSystemErr", "DesignForExtension"})
     @Override
     public void start(final Stage stage) throws Exception {
         final Button btn = new Button();
@@ -39,6 +41,7 @@ public class JFShogiBan extends Application {
         final StackPane root = new StackPane();
         root.getChildren().add(btn);
 
+        //noinspection ImplicitNumericConversion
         final Scene scene = new Scene(root, 300, 250);
 
         stage.setTitle("Hello World!");

@@ -67,9 +67,11 @@ public final class Kyokumen {
         return get(x, y).isOwn(turn);
     }
 
+    @SuppressWarnings({"FeatureEnvy", "MethodWithMultipleReturnPoints", "OverlyComplexMethod", "OverlyLongMethod"})
     private void checkRule(final int fx, final int fy, final int tx,
                            final int ty) throws IllegalMoveException {
         final Koma koma = get(fx, fy);
+        //noinspection SwitchStatementWithTooManyBranches,SwitchStatement
         switch (koma) {
             case EMPTY:
                 return;
@@ -78,6 +80,7 @@ public final class Kyokumen {
                 if (Math.abs(fx - ty) <= 1 || Math.abs(fy - ty) <= 1) {
                     return;
                 }
+                // 王取りのチェックをどこかに
                 break;
             case SENTE_RYU:
             case GOTE_RYU:
@@ -147,22 +150,22 @@ public final class Kyokumen {
             case GOTE_NARIKEI:
             case GOTE_NARIKYO:
             case GOTE_TOKIN:
-                if (Math.abs(fx - ty) <= 1 && (fy - ty) * turn.sign() == 1) {
+                if (Math.abs(fx - ty) <= 1 && fy - ty == turn.sign()) {
                     return;
                 }
-                if (Math.abs(fx - ty) == 1 && (fy - ty) * turn.sign() == 0) {
+                if (Math.abs(fx - ty) == 1 && fy == ty) {
                     return;
                 }
-                if (fx - ty == 0 && (fy - ty) * turn.sign() == -1) {
+                if (fx - ty == 0 && fy - ty == -turn.sign()) {
                     return;
                 }
                 break;
             case SENTE_GIN:
             case GOTE_GIN:
-                if (Math.abs(fx - ty) <= 1 && (fy - ty) * turn.sign() == 1) {
+                if (Math.abs(fx - ty) <= 1 && fy - ty == turn.sign()) {
                     return;
                 }
-                if (Math.abs(fx - ty) == 1 && (fy - ty) * turn.sign() == -1) {
+                if (Math.abs(fx - ty) == 1 && fy - ty == -turn.sign()) {
                     return;
                 }
                 break;
@@ -187,7 +190,7 @@ public final class Kyokumen {
                 break;
             case SENTE_FU:
             case GOTE_FU:
-                if (fx == tx && (fy - ty) * turn.sign() == 1) {
+                if (fx == tx && fy - ty == turn.sign()) {
                     return;
                 }
                 break;
