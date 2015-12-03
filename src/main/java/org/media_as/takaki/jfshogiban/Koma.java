@@ -18,6 +18,9 @@
 
 package org.media_as.takaki.jfshogiban;
 
+import java.util.EnumMap;
+import java.util.Map;
+
 public enum Koma {
     EMPTY,
 
@@ -50,6 +53,74 @@ public enum Koma {
     GOTE_NARIKEI,
     GOTE_NARIKYO,
     GOTE_TOKIN;
+
+    private static final Map<Koma, Koma> CAPTURE_SENTE = new EnumMap<>(
+            Koma.class);
+    private static final Map<Koma, Koma> CAPTURE_GOTE = new EnumMap<>(
+            Koma.class);
+
+    static {
+        CAPTURE_SENTE.put(SENTE_GYOKU, SENTE_GYOKU);
+        CAPTURE_SENTE.put(SENTE_HISYA, SENTE_HISYA);
+        CAPTURE_SENTE.put(SENTE_KAKU, SENTE_KAKU);
+        CAPTURE_SENTE.put(SENTE_KIN, SENTE_KIN);
+        CAPTURE_SENTE.put(SENTE_GIN, SENTE_GIN);
+        CAPTURE_SENTE.put(SENTE_KEIMA, SENTE_KEIMA);
+        CAPTURE_SENTE.put(SENTE_KYOSHA, SENTE_KYOSHA);
+        CAPTURE_SENTE.put(SENTE_FU, SENTE_FU);
+        CAPTURE_SENTE.put(SENTE_RYU, SENTE_HISYA);
+        CAPTURE_SENTE.put(SENTE_UMA, SENTE_KAKU);
+        CAPTURE_SENTE.put(SENTE_NARIGIN, SENTE_GIN);
+        CAPTURE_SENTE.put(SENTE_NARIKEI, SENTE_KEIMA);
+        CAPTURE_SENTE.put(SENTE_NARIKYO, SENTE_KYOSHA);
+        CAPTURE_SENTE.put(SENTE_TOKIN, SENTE_FU);
+
+        CAPTURE_SENTE.put(GOTE_GYOKU, SENTE_GYOKU);
+        CAPTURE_SENTE.put(GOTE_HISYA, SENTE_HISYA);
+        CAPTURE_SENTE.put(GOTE_KAKU, SENTE_KAKU);
+        CAPTURE_SENTE.put(GOTE_KIN, SENTE_KIN);
+        CAPTURE_SENTE.put(GOTE_GIN, SENTE_GIN);
+        CAPTURE_SENTE.put(GOTE_KEIMA, SENTE_KEIMA);
+        CAPTURE_SENTE.put(GOTE_KYOSHA, SENTE_KYOSHA);
+        CAPTURE_SENTE.put(GOTE_FU, SENTE_FU);
+        CAPTURE_SENTE.put(GOTE_RYU, SENTE_HISYA);
+        CAPTURE_SENTE.put(GOTE_UMA, SENTE_KAKU);
+        CAPTURE_SENTE.put(GOTE_NARIGIN, SENTE_KIN);
+        CAPTURE_SENTE.put(GOTE_NARIKEI, SENTE_KEIMA);
+        CAPTURE_SENTE.put(GOTE_NARIKYO, SENTE_KYOSHA);
+        CAPTURE_SENTE.put(GOTE_TOKIN, SENTE_FU);
+
+        CAPTURE_GOTE.put(SENTE_GYOKU, GOTE_GYOKU);
+        CAPTURE_GOTE.put(SENTE_HISYA, GOTE_HISYA);
+        CAPTURE_GOTE.put(SENTE_KAKU, GOTE_KAKU);
+        CAPTURE_GOTE.put(SENTE_KIN, GOTE_KIN);
+        CAPTURE_GOTE.put(SENTE_GIN, GOTE_GIN);
+        CAPTURE_GOTE.put(SENTE_KEIMA, GOTE_KEIMA);
+        CAPTURE_GOTE.put(SENTE_KYOSHA, GOTE_KYOSHA);
+        CAPTURE_GOTE.put(SENTE_FU, GOTE_FU);
+        CAPTURE_GOTE.put(SENTE_RYU, GOTE_HISYA);
+        CAPTURE_GOTE.put(SENTE_UMA, GOTE_KAKU);
+        CAPTURE_GOTE.put(SENTE_NARIGIN, GOTE_GIN);
+        CAPTURE_GOTE.put(SENTE_NARIKEI, GOTE_KEIMA);
+        CAPTURE_GOTE.put(SENTE_NARIKYO, GOTE_KYOSHA);
+        CAPTURE_GOTE.put(SENTE_TOKIN, GOTE_FU);
+
+        CAPTURE_GOTE.put(GOTE_GYOKU, GOTE_GYOKU);
+        CAPTURE_GOTE.put(GOTE_HISYA, GOTE_HISYA);
+        CAPTURE_GOTE.put(GOTE_KAKU, GOTE_KAKU);
+        CAPTURE_GOTE.put(GOTE_KIN, GOTE_KIN);
+        CAPTURE_GOTE.put(GOTE_GIN, GOTE_GIN);
+        CAPTURE_GOTE.put(GOTE_KEIMA, GOTE_KEIMA);
+        CAPTURE_GOTE.put(GOTE_KYOSHA, GOTE_KYOSHA);
+        CAPTURE_GOTE.put(GOTE_FU, GOTE_FU);
+        CAPTURE_GOTE.put(GOTE_RYU, GOTE_HISYA);
+        CAPTURE_GOTE.put(GOTE_UMA, GOTE_KAKU);
+        CAPTURE_GOTE.put(GOTE_NARIGIN, GOTE_KIN);
+        CAPTURE_GOTE.put(GOTE_NARIKEI, GOTE_KEIMA);
+        CAPTURE_GOTE.put(GOTE_NARIKYO, GOTE_KYOSHA);
+        CAPTURE_GOTE.put(GOTE_TOKIN, GOTE_FU);
+
+    }
 
     @SuppressWarnings({"HardCodedStringLiteral", "MethodWithMultipleReturnPoints", "OverlyComplexMethod", "OverlyLongMethod"})
     @Override
@@ -118,50 +189,14 @@ public enum Koma {
         return "   ";
     }
 
-    @SuppressWarnings({"MethodWithMultipleReturnPoints", "OverlyComplexMethod", "OverlyLongMethod"})
+
     public Koma changeCaptured(
             final Player player) throws IllegalMoveException {
-        //noinspection SwitchStatementWithTooManyBranches,SwitchStatement
-        switch (this) {
-            case SENTE_HISYA:
-            case SENTE_RYU:
-            case GOTE_HISYA:
-            case GOTE_RYU:
-                return player == Player.SENTEBAN ? SENTE_HISYA : GOTE_HISYA;
-            case SENTE_KAKU:
-            case SENTE_UMA:
-            case GOTE_KAKU:
-            case GOTE_UMA:
-                return player == Player.SENTEBAN ? SENTE_KAKU : GOTE_KAKU;
-            case SENTE_KIN:
-            case GOTE_KIN:
-                return player == Player.SENTEBAN ? SENTE_KIN : GOTE_KIN;
-            case SENTE_GIN:
-            case SENTE_NARIGIN:
-            case GOTE_GIN:
-            case GOTE_NARIGIN:
-                return player == Player.SENTEBAN ? SENTE_GIN : GOTE_GIN;
-            case SENTE_KEIMA:
-            case SENTE_NARIKEI:
-            case GOTE_KEIMA:
-            case GOTE_NARIKEI:
-                return player == Player.SENTEBAN ? SENTE_KEIMA : GOTE_KEIMA;
-            case SENTE_KYOSHA:
-            case SENTE_NARIKYO:
-            case GOTE_KYOSHA:
-            case GOTE_NARIKYO:
-                return player == Player.SENTEBAN ? SENTE_KYOSHA : GOTE_KYOSHA;
-            case SENTE_FU:
-            case SENTE_TOKIN:
-            case GOTE_FU:
-            case GOTE_TOKIN:
-                return player == Player.SENTEBAN ? SENTE_FU : GOTE_FU;
-            case SENTE_GYOKU:
-            case GOTE_GYOKU:
-            case EMPTY:
-            default:
-                throw new IllegalMoveException();
+        if (this == EMPTY) {
+            throw new IllegalMoveException();
         }
+        return player == Player.SENTEBAN ? CAPTURE_SENTE
+                .get(this) : CAPTURE_GOTE.get(this);
     }
 
 }
