@@ -72,76 +72,127 @@ public final class Kyokumen {
         final Koma koma = get(fx, fy);
         switch (koma) {
             case EMPTY:
-                break;
+                return;
             case SENTE_GYOKU:
-                break;
-            case SENTE_HISYA:
-                break;
-            case SENTE_KAKU:
-                break;
-            case SENTE_KIN:
-                break;
-            case SENTE_GIN:
+            case GOTE_GYOKU:
+                if (Math.abs(fx - ty) <= 1 || Math.abs(fy - ty) <= 1) {
+                    return;
+                }
                 break;
             case SENTE_RYU:
-                break;
-            case SENTE_UMA:
-                break;
-            case SENTE_NARIGIN:
-                break;
-            case SENTE_NARIKEI:
-                break;
-            case SENTE_NARIKYO:
-                break;
-            case SENTE_TOKIN:
-                break;
-            case GOTE_GYOKU:
-                break;
-            case GOTE_HISYA:
-                break;
-            case GOTE_KAKU:
-                break;
-            case GOTE_KIN:
-                break;
-            case GOTE_GIN:
-                break;
             case GOTE_RYU:
-                break;
-            case GOTE_UMA:
-                break;
-            case GOTE_NARIGIN:
-            case GOTE_NARIKEI:
-            case GOTE_NARIKYO:
-            case GOTE_TOKIN:
-                break;
-            case SENTE_KEIMA:
-            case GOTE_KEIMA:
-                if (!(Math.abs(fx - tx) == 1 && (fy - ty) * turn.sign() == 2)) {
-                    throw new IllegalMoveException(koma + " move is illegal.");
+                if (Math.abs(fx - tx) == 1 && Math.abs(fy - ty) == 1) {
+                    return;
                 }
-                break;
-            case SENTE_KYOSHA:
-            case GOTE_KYOSHA:
-                if (!(fx == tx && (fy - ty) * turn.sign() > 0)) {
-                    throw new IllegalMoveException(koma + " move is illegal.");
-                }
-                if (autoIntRange(fy, ty).anyMatch(y -> {
+                //noinspection fallthrough
+            case SENTE_HISYA:
+            case GOTE_HISYA:
+                if (fx == tx && autoIntRange(fy, ty).anyMatch(y -> {
                     try {
                         return !isEmpty(fx, y);
                     } catch (final IllegalMoveException ignored) {
                         return true;
                     }
                 })) {
-                    throw new IllegalMoveException(koma + " move is illegal.");
+                    return;
+
+                }
+                if (fy == ty && autoIntRange(fx, tx).anyMatch(x -> {
+                    try {
+                        return !isEmpty(x, fy);
+                    } catch (final IllegalMoveException ignored) {
+                        return true;
+                    }
+                })) {
+                    return;
+
+                }
+                break;
+            case SENTE_UMA:
+            case GOTE_UMA:
+                if (fx == tx && Math.abs(fy - ty) == 1) {
+                    return;
+
+                }
+                if (Math.abs(fx - tx) == 1 && fy == ty) {
+                    return;
+                }
+                //noinspection fallthrough
+            case SENTE_KAKU:
+            case GOTE_KAKU:
+                if (Math.abs(fx - tx) == Math.abs(fy - ty)) {
+                    final int diffX = fx > tx ? 1 : -1;
+                    final int diffY = fy > ty ? 1 : -1;
+                    if (fx > tx && fy > ty &&
+                            IntStream.rangeClosed(1, Math.abs(fx - tx))
+                                    .allMatch(diff -> {
+                                        try {
+                                            return isEmpty(fx + diffX,
+                                                    fx + diffY);
+                                        } catch (final IllegalMoveException ignored) {
+                                            return false;
+                                        }
+                                    })) {
+                        return;
+                    }
+                }
+                break;
+            case SENTE_KIN:
+            case SENTE_NARIGIN:
+            case SENTE_NARIKEI:
+            case SENTE_NARIKYO:
+            case SENTE_TOKIN:
+            case GOTE_KIN:
+            case GOTE_NARIGIN:
+            case GOTE_NARIKEI:
+            case GOTE_NARIKYO:
+            case GOTE_TOKIN:
+                if (Math.abs(fx - ty) <= 1 && (fy - ty) * turn.sign() == 1) {
+                    return;
+                }
+                if (Math.abs(fx - ty) == 1 && (fy - ty) * turn.sign() == 0) {
+                    return;
+                }
+                if (fx - ty == 0 && (fy - ty) * turn.sign() == -1) {
+                    return;
+                }
+                break;
+            case SENTE_GIN:
+            case GOTE_GIN:
+                if (Math.abs(fx - ty) <= 1 && (fy - ty) * turn.sign() == 1) {
+                    return;
+                }
+                if (Math.abs(fx - ty) == 1 && (fy - ty) * turn.sign() == -1) {
+                    return;
+                }
+                break;
+            case SENTE_KEIMA:
+            case GOTE_KEIMA:
+                if (Math.abs(fx - tx) == 1 && (fy - ty) * turn.sign() == 2) {
+                    return;
+                }
+                break;
+            case SENTE_KYOSHA:
+            case GOTE_KYOSHA:
+                if (fx == tx && (fy - ty) * turn.sign() > 0 && autoIntRange(fy,
+                        ty).allMatch(y -> {
+                    try {
+                        return isEmpty(fx, y);
+                    } catch (final IllegalMoveException ignored) {
+                        return false;
+                    }
+                })) {
+                    return;
                 }
                 break;
             case SENTE_FU:
             case GOTE_FU:
-                if (!(fx == tx && (fy - ty) * turn.sign() == 1)) {
-                    throw new IllegalMoveException(koma + " move is illegal.");
+                if (fx == tx && (fy - ty) * turn.sign() == 1) {
+                    return;
                 }
                 break;
         }
+        throw new IllegalMoveException(koma + " move is illegal.");
     }
 
     private boolean isEmpty(final int x,
@@ -149,12 +200,10 @@ public final class Kyokumen {
         return banmen.isEmpty(x, y);
     }
 
-    private static IntStream autoIntRange(final int s, final int e) {
-        if (s < e) {
-            return IntStream.rangeClosed(s + 1, e - 1);
-        } else {
-            return IntStream.rangeClosed(e + 1, s - 1);
-        }
+    private static IntStream autoIntRange(final int start, final int end) {
+        return start < end ? IntStream
+                .rangeClosed(start + 1, end - 1) : IntStream
+                .rangeClosed(end + 1, start - 1);
     }
 
     public int countMochigoma(final Koma koma) {

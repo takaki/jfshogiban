@@ -26,20 +26,20 @@ import javafx.stage.Stage;
 
 public class JFShogiBan extends Application {
 
-    static public void main(String[] args) {
+    static public void main(final String[] args) {
         launch(args);
     }
 
     @Override
-    public void start(Stage stage) throws Exception {
-        Button btn = new Button();
+    public void start(final Stage stage) throws Exception {
+        final Button btn = new Button();
         btn.setText("Say 'Hello World'");
         btn.setOnAction(event -> System.out.println("Hello World!"));
 
-        StackPane root = new StackPane();
+        final StackPane root = new StackPane();
         root.getChildren().add(btn);
 
-        Scene scene = new Scene(root, 300, 250);
+        final Scene scene = new Scene(root, 300, 250);
 
         stage.setTitle("Hello World!");
         stage.setScene(scene);
