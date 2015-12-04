@@ -19,23 +19,13 @@
 package org.media_as.takaki.jfshogiban.piece;
 
 import org.media_as.takaki.jfshogiban.IllegalMoveException;
-import org.media_as.takaki.jfshogiban.Player;
 
-/**
- * Created by takaki on 15/12/04.
- */
 public interface CheckerKin {
-    default boolean checkRuleKin(int fx, int fy, int tx, int ty,
-                                 Player owner) throws IllegalMoveException
-
-    {
-        if (Math.abs(fx - ty) <= 1 && fy - ty == owner.sign()) {
-            return true;
-        }
-        if (Math.abs(fx - ty) == 1 && fy == ty) {
-            return true;
-        }
-        return fx - ty == 0 && fy - ty == -owner.sign();
+    default boolean checkRuleKin(final int fx, final int fy, final int tx,
+                                 final int ty,
+                                 final int sign) throws IllegalMoveException {
+        return Math.abs(fx - tx) <= 1 && fy - ty == sign || Math
+                .abs(fx - tx) == 1 && fy == ty || fx - tx == 0 && fy - ty == -sign;
 
     }
 

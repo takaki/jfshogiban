@@ -63,34 +63,4 @@ public final class Koma {
     private Koma() {
     }
 
-//    private static final EnumSet<Koma> OWN_SENTE = EnumSet
-//            .of(SENTE_GYOKU, SENTE_HISYA, SENTE_KAKU, SENTE_KIN, SENTE_GIN,
-//                    SENTE_KEIMA, SENTE_KYOSHA, SENTE_FU, SENTE_RYU, SENTE_UMA,
-//                    SENTE_NARIGIN, SENTE_NARIKEI, SENTE_NARIKYO, SENTE_TOKIN);
-//
-//    private static final EnumSet<Koma> OWN_GOTE = EnumSet
-//            .of(GOTE_GYOKU, GOTE_HISYA, GOTE_KAKU, GOTE_KIN, GOTE_GIN,
-//                    GOTE_KEIMA, GOTE_KYOSHA, GOTE_FU, GOTE_RYU, GOTE_UMA,
-//                    GOTE_NARIGIN, GOTE_NARIKEI, GOTE_NARIKYO, GOTE_TOKIN);
-
-//    private static final Map<Koma, Koma> CAPTURE_SENTE = new EnumMap<>(
-//            Koma.class);
-//    private static final Map<Koma, Koma> CAPTURE_GOTE = new EnumMap<>(
-//            Koma.class);
-
-
-//    public Koma changeCaptured(
-//            final Player player) throws IllegalMoveException {
-//        if (this == EMPTY) {
-//            throw new IllegalMoveException();
-//        }
-//        return player == Player.SENTEBAN ? CAPTURE_SENTE
-//                .get(this) : CAPTURE_GOTE.get(this);
-//    }
-//
-//    public boolean isOwn(final Player player) {
-//        return player == Player.SENTEBAN ? OWN_SENTE.contains(this) : OWN_GOTE
-//                .contains(this);
-//    }
-
 }

@@ -24,35 +24,21 @@ import org.media_as.takaki.jfshogiban.Player;
 
 import java.util.stream.IntStream;
 
-public final class KomaKaku extends BasePiece {
+public final class KomaKaku extends BasePiece implements CheckerKaku {
     public KomaKaku(final Player owner) {
         super(owner);
     }
 
     @Override
     public BasePiece promotion() {
-        return new KomaUma(owner);
+        return new KomaUma(getOwner());
     }
 
     @Override
-    public boolean isKeepRule(int fx, int fy, int tx, int ty,
-                              Banmen banmen) throws IllegalMoveException {
-        if (Math.abs(fx - tx) == Math.abs(fy - ty)) {
-            final int diffX = fx > tx ? 1 : -1;
-            final int diffY = fy > ty ? 1 : -1;
-            if (fx > tx && fy > ty &&
-                    IntStream.rangeClosed(1, Math.abs(fx - tx))
-                            .allMatch(diff -> {
-                                try {
-                                    return banmen.isEmpty(fx + diffX, fx + diffY);
-                                } catch (final IllegalMoveException ignored) {
-                                    return false;
-                                }
-                            })) {
-                return true;
-            }
-        }
-        return false;
+    public boolean checkMove(final int fx, final int fy, final int tx,
+                             final int ty,
+                             final Banmen banmen) throws IllegalMoveException {
+        return checkKakuMove(fx, fy, tx, ty, banmen);
     }
 
     @Override

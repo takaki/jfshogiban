@@ -20,34 +20,12 @@ package org.media_as.takaki.jfshogiban.piece;
 
 import org.media_as.takaki.jfshogiban.Banmen;
 import org.media_as.takaki.jfshogiban.IllegalMoveException;
-import org.media_as.takaki.jfshogiban.Player;
 
-public final class KomaKin extends BasePiece implements CheckerKin {
-
-    public KomaKin(final Player owner) {
-        super(owner);
-    }
-
-    @Override
-    public KomaKin captured(final Player owner) {
-        return new KomaKin(owner);
-    }
-
-    @Override
-    public BasePiece promotion() throws IllegalMoveException {
-        return new KomaKaku(getOwner());
-    }
-
-    @Override
-    public boolean checkMove(final int fx, final int fy, final int tx,
-                             final int ty,
-                             final Banmen banmen) throws IllegalMoveException {
-        return checkRuleKin(fx, fy, tx, ty, sign());
-    }
-
-    @Override
-    public String toString() {
-        return toCSA("KI");
+public interface CheckGyoku {
+    default boolean checkGyokuMove(final int fx, final int fy, final int tx,
+                                   final int ty,
+                                   final Banmen banmen) throws IllegalMoveException {
+        return Math.abs(fx - ty) <= 1 || Math.abs(fy - ty) <= 1;
     }
 
 }

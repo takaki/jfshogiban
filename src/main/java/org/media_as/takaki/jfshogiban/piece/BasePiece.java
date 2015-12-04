@@ -24,17 +24,26 @@ import org.media_as.takaki.jfshogiban.Player;
 
 import java.util.Objects;
 
-public abstract class BasePiece {
-    protected final Player owner;
+public abstract class BasePiece implements IPiece {
+    private final Player owner;
 
-    public BasePiece(final Player owner) {
+    protected BasePiece(final Player owner) {
         this.owner = owner;
     }
 
-    public boolean isOwn(final Player player) {
+    public final boolean isOwner(final Player player) {
         return player == owner;
     }
 
+    protected final int sign() {
+        return owner.sign();
+    }
+
+    protected final Player getOwner() { // XXX
+        return owner;
+    }
+
+    @SuppressWarnings("DesignForExtension")
     public boolean canSet(final int y) {
         return true;
     }
@@ -43,17 +52,17 @@ public abstract class BasePiece {
 
     public abstract BasePiece promotion() throws IllegalMoveException;
 
-    public abstract boolean isKeepRule(int fx, int fy, int tx, int ty,
-                                       Banmen banmen) throws IllegalMoveException;
+    public abstract boolean checkMove(int fx, int fy, int tx, int ty,
+                                      Banmen banmen) throws IllegalMoveException;
 
     @Override
-    public int hashCode() {
-        return Objects.hash(this.getClass(), owner);
+    public final int hashCode() {
+        return Objects.hash(getClass(), owner);
     }
 
     @SuppressWarnings("MethodWithMultipleReturnPoints")
     @Override
-    public boolean equals(final Object obj) {
+    public final boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }
@@ -61,14 +70,15 @@ public abstract class BasePiece {
         if (!(obj instanceof BasePiece)) {
             return false;
         }
-        final BasePiece kpp = (BasePiece) obj;
+        //noinspection LocalVariableOfConcreteClass
+        final BasePiece bp = (BasePiece) obj;
         //noinspection AccessingNonPublicFieldOfAnotherObject
-        return kpp.getClass() == this.getClass() && kpp.owner == owner;
+        return bp.getClass() == getClass() && bp.owner == owner;
 
     }
 
 
-    public String toCSA(final String fu) {
+    protected final String toCSA(final String fu) {
         return owner + fu;
     }
 }

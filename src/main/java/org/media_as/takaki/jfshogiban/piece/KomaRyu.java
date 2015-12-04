@@ -22,7 +22,7 @@ import org.media_as.takaki.jfshogiban.Banmen;
 import org.media_as.takaki.jfshogiban.IllegalMoveException;
 import org.media_as.takaki.jfshogiban.Player;
 
-public final class KomaRyu extends BasePiece implements CheckerHisha {
+public final class KomaRyu extends BasePiece implements CheckerHisha, CheckGyoku {
     public KomaRyu(final Player owner) {
         super(owner);
     }
@@ -38,15 +38,11 @@ public final class KomaRyu extends BasePiece implements CheckerHisha {
     }
 
     @Override
-    public boolean isKeepRule(int fx, int fy, int tx, int ty,
-                              Banmen banmen) throws IllegalMoveException {
-        if(checkHishaMove(fx, fy, tx, ty, banmen)) {
-            return true;
-        }
-        if (Math.abs(fx - tx) == 1 && Math.abs(fy - ty) == 1) {
-            return true;
-        }
-        return false;
+    public boolean checkMove(final int fx, final int fy, final int tx,
+                             final int ty,
+                             final Banmen banmen) throws IllegalMoveException {
+        return checkHishaMove(fx, fy, tx, ty, banmen) || checkGyokuMove(fx, fy,
+                tx, ty, banmen);
     }
 
     @Override

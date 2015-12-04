@@ -132,6 +132,16 @@ class KyokumenTest extends Specification {
 
     def "Keep Kaku move rule"() {
         when:
+        start.move(8, 8, 5, 5)
+        then:
+        thrown(IllegalMoveException)
+
+        when:
+        start.move(7, 7, 7, 6).move(3,3,3,4).move(8,8,5,5)
+        then:
+        notThrown(IllegalMoveException)
+
+        when:
         start.move(8, 8, 7, 8)
         then:
         thrown(IllegalMoveException)

@@ -34,18 +34,15 @@ public final class KomaGin extends BasePiece {
 
     @Override
     public KomaNarigin promotion() {
-        return new KomaNarigin(owner);
+        return new KomaNarigin(getOwner());
     }
 
     @Override
-    public boolean isKeepRule(int fx, int fy, int tx, int ty, Banmen banmen) throws IllegalMoveException {
-        if (Math.abs(fx - ty) <= 1 && fy - ty == owner.sign()) {
-            return true;
-        }
-        if (Math.abs(fx - ty) == 1 && fy - ty == -owner.sign()) {
-            return true;
-        }
-        return false;
+    public boolean checkMove(final int fx, final int fy, final int tx,
+                             final int ty,
+                             final Banmen banmen) throws IllegalMoveException {
+        return Math.abs(fx - ty) <= 1 && fy - ty == sign() || Math
+                .abs(fx - ty) == 1 && fy - ty == -sign();
     }
 
     @Override

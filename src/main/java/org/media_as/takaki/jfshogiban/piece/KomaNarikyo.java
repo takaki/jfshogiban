@@ -38,8 +38,10 @@ public final class KomaNarikyo extends BasePiece implements CheckerKin {
     }
 
     @Override
-    public boolean isKeepRule(int fx, int fy, int tx, int ty, Banmen banmen) throws IllegalMoveException {
-        return checkRuleKin(fx, fy, tx, ty, owner);
+    public boolean checkMove(final int fx, final int fy, final int tx,
+                             final int ty,
+                             final Banmen banmen) throws IllegalMoveException {
+        return checkRuleKin(fx, fy, tx, ty, sign());
     }
 
     @Override

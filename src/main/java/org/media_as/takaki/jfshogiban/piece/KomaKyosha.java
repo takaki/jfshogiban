@@ -31,36 +31,27 @@ public final class KomaKyosha extends BasePiece {
 
     @Override
     public boolean canSet(final int y) {
-        return !(owner == Player.SENTEBAN && y <= 1 || owner == Player.GOTEBAN && y >= 9);
+        return !(isOwner(Player.SENTEBAN) && y <= 1 || isOwner(
+                Player.GOTEBAN) && y >= 9);
     }
 
     @Override
     public KomaNarikyo promotion() {
-        return new KomaNarikyo(owner);
+        return new KomaNarikyo(getOwner());
     }
 
     @Override
-    public boolean isKeepRule(int fx, int fy, int tx, int ty,
-                              Banmen banmen) throws IllegalMoveException {
-        if (fx == tx && (fy - ty) * owner.sign() > 0 && autoIntRange(fy, ty)
-                .allMatch(y -> {
+    public boolean checkMove(final int fx, final int fy, final int tx,
+                             final int ty, final Banmen banmen) {
+        return fx == tx && (fy - ty) * sign() > 0 &&
+                IntStream.rangeClosed(1, Math.abs(fy - ty)).allMatch(diff -> {
                     try {
-                        return banmen.isEmpty(fx, y);
+                        return banmen.isEmpty(fx, fy - sign() * diff);
                     } catch (final IllegalMoveException ignored) {
                         return false;
                     }
-                })) {
-            return true;
-        }
-        return false;
+                });
     }
-
-    private static IntStream autoIntRange(final int start, final int end) {
-        return start < end ? IntStream
-                .rangeClosed(start + 1, end - 1) : IntStream
-                .rangeClosed(end + 1, start - 1);
-    }
-
 
     @Override
     public KomaKyosha captured(final Player owner) {

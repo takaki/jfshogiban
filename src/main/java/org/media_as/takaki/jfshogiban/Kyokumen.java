@@ -56,9 +56,9 @@ public final class Kyokumen {
         if (!isOwn(fx, fy)) {
             throw new IllegalMoveException("Try to move not own piece.");
         }
-        if (!pick(fx, fy).isKeepRule(fx, fy, tx, ty, banmen)) {
+        if (!pick(fx, fy).checkMove(fx, fy, tx, ty, banmen)) {
             throw new IllegalMoveException(
-                    String.format("Move does not allow rule."));
+                    String.format("Move does not keep rule."));
         }
         return banmen.isEmpty(tx, ty) ? new Kyokumen(
                 banmen.move(fx, fy, tx, ty), turn.next()) : capture(fx, fy, tx,
@@ -76,7 +76,7 @@ public final class Kyokumen {
 
     private boolean isOwn(final int x,
                           final int y) throws IllegalMoveException {
-        return pick(x, y).isOwn(turn);
+        return pick(x, y).isOwner(turn);
     }
 
     private boolean isEmpty(final int x,

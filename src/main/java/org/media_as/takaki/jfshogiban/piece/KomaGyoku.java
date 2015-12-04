@@ -22,7 +22,7 @@ import org.media_as.takaki.jfshogiban.Banmen;
 import org.media_as.takaki.jfshogiban.IllegalMoveException;
 import org.media_as.takaki.jfshogiban.Player;
 
-public final class KomaGyoku extends BasePiece {
+public final class KomaGyoku extends BasePiece implements CheckGyoku {
     public KomaGyoku(final Player owner) {
         super(owner);
     }
@@ -38,12 +38,11 @@ public final class KomaGyoku extends BasePiece {
     }
 
     @Override
-    public boolean isKeepRule(int fx, int fy, int tx, int ty, Banmen banmen) throws IllegalMoveException {
+    public boolean checkMove(final int fx, final int fy, final int tx,
+                             final int ty,
+                             final Banmen banmen) throws IllegalMoveException {
         // 王取りのチェックをどこかに
-        if (Math.abs(fx - ty) <= 1 || Math.abs(fy - ty) <= 1) {
-            return true;
-        }
-        return false;
+        return checkGyokuMove(fx, fy, tx, ty, banmen);
     }
 
     @Override

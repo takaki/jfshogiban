@@ -22,7 +22,7 @@ import org.media_as.takaki.jfshogiban.Banmen;
 import org.media_as.takaki.jfshogiban.IllegalMoveException;
 import org.media_as.takaki.jfshogiban.Player;
 
-public final class KomaTokin extends BasePiece implements CheckerKin{
+public final class KomaTokin extends BasePiece implements CheckerKin {
 
     public KomaTokin(final Player owner) {
         super(owner);
@@ -37,9 +37,12 @@ public final class KomaTokin extends BasePiece implements CheckerKin{
     public BasePiece promotion() throws IllegalMoveException {
         throw new IllegalMoveException();
     }
+
     @Override
-    public boolean isKeepRule(int fx, int fy, int tx, int ty, Banmen banmen) throws IllegalMoveException {
-        return checkRuleKin(fx, fy, tx, ty, owner);
+    public boolean checkMove(final int fx, final int fy, final int tx,
+                             final int ty,
+                             final Banmen banmen) throws IllegalMoveException {
+        return checkRuleKin(fx, fy, tx, ty, sign());
     }
 
     @Override

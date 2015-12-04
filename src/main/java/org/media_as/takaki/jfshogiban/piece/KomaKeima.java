@@ -29,20 +29,20 @@ public final class KomaKeima extends BasePiece {
 
     @Override
     public boolean canSet(final int y) {
-        return !(owner == Player.SENTEBAN && y <= 2 || owner == Player.GOTEBAN && y >= 8);
+        return !(isOwner(Player.SENTEBAN) && y <= 2 || isOwner(
+                Player.GOTEBAN) && y >= 8);
     }
 
     @Override
     public KomaNarikei promotion() {
-        return new KomaNarikei(owner);
+        return new KomaNarikei(getOwner());
     }
 
     @Override
-    public boolean isKeepRule(int fx, int fy, int tx, int ty, Banmen banmen) throws IllegalMoveException {
-        if (Math.abs(fx - tx) == 1 && (fy - ty) * owner.sign() == 2) {
-            return true;
-        }
-        return false;
+    public boolean checkMove(final int fx, final int fy, final int tx,
+                             final int ty,
+                             final Banmen banmen) throws IllegalMoveException {
+        return Math.abs(fx - tx) == 1 && (fy - ty) * sign() == 2;
     }
 
     @Override

@@ -24,35 +24,25 @@ import org.media_as.takaki.jfshogiban.IllegalMoveException;
 import java.util.stream.IntStream;
 
 public interface CheckerHisha {
-    default boolean checkHishaMove(int fx, int fy, int tx, int ty,
-                                   Banmen banmen) {
-        if (fx == tx && autoIntRange(fy, ty).allMatch(y -> {
-            try {
-                return banmen.isEmpty(fx, y);
-            } catch (final IllegalMoveException ignored) {
-                return false;
-            }
-        })) {
-            return true;
-
-        }
-        if (fy == ty && autoIntRange(fx, tx).allMatch(x -> {
-            try {
-                return banmen.isEmpty(x, fy);
-            } catch (final IllegalMoveException ignored) {
-                return false;
-            }
-        })) {
-            return true;
-
-        }
-        return false;
-    }
-
-    static IntStream autoIntRange(final int start, final int end) {
-        return start < end ? IntStream
-                .rangeClosed(start + 1, end - 1) : IntStream
-                .rangeClosed(end + 1, start - 1);
+    default boolean checkHishaMove(final int fx, final int fy, final int tx,
+                                   final int ty, final Banmen banmen) {
+        return fx == tx && IntStream.rangeClosed(1, Math.abs(fy - ty))
+                .allMatch(diff -> {
+                    try {
+                        return banmen
+                                .isEmpty(fx, fy + diff * (fy > ty ? -1 : 1));
+                    } catch (final IllegalMoveException ignored) {
+                        return false;
+                    }
+                }) || fy == ty && IntStream.rangeClosed(1, Math.abs(fx - tx))
+                .allMatch(diff -> {
+                    try {
+                        return banmen
+                                .isEmpty(fx + diff * (fx > tx ? -1 : 1), fy);
+                    } catch (final IllegalMoveException ignored) {
+                        return false;
+                    }
+                });
     }
 
 }

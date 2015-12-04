@@ -31,11 +31,11 @@ public final class KomaHisha extends BasePiece implements  CheckerHisha{
 
     @Override
     public KomaRyu promotion() {
-        return new KomaRyu(owner);
+        return new KomaRyu(getOwner());
     }
 
     @Override
-    public boolean isKeepRule(int fx, int fy, int tx, int ty, Banmen banmen) throws IllegalMoveException {
+    public boolean checkMove(final int fx, final int fy, final int tx, final int ty, final Banmen banmen) throws IllegalMoveException {
         return checkHishaMove(fx, fy, tx, ty, banmen);
     }
 

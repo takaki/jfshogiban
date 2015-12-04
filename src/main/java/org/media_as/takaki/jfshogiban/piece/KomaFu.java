@@ -33,17 +33,19 @@ public final class KomaFu extends BasePiece {
 
     @Override
     public boolean canSet(final int y) {
-        return !(owner == Player.SENTEBAN && y <= 1 || owner == Player.GOTEBAN && y >= 9);
+        return !(isOwner(Player.SENTEBAN) && y <= 1 || isOwner(
+                Player.GOTEBAN) && y >= 9);
     }
 
     @Override
     public KomaTokin promotion() {
-        return new KomaTokin(owner);
+        return new KomaTokin(getOwner());
     }
 
     @Override
-    public boolean isKeepRule(int fx, int fy, int tx, int ty, Banmen banmen) {
-        return fx == tx && fy - ty == owner.sign();
+    public boolean checkMove(final int fx, final int fy, final int tx,
+                             final int ty, final Banmen banmen) {
+        return fx == tx && fy - ty == sign();
     }
 
     @Override
