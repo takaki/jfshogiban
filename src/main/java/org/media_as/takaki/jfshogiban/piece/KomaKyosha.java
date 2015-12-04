@@ -44,13 +44,14 @@ public final class KomaKyosha extends BasePiece {
     public boolean checkMove(final int fx, final int fy, final int tx,
                              final int ty, final Banmen banmen) {
         return fx == tx && (fy - ty) * sign() > 0 &&
-                IntStream.rangeClosed(1, Math.abs(fy - ty)).allMatch(diff -> {
-                    try {
-                        return banmen.isEmpty(fx, fy - sign() * diff);
-                    } catch (final IllegalMoveException ignored) {
-                        return false;
-                    }
-                });
+                IntStream.rangeClosed(1, Math.abs(fy - ty) - 1)
+                        .allMatch(diff -> {
+                            try {
+                                return banmen.isEmpty(fx, fy - sign() * diff);
+                            } catch (final IllegalMoveException ignored) {
+                                return false;
+                            }
+                        });
     }
 
     @Override

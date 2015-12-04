@@ -18,11 +18,15 @@
 
 package org.media_as.takaki.jfshogiban.piece
 
+import org.media_as.takaki.jfshogiban.Banmen
 import org.media_as.takaki.jfshogiban.IllegalMoveException
+import org.media_as.takaki.jfshogiban.Koma
 import org.media_as.takaki.jfshogiban.Player
 import spock.lang.Specification
 
 class KomaKyoshaTest extends Specification {
+    def banmen = Banmen.initialize();
+
     def sente = new KomaKyosha(Player.SENTEBAN)
     def gote = new KomaKyosha(Player.GOTEBAN)
 
@@ -48,7 +52,47 @@ class KomaKyoshaTest extends Specification {
         2 | true
         8 | true
         9 | false
-
-
     }
+
+    def "sente keep Kyosha move rule"() {
+        def piece = Koma.SENTE_KYOSHA
+        expect:
+        piece.checkMove(fx, fy, tx, ty, banmen.set(1, 7, Koma.SENTE_FU))
+        where:
+        fx | fy | tx | ty
+        1  | 9  | 1  | 8
+    }
+
+    def "sente Does not keep rule"() {
+        def piece = Koma.SENTE_KYOSHA
+        expect:
+        !piece.checkMove(fx, fy, tx, ty, banmen.set(1, 7, Koma.SENTE_FU))
+        where:
+        fx | fy | tx | ty
+        1  | 9  | 1  | 3
+        0  | 8  | 5  | 5
+    }
+
+    def "gote keep Kyosha move rule"() {
+        def piece = Koma.GOTE_KYOSHA
+        expect:
+        piece.checkMove(fx, fy, tx, ty, banmen.set(1, 7, Koma.SENTE_FU))
+        where:
+        fx | fy | tx | ty
+        1  | 1  | 1  | 2
+        1  | 1  | 1  | 5
+        1  | 1  | 1  | 6
+        1  | 1  | 1  | 7
+    }
+
+    def "gote Does not keep rule"() {
+        expect:
+        def piece = Koma.GOTE_KYOSHA
+        !piece.checkMove(fx, fy, tx, ty, banmen.set(1, 7, Koma.SENTE_FU))
+        where:
+        fx | fy | tx | ty
+        1  | 1  | 1  | 8
+        1  | 1  | 5  | 5
+    }
+
 }

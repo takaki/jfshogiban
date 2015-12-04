@@ -81,29 +81,6 @@ class KyokumenTest extends Specification {
         thrown(IllegalMoveException)
     }
 
-    def "Keep Kyosha move rule"() {
-        when:
-        start.move(1, 9, 1, 8)
-        start.move(1, 9, 1, 8).move(1, 1, 1, 2)
-        then:
-        notThrown(IllegalMoveException)
-
-        when:
-        start.move(1, 9, 1, 8).move(1, 1, 1, 6)
-        then:
-        thrown(IllegalMoveException)
-
-        when:
-        start.move(0, 8, 5, 5)
-        then:
-        thrown(IllegalMoveException)
-
-        when:
-        start.move(1, 9, 1, 6)
-        then:
-        thrown(IllegalMoveException)
-    }
-
     def "Keep Keima move rule"() {
         when:
         start.move(7, 7, 7, 6).move(3, 3, 3, 4).move(8, 9, 7, 7)
@@ -116,12 +93,6 @@ class KyokumenTest extends Specification {
         thrown(IllegalMoveException)
     }
 
-    def "Keep Gin move rule"() {
-        when:
-        start.move(3, 9, 5, 8)
-        then:
-        thrown(IllegalMoveException)
-    }
 
     def "Keep Kin move rule"() {
         when:

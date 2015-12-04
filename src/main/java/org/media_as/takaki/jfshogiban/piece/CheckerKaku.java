@@ -30,7 +30,7 @@ public interface CheckerKaku {
         final int diffX = fx > tx ? -1 : 1;
         final int diffY = fy > ty ? -1 : 1;
         return Math.abs(fx - tx) == Math.abs(fy - ty) && IntStream
-                .rangeClosed(1, Math.abs(fx - tx)).allMatch(diff -> {
+                .rangeClosed(1, Math.abs(fx - tx) - 1).allMatch(diff -> {
                     try {
                         return banmen
                                 .isEmpty(fx + diff * diffX, fy + diff * diffY);

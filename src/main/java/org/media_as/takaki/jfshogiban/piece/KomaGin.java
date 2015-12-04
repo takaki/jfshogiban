@@ -41,8 +41,8 @@ public final class KomaGin extends BasePiece {
     public boolean checkMove(final int fx, final int fy, final int tx,
                              final int ty,
                              final Banmen banmen) throws IllegalMoveException {
-        return Math.abs(fx - ty) <= 1 && fy - ty == sign() || Math
-                .abs(fx - ty) == 1 && fy - ty == -sign();
+        return Math.abs(fx - tx) == 1 && Math
+                .abs(fy - ty) == 1 || fx == tx && fy - ty == sign();
     }
 
     @Override

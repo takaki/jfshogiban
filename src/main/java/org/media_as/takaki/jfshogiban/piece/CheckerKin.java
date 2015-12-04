@@ -25,7 +25,7 @@ public interface CheckerKin {
                                  final int ty,
                                  final int sign) throws IllegalMoveException {
         return Math.abs(fx - tx) <= 1 && fy - ty == sign || Math
-                .abs(fx - tx) == 1 && fy == ty || fx - tx == 0 && fy - ty == -sign;
+                .abs(fx - tx) == 1 && fy == ty || fx == tx && fy - ty == -sign;
 
     }
 

@@ -26,7 +26,7 @@ import java.util.stream.IntStream;
 public interface CheckerHisha {
     default boolean checkHishaMove(final int fx, final int fy, final int tx,
                                    final int ty, final Banmen banmen) {
-        return fx == tx && IntStream.rangeClosed(1, Math.abs(fy - ty))
+        return fx == tx && IntStream.rangeClosed(1, Math.abs(fy - ty) - 1)
                 .allMatch(diff -> {
                     try {
                         return banmen
@@ -34,8 +34,8 @@ public interface CheckerHisha {
                     } catch (final IllegalMoveException ignored) {
                         return false;
                     }
-                }) || fy == ty && IntStream.rangeClosed(1, Math.abs(fx - tx))
-                .allMatch(diff -> {
+                }) || fy == ty && IntStream
+                .rangeClosed(1, Math.abs(fx - tx) - 1).allMatch(diff -> {
                     try {
                         return banmen
                                 .isEmpty(fx + diff * (fx > tx ? -1 : 1), fy);
