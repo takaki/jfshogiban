@@ -29,7 +29,7 @@ class KomaKyoshaTest extends Specification {
     @SuppressWarnings("GroovyAssignabilityCheck")
     def "sente can't set illegal place"() {
         expect:
-        sente.canSet(y)
+        sente.canSet(y) == result
         where:
         y | result
         1 | false

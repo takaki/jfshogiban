@@ -31,7 +31,7 @@ public abstract class BasePiece implements IPiece {
 
     @Override
     public final boolean isOwner(final Player player) {
-        return player == owner;
+        return owner == player;
     }
 
     protected final int sign() {
