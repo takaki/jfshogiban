@@ -18,10 +18,11 @@
 
 package org.media_as.takaki.jfshogiban.piece;
 
+import org.media_as.takaki.jfshogiban.Banmen;
 import org.media_as.takaki.jfshogiban.IllegalMoveException;
 import org.media_as.takaki.jfshogiban.Player;
 
-public final class KomaNarikyo extends BasePiece  {
+public final class KomaNarikyo extends BasePiece implements CheckerKin {
     public KomaNarikyo(final Player owner) {
         super(owner);
     }
@@ -35,6 +36,12 @@ public final class KomaNarikyo extends BasePiece  {
     public BasePiece promotion() throws IllegalMoveException {
         throw new IllegalMoveException("Narikyo can't promote.");
     }
+
+    @Override
+    public boolean isKeepRule(int fx, int fy, int tx, int ty, Banmen banmen) throws IllegalMoveException {
+        return checkRuleKin(fx, fy, tx, ty, owner);
+    }
+
     @Override
     public String toString() {
         return toCSA("NY");

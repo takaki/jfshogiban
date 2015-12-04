@@ -18,10 +18,11 @@
 
 package org.media_as.takaki.jfshogiban.piece;
 
+import org.media_as.takaki.jfshogiban.Banmen;
 import org.media_as.takaki.jfshogiban.IllegalMoveException;
 import org.media_as.takaki.jfshogiban.Player;
 
-public final class KomaGyoku extends  BasePiece {
+public final class KomaGyoku extends BasePiece {
     public KomaGyoku(final Player owner) {
         super(owner);
     }
@@ -35,6 +36,16 @@ public final class KomaGyoku extends  BasePiece {
     public BasePiece promotion() throws IllegalMoveException {
         throw new IllegalMoveException();
     }
+
+    @Override
+    public boolean isKeepRule(int fx, int fy, int tx, int ty, Banmen banmen) throws IllegalMoveException {
+        // 王取りのチェックをどこかに
+        if (Math.abs(fx - ty) <= 1 || Math.abs(fy - ty) <= 1) {
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public String toString() {
         return toCSA("OU");

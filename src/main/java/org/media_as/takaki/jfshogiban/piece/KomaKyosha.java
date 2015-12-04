@@ -18,8 +18,11 @@
 
 package org.media_as.takaki.jfshogiban.piece;
 
+import org.media_as.takaki.jfshogiban.Banmen;
 import org.media_as.takaki.jfshogiban.IllegalMoveException;
 import org.media_as.takaki.jfshogiban.Player;
+
+import java.util.stream.IntStream;
 
 public final class KomaKyosha extends BasePiece {
     public KomaKyosha(final Player owner) {
@@ -27,8 +30,8 @@ public final class KomaKyosha extends BasePiece {
     }
 
     @Override
-    public boolean canDrop(final int y) {
-        return !(owner == Player.SENTEBAN && y <= 1 || owner == Player.GOTEBAN && y >= 0);
+    public boolean canSet(final int y) {
+        return !(owner == Player.SENTEBAN && y <= 1 || owner == Player.GOTEBAN && y >= 9);
     }
 
     @Override
@@ -37,9 +40,33 @@ public final class KomaKyosha extends BasePiece {
     }
 
     @Override
+    public boolean isKeepRule(int fx, int fy, int tx, int ty,
+                              Banmen banmen) throws IllegalMoveException {
+        if (fx == tx && (fy - ty) * owner.sign() > 0 && autoIntRange(fy, ty)
+                .allMatch(y -> {
+                    try {
+                        return banmen.isEmpty(fx, y);
+                    } catch (final IllegalMoveException ignored) {
+                        return false;
+                    }
+                })) {
+            return true;
+        }
+        return false;
+    }
+
+    private static IntStream autoIntRange(final int start, final int end) {
+        return start < end ? IntStream
+                .rangeClosed(start + 1, end - 1) : IntStream
+                .rangeClosed(end + 1, start - 1);
+    }
+
+
+    @Override
     public KomaKyosha captured(final Player owner) {
         return new KomaKyosha(owner);
     }
+
     @Override
     public String toString() {
         return toCSA("KY");

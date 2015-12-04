@@ -18,33 +18,25 @@
 
 package org.media_as.takaki.jfshogiban.piece;
 
-import org.media_as.takaki.jfshogiban.Banmen;
 import org.media_as.takaki.jfshogiban.IllegalMoveException;
 import org.media_as.takaki.jfshogiban.Player;
 
-public final class KomaNarigin extends BasePiece implements CheckerKin {
-    public KomaNarigin(final Player owner) {
-        super(owner);
-    }
+/**
+ * Created by takaki on 15/12/04.
+ */
+public interface CheckerKin {
+    default boolean checkRuleKin(int fx, int fy, int tx, int ty,
+                                 Player owner) throws IllegalMoveException
 
-    @Override
-    public KomaGin captured(final Player owner) {
-        return new KomaGin(owner);
-    }
+    {
+        if (Math.abs(fx - ty) <= 1 && fy - ty == owner.sign()) {
+            return true;
+        }
+        if (Math.abs(fx - ty) == 1 && fy == ty) {
+            return true;
+        }
+        return fx - ty == 0 && fy - ty == -owner.sign();
 
-    @Override
-    public BasePiece promotion() throws IllegalMoveException {
-        throw new IllegalMoveException();
-    }
-
-    @Override
-    public boolean isKeepRule(int fx, int fy, int tx, int ty, Banmen banmen) throws IllegalMoveException {
-        return checkRuleKin(fx, fy, tx, ty, owner);
-    }
-
-    @Override
-    public String toString() {
-        return toCSA("NG");
     }
 
 }

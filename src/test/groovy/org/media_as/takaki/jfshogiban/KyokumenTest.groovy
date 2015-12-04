@@ -33,15 +33,15 @@ class KyokumenTest extends Specification {
 
     def "move own piece"() {
         when:
-        def b2 = start.move(6, 6, 6, 5)
+        def b2 = start.move(7, 7, 7, 6)
 
         then:
-        b2.get(6, 5) == Koma.SENTE_FU
+        b2.pick(7, 6) == Koma.SENTE_FU
     }
 
     def "can't move not own piece"() {
         when:
-        start.move(0, 2, 0, 3)
+        start.move(1, 3, 1, 4)
 
         then:
         thrown(IllegalMoveException)
@@ -49,7 +49,7 @@ class KyokumenTest extends Specification {
 
     def "change turn"() {
         when:
-        def b2 = start.move(6, 6, 6, 5)
+        def b2 = start.move(7, 7, 7, 6)
 
         then:
         b2.getTurn() == Player.GOTEBAN;
@@ -57,39 +57,39 @@ class KyokumenTest extends Specification {
 
     def "capture piece"() {
         when:
-        def b2 = start.move(0, 6, 0, 5).move(0, 2, 0, 3).move(0, 5, 0, 4).move(0, 3, 0, 4)
+        def b2 = start.move(1, 7, 1, 6).move(1, 3, 1, 4).move(1, 6, 1, 5).move(1, 4, 1, 5)
         then:
         b2.countMochigoma(Koma.GOTE_FU) == 1
     }
 
     def "can't capture own piece"() {
         when:
-        start.move(0, 8, 0, 6)
+        start.move(1, 9, 1, 7)
         then:
         thrown(IllegalMoveException)
     }
 
     def "Keep Fu move rule"() {
         when:
-        start.move(6, 6, 6, 4)
+        start.move(7, 7, 7, 5)
         then:
         thrown(IllegalMoveException)
 
         when:
-        start.move(0, 6, 0, 5).move(0, 2, 0, 1)
+        start.move(1, 7, 1, 6).move(1, 3, 1, 2)
         then:
         thrown(IllegalMoveException)
     }
 
     def "Keep Kyosha move rule"() {
         when:
-        start.move(0, 8, 0, 7)
-        start.move(0, 8, 0, 7).move(0, 0, 0, 1)
+        start.move(1, 9, 1, 8)
+        start.move(1, 9, 1, 8).move(1, 1, 1, 2)
         then:
         notThrown(IllegalMoveException)
 
         when:
-        start.move(0, 8, 0, 7).move(0, 0, 0, 5)
+        start.move(1, 9, 1, 8).move(1, 1, 1, 6)
         then:
         thrown(IllegalMoveException)
 
@@ -99,56 +99,56 @@ class KyokumenTest extends Specification {
         thrown(IllegalMoveException)
 
         when:
-        start.move(0, 8, 0, 5)
+        start.move(1, 9, 1, 6)
         then:
         thrown(IllegalMoveException)
     }
 
     def "Keep Keima move rule"() {
         when:
-        start.move(6, 6, 6, 5).move(2, 2, 2, 3).move(7, 8, 6, 6)
+        start.move(7, 7, 7, 6).move(3, 3, 3, 4).move(8, 9, 7, 7)
         then:
         notThrown(IllegalMoveException)
 
         when:
-        start.move(6, 6, 6, 7).move(2, 2, 2, 3).move(7, 8, 7, 7)
+        start.move(7, 7, 7, 8).move(3, 3, 3, 4).move(8, 9, 8, 8)
         then:
         thrown(IllegalMoveException)
     }
 
     def "Keep Gin move rule"() {
         when:
-        start.move(2, 8, 4, 7)
+        start.move(3, 9, 5, 8)
         then:
         thrown(IllegalMoveException)
     }
 
     def "Keep Kin move rule"() {
         when:
-        start.move(3, 8, 5, 7)
+        start.move(4, 9, 6, 8)
         then:
         thrown(IllegalMoveException)
     }
 
     def "Keep Kaku move rule"() {
         when:
-        start.move(7, 7, 6, 7)
+        start.move(8, 8, 7, 8)
         then:
         thrown(IllegalMoveException)
 
         when:
-        start.move(7, 7, 5, 5)
+        start.move(8, 8, 6, 6)
         then:
         thrown(IllegalMoveException)
     }
 
     def "Keep Hisha move rule"() {
         when:
-        start.move(1, 7, 1, 5)
+        start.move(2, 8, 2, 6)
         then:
         thrown(IllegalMoveException)
         when:
-        start.move(1, 7, 8, 7)
+        start.move(2, 8, 9, 8)
         then:
         thrown(IllegalMoveException)
     }

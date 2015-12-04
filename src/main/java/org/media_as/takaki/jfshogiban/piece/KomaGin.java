@@ -18,6 +18,8 @@
 
 package org.media_as.takaki.jfshogiban.piece;
 
+import org.media_as.takaki.jfshogiban.Banmen;
+import org.media_as.takaki.jfshogiban.IllegalMoveException;
 import org.media_as.takaki.jfshogiban.Player;
 
 public final class KomaGin extends BasePiece {
@@ -34,6 +36,18 @@ public final class KomaGin extends BasePiece {
     public KomaNarigin promotion() {
         return new KomaNarigin(owner);
     }
+
+    @Override
+    public boolean isKeepRule(int fx, int fy, int tx, int ty, Banmen banmen) throws IllegalMoveException {
+        if (Math.abs(fx - ty) <= 1 && fy - ty == owner.sign()) {
+            return true;
+        }
+        if (Math.abs(fx - ty) == 1 && fy - ty == -owner.sign()) {
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public String toString() {
         return toCSA("GI");

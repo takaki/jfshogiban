@@ -18,9 +18,13 @@
 
 package org.media_as.takaki.jfshogiban.piece;
 
+import org.media_as.takaki.jfshogiban.Banmen;
+import org.media_as.takaki.jfshogiban.IllegalMoveException;
 import org.media_as.takaki.jfshogiban.Player;
 
-public final class KomaHisha extends BasePiece {
+import java.util.stream.IntStream;
+
+public final class KomaHisha extends BasePiece implements  CheckerHisha{
     public KomaHisha(final Player owner) {
         super(owner);
     }
@@ -31,12 +35,20 @@ public final class KomaHisha extends BasePiece {
     }
 
     @Override
+    public boolean isKeepRule(int fx, int fy, int tx, int ty, Banmen banmen) throws IllegalMoveException {
+        return checkHishaMove(fx, fy, tx, ty, banmen);
+    }
+
+
+    @Override
     public KomaHisha captured(final Player owner) {
         return new KomaHisha(owner);
     }
+
     @Override
     public String toString() {
         return toCSA("HI");
     }
+
 
 }

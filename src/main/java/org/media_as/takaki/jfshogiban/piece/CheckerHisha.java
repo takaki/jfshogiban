@@ -20,38 +20,39 @@ package org.media_as.takaki.jfshogiban.piece;
 
 import org.media_as.takaki.jfshogiban.Banmen;
 import org.media_as.takaki.jfshogiban.IllegalMoveException;
-import org.media_as.takaki.jfshogiban.Player;
 
-public final class KomaRyu extends BasePiece implements CheckerHisha {
-    public KomaRyu(final Player owner) {
-        super(owner);
-    }
+import java.util.stream.IntStream;
 
-    @Override
-    public KomaHisha captured(final Player owner) {
-        return new KomaHisha(owner);
-    }
-
-    @Override
-    public BasePiece promotion() throws IllegalMoveException {
-        throw new IllegalMoveException();
-    }
-
-    @Override
-    public boolean isKeepRule(int fx, int fy, int tx, int ty,
-                              Banmen banmen) throws IllegalMoveException {
-        if(checkHishaMove(fx, fy, tx, ty, banmen)) {
+public interface CheckerHisha {
+    default boolean checkHishaMove(int fx, int fy, int tx, int ty,
+                                   Banmen banmen) {
+        if (fx == tx && autoIntRange(fy, ty).allMatch(y -> {
+            try {
+                return banmen.isEmpty(fx, y);
+            } catch (final IllegalMoveException ignored) {
+                return false;
+            }
+        })) {
             return true;
+
         }
-        if (Math.abs(fx - tx) == 1 && Math.abs(fy - ty) == 1) {
+        if (fy == ty && autoIntRange(fx, tx).allMatch(x -> {
+            try {
+                return banmen.isEmpty(x, fy);
+            } catch (final IllegalMoveException ignored) {
+                return false;
+            }
+        })) {
             return true;
+
         }
         return false;
     }
 
-    @Override
-    public String toString() {
-        return toCSA("RY");
+    static IntStream autoIntRange(final int start, final int end) {
+        return start < end ? IntStream
+                .rangeClosed(start + 1, end - 1) : IntStream
+                .rangeClosed(end + 1, start - 1);
     }
 
 }

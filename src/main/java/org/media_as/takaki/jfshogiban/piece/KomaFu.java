@@ -18,6 +18,7 @@
 
 package org.media_as.takaki.jfshogiban.piece;
 
+import org.media_as.takaki.jfshogiban.Banmen;
 import org.media_as.takaki.jfshogiban.Player;
 
 public final class KomaFu extends BasePiece {
@@ -31,13 +32,18 @@ public final class KomaFu extends BasePiece {
     }
 
     @Override
-    public boolean canDrop(final int y) {
+    public boolean canSet(final int y) {
         return !(owner == Player.SENTEBAN && y <= 1 || owner == Player.GOTEBAN && y >= 9);
     }
 
     @Override
     public KomaTokin promotion() {
         return new KomaTokin(owner);
+    }
+
+    @Override
+    public boolean isKeepRule(int fx, int fy, int tx, int ty, Banmen banmen) {
+        return fx == tx && fy - ty == owner.sign();
     }
 
     @Override
