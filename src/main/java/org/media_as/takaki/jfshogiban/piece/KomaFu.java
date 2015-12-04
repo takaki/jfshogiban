@@ -18,10 +18,9 @@
 
 package org.media_as.takaki.jfshogiban.piece;
 
-import org.jetbrains.annotations.NonNls;
 import org.media_as.takaki.jfshogiban.Player;
 
-public final class KomaFu extends BasePiece implements IPromotablePiece {
+public final class KomaFu extends BasePiece {
     public KomaFu(final Player owner) {
         super(owner);
     }
@@ -32,11 +31,15 @@ public final class KomaFu extends BasePiece implements IPromotablePiece {
     }
 
     @Override
+    public boolean canDrop(final int y) {
+        return !(owner == Player.SENTEBAN && y <= 1 || owner == Player.GOTEBAN && y >= 9);
+    }
+
+    @Override
     public KomaTokin promotion() {
         return new KomaTokin(owner);
     }
 
-    @NonNls
     @Override
     public String toString() {
         //noinspection StringConcatenationMissingWhitespace

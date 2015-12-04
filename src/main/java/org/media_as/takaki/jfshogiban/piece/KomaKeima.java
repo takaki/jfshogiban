@@ -18,20 +18,26 @@
 
 package org.media_as.takaki.jfshogiban.piece;
 
+import org.media_as.takaki.jfshogiban.IllegalMoveException;
 import org.media_as.takaki.jfshogiban.Player;
 
-public final class KomaKeima extends BasePiece implements IPromotablePiece {
+public final class KomaKeima extends BasePiece {
     public KomaKeima(final Player owner) {
         super(owner);
     }
 
     @Override
-    public IPiece promotion() {
+    public boolean canDrop(final int y) {
+        return !(owner == Player.SENTEBAN && y <= 2 || owner == Player.GOTEBAN && y >= 8);
+    }
+
+    @Override
+    public KomaNarikei promotion() {
         return new KomaNarikei(owner);
     }
 
     @Override
-    public IPiece captured(final Player owner) {
+    public KomaKeima captured(final Player owner) {
         return new KomaKeima(owner);
     }
 }

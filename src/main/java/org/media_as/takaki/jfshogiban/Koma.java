@@ -18,134 +18,79 @@
 
 package org.media_as.takaki.jfshogiban;
 
-import java.util.EnumMap;
-import java.util.EnumSet;
-import java.util.Map;
+import org.media_as.takaki.jfshogiban.piece.*;
 
-@SuppressWarnings("HardCodedStringLiteral")
-public enum Koma {
-    EMPTY,
+@SuppressWarnings("ClassWithTooManyFields")
+public final class Koma {
 
-    SENTE_GYOKU,
-    SENTE_HISYA,
-    SENTE_KAKU,
-    SENTE_KIN,
-    SENTE_GIN,
-    SENTE_KEIMA,
-    SENTE_KYOSHA,
-    SENTE_FU,
-    SENTE_RYU,
-    SENTE_UMA,
-    SENTE_NARIGIN,
-    SENTE_NARIKEI,
-    SENTE_NARIKYO,
-    SENTE_TOKIN,
+    public static final BasePiece SENTE_GYOKU = new KomaGyoku(Player.SENTEBAN);
+    public static final BasePiece SENTE_HISYA = new KomaHisha(Player.SENTEBAN);
+    public static final BasePiece SENTE_KAKU = new KomaKaku(Player.SENTEBAN);
+    public static final BasePiece SENTE_KIN = new KomaKin(Player.SENTEBAN);
+    public static final BasePiece SENTE_GIN = new KomaGin(Player.SENTEBAN);
+    public static final BasePiece SENTE_KEIMA = new KomaKeima(Player.SENTEBAN);
+    public static final BasePiece SENTE_KYOSHA = new KomaKyosha(
+            Player.SENTEBAN);
+    public static final BasePiece SENTE_FU = new KomaFu(Player.SENTEBAN);
+    public static final BasePiece SENTE_RYU = new KomaRyu(Player.SENTEBAN);
+    public static final BasePiece SENTE_UMA = new KomaUma(Player.SENTEBAN);
+    public static final BasePiece SENTE_NARIGIN = new KomaNarigin(
+            Player.SENTEBAN);
+    public static final BasePiece SENTE_NARIKEI = new KomaNarikei(
+            Player.SENTEBAN);
+    public static final BasePiece SENTE_NARIKYO = new KomaNarikyo(
+            Player.SENTEBAN);
+    public static final BasePiece SENTE_TOKIN = new KomaTokin(Player.SENTEBAN);
 
-    GOTE_GYOKU,
-    GOTE_HISYA,
-    GOTE_KAKU,
-    GOTE_KIN,
-    GOTE_GIN,
-    GOTE_KEIMA,
-    GOTE_KYOSHA,
-    GOTE_FU,
-    GOTE_RYU,
-    GOTE_UMA,
-    GOTE_NARIGIN,
-    GOTE_NARIKEI,
-    GOTE_NARIKYO,
-    GOTE_TOKIN;
+    public static final BasePiece GOTE_GYOKU = new KomaGyoku(Player.GOTEBAN);
+    public static final BasePiece GOTE_HISYA = new KomaHisha(Player.GOTEBAN);
+    public static final BasePiece GOTE_KAKU = new KomaKaku(Player.GOTEBAN);
+    public static final BasePiece GOTE_KIN = new KomaKin(Player.GOTEBAN);
+    public static final BasePiece GOTE_GIN = new KomaGin(Player.GOTEBAN);
+    public static final BasePiece GOTE_KEIMA = new KomaKeima(Player.GOTEBAN);
+    public static final BasePiece GOTE_KYOSHA = new KomaKyosha(Player.GOTEBAN);
+    public static final BasePiece GOTE_FU = new KomaFu(Player.GOTEBAN);
+    public static final BasePiece GOTE_RYU = new KomaRyu(Player.GOTEBAN);
+    public static final BasePiece GOTE_UMA = new KomaUma(Player.GOTEBAN);
+    public static final BasePiece GOTE_NARIGIN = new KomaNarigin(
+            Player.GOTEBAN);
+    public static final BasePiece GOTE_NARIKEI = new KomaNarikei(
+            Player.GOTEBAN);
+    public static final BasePiece GOTE_NARIKYO = new KomaNarikyo(
+            Player.GOTEBAN);
+    public static final BasePiece GOTE_TOKIN = new KomaTokin(Player.SENTEBAN);
 
-    private static final EnumSet<Koma> OWN_SENTE = EnumSet
-            .of(SENTE_GYOKU, SENTE_HISYA, SENTE_KAKU, SENTE_KIN, SENTE_GIN,
-                    SENTE_KEIMA, SENTE_KYOSHA, SENTE_FU, SENTE_RYU, SENTE_UMA,
-                    SENTE_NARIGIN, SENTE_NARIKEI, SENTE_NARIKYO, SENTE_TOKIN);
-
-    private static final EnumSet<Koma> OWN_GOTE = EnumSet
-            .of(GOTE_GYOKU, GOTE_HISYA, GOTE_KAKU, GOTE_KIN, GOTE_GIN,
-                    GOTE_KEIMA, GOTE_KYOSHA, GOTE_FU, GOTE_RYU, GOTE_UMA,
-                    GOTE_NARIGIN, GOTE_NARIKEI, GOTE_NARIKYO, GOTE_TOKIN);
-
-    private static final Map<Koma, Koma> CAPTURE_SENTE = new EnumMap<>(
-            Koma.class);
-    private static final Map<Koma, Koma> CAPTURE_GOTE = new EnumMap<>(
-            Koma.class);
-
-    static {
-        CAPTURE_SENTE.put(SENTE_GYOKU, SENTE_GYOKU);
-        CAPTURE_SENTE.put(SENTE_HISYA, SENTE_HISYA);
-        CAPTURE_SENTE.put(SENTE_KAKU, SENTE_KAKU);
-        CAPTURE_SENTE.put(SENTE_KIN, SENTE_KIN);
-        CAPTURE_SENTE.put(SENTE_GIN, SENTE_GIN);
-        CAPTURE_SENTE.put(SENTE_KEIMA, SENTE_KEIMA);
-        CAPTURE_SENTE.put(SENTE_KYOSHA, SENTE_KYOSHA);
-        CAPTURE_SENTE.put(SENTE_FU, SENTE_FU);
-        CAPTURE_SENTE.put(SENTE_RYU, SENTE_HISYA);
-        CAPTURE_SENTE.put(SENTE_UMA, SENTE_KAKU);
-        CAPTURE_SENTE.put(SENTE_NARIGIN, SENTE_GIN);
-        CAPTURE_SENTE.put(SENTE_NARIKEI, SENTE_KEIMA);
-        CAPTURE_SENTE.put(SENTE_NARIKYO, SENTE_KYOSHA);
-        CAPTURE_SENTE.put(SENTE_TOKIN, SENTE_FU);
-
-        CAPTURE_SENTE.put(GOTE_GYOKU, SENTE_GYOKU);
-        CAPTURE_SENTE.put(GOTE_HISYA, SENTE_HISYA);
-        CAPTURE_SENTE.put(GOTE_KAKU, SENTE_KAKU);
-        CAPTURE_SENTE.put(GOTE_KIN, SENTE_KIN);
-        CAPTURE_SENTE.put(GOTE_GIN, SENTE_GIN);
-        CAPTURE_SENTE.put(GOTE_KEIMA, SENTE_KEIMA);
-        CAPTURE_SENTE.put(GOTE_KYOSHA, SENTE_KYOSHA);
-        CAPTURE_SENTE.put(GOTE_FU, SENTE_FU);
-        CAPTURE_SENTE.put(GOTE_RYU, SENTE_HISYA);
-        CAPTURE_SENTE.put(GOTE_UMA, SENTE_KAKU);
-        CAPTURE_SENTE.put(GOTE_NARIGIN, SENTE_KIN);
-        CAPTURE_SENTE.put(GOTE_NARIKEI, SENTE_KEIMA);
-        CAPTURE_SENTE.put(GOTE_NARIKYO, SENTE_KYOSHA);
-        CAPTURE_SENTE.put(GOTE_TOKIN, SENTE_FU);
-
-        CAPTURE_GOTE.put(SENTE_GYOKU, GOTE_GYOKU);
-        CAPTURE_GOTE.put(SENTE_HISYA, GOTE_HISYA);
-        CAPTURE_GOTE.put(SENTE_KAKU, GOTE_KAKU);
-        CAPTURE_GOTE.put(SENTE_KIN, GOTE_KIN);
-        CAPTURE_GOTE.put(SENTE_GIN, GOTE_GIN);
-        CAPTURE_GOTE.put(SENTE_KEIMA, GOTE_KEIMA);
-        CAPTURE_GOTE.put(SENTE_KYOSHA, GOTE_KYOSHA);
-        CAPTURE_GOTE.put(SENTE_FU, GOTE_FU);
-        CAPTURE_GOTE.put(SENTE_RYU, GOTE_HISYA);
-        CAPTURE_GOTE.put(SENTE_UMA, GOTE_KAKU);
-        CAPTURE_GOTE.put(SENTE_NARIGIN, GOTE_GIN);
-        CAPTURE_GOTE.put(SENTE_NARIKEI, GOTE_KEIMA);
-        CAPTURE_GOTE.put(SENTE_NARIKYO, GOTE_KYOSHA);
-        CAPTURE_GOTE.put(SENTE_TOKIN, GOTE_FU);
-
-        CAPTURE_GOTE.put(GOTE_GYOKU, GOTE_GYOKU);
-        CAPTURE_GOTE.put(GOTE_HISYA, GOTE_HISYA);
-        CAPTURE_GOTE.put(GOTE_KAKU, GOTE_KAKU);
-        CAPTURE_GOTE.put(GOTE_KIN, GOTE_KIN);
-        CAPTURE_GOTE.put(GOTE_GIN, GOTE_GIN);
-        CAPTURE_GOTE.put(GOTE_KEIMA, GOTE_KEIMA);
-        CAPTURE_GOTE.put(GOTE_KYOSHA, GOTE_KYOSHA);
-        CAPTURE_GOTE.put(GOTE_FU, GOTE_FU);
-        CAPTURE_GOTE.put(GOTE_RYU, GOTE_HISYA);
-        CAPTURE_GOTE.put(GOTE_UMA, GOTE_KAKU);
-        CAPTURE_GOTE.put(GOTE_NARIGIN, GOTE_KIN);
-        CAPTURE_GOTE.put(GOTE_NARIKEI, GOTE_KEIMA);
-        CAPTURE_GOTE.put(GOTE_NARIKYO, GOTE_KYOSHA);
-        CAPTURE_GOTE.put(GOTE_TOKIN, GOTE_FU);
-
+    private Koma() {
     }
 
-    public Koma changeCaptured(
-            final Player player) throws IllegalMoveException {
-        if (this == EMPTY) {
-            throw new IllegalMoveException();
-        }
-        return player == Player.SENTEBAN ? CAPTURE_SENTE
-                .get(this) : CAPTURE_GOTE.get(this);
-    }
+//    private static final EnumSet<Koma> OWN_SENTE = EnumSet
+//            .of(SENTE_GYOKU, SENTE_HISYA, SENTE_KAKU, SENTE_KIN, SENTE_GIN,
+//                    SENTE_KEIMA, SENTE_KYOSHA, SENTE_FU, SENTE_RYU, SENTE_UMA,
+//                    SENTE_NARIGIN, SENTE_NARIKEI, SENTE_NARIKYO, SENTE_TOKIN);
+//
+//    private static final EnumSet<Koma> OWN_GOTE = EnumSet
+//            .of(GOTE_GYOKU, GOTE_HISYA, GOTE_KAKU, GOTE_KIN, GOTE_GIN,
+//                    GOTE_KEIMA, GOTE_KYOSHA, GOTE_FU, GOTE_RYU, GOTE_UMA,
+//                    GOTE_NARIGIN, GOTE_NARIKEI, GOTE_NARIKYO, GOTE_TOKIN);
 
-    public boolean isOwn(final Player player) {
-        return player == Player.SENTEBAN ? OWN_SENTE.contains(this) : OWN_GOTE
-                .contains(this);
-    }
+//    private static final Map<Koma, Koma> CAPTURE_SENTE = new EnumMap<>(
+//            Koma.class);
+//    private static final Map<Koma, Koma> CAPTURE_GOTE = new EnumMap<>(
+//            Koma.class);
+
+
+//    public Koma changeCaptured(
+//            final Player player) throws IllegalMoveException {
+//        if (this == EMPTY) {
+//            throw new IllegalMoveException();
+//        }
+//        return player == Player.SENTEBAN ? CAPTURE_SENTE
+//                .get(this) : CAPTURE_GOTE.get(this);
+//    }
+//
+//    public boolean isOwn(final Player player) {
+//        return player == Player.SENTEBAN ? OWN_SENTE.contains(this) : OWN_GOTE
+//                .contains(this);
+//    }
 
 }

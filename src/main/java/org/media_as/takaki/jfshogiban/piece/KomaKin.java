@@ -18,16 +18,22 @@
 
 package org.media_as.takaki.jfshogiban.piece;
 
+import org.media_as.takaki.jfshogiban.IllegalMoveException;
 import org.media_as.takaki.jfshogiban.Player;
 
-public final class KomaKin extends BasePiece implements IPiece {
+public final class KomaKin extends BasePiece  {
 
     public KomaKin(final Player owner) {
         super(owner);
     }
 
     @Override
-    public IPiece captured(final Player owner) {
+    public KomaKin captured(final Player owner) {
         return new KomaKin(owner);
+    }
+
+    @Override
+    public BasePiece promotion() throws IllegalMoveException {
+        return new KomaKaku(owner);
     }
 }

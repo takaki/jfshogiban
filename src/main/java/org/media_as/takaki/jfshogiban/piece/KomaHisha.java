@@ -20,18 +20,18 @@ package org.media_as.takaki.jfshogiban.piece;
 
 import org.media_as.takaki.jfshogiban.Player;
 
-public final class KomaHisha extends BasePiece implements IPromotablePiece {
+public final class KomaHisha extends BasePiece {
     public KomaHisha(final Player owner) {
         super(owner);
     }
 
     @Override
-    public IPiece promotion() {
+    public KomaRyu promotion() {
         return new KomaRyu(owner);
     }
 
     @Override
-    public IPiece captured(final Player owner) {
+    public KomaHisha captured(final Player owner) {
         return new KomaHisha(owner);
     }
 }

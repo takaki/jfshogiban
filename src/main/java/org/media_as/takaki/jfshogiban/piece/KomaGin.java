@@ -20,13 +20,18 @@ package org.media_as.takaki.jfshogiban.piece;
 
 import org.media_as.takaki.jfshogiban.Player;
 
-public final class KomaGin extends BasePiece implements IPiece {
+public final class KomaGin extends BasePiece {
     public KomaGin(final Player owner) {
         super(owner);
     }
 
     @Override
-    public IPiece captured(final Player owner) {
+    public KomaGin captured(final Player owner) {
         return new KomaGin(owner);
+    }
+
+    @Override
+    public KomaNarigin promotion() {
+        return new KomaNarigin(owner);
     }
 }

@@ -16,23 +16,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.media_as.takaki.jfshogiban.piece;
+package org.media_as.takaki.jfshogiban;
 
-import org.media_as.takaki.jfshogiban.IllegalMoveException;
-import org.media_as.takaki.jfshogiban.Player;
+import org.media_as.takaki.jfshogiban.piece.BasePiece;
 
-public final class KomaRyu extends BasePiece  {
-    public KomaRyu(final Player owner) {
-        super(owner);
+import java.util.Objects;
+
+public final class KomaPlayerPair {
+    private final Class<? extends BasePiece> komaType;
+    private final Player player;
+
+    public KomaPlayerPair(final Class<? extends BasePiece> komaType,
+                          final Player player) {
+        this.komaType = komaType;
+        this.player = player;
     }
 
-    @Override
-    public KomaHisha captured(final Player owner) {
-        return new KomaHisha(owner);
-    }
-
-    @Override
-    public BasePiece promotion() throws IllegalMoveException {
-        throw new IllegalMoveException();
-    }
 }

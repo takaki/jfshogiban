@@ -20,18 +20,18 @@ package org.media_as.takaki.jfshogiban.piece;
 
 import org.media_as.takaki.jfshogiban.Player;
 
-public final class KomaKaku extends BasePiece implements IPromotablePiece {
+public final class KomaKaku extends BasePiece {
     public KomaKaku(final Player owner) {
         super(owner);
     }
 
     @Override
-    public IPiece promotion() {
+    public BasePiece promotion() {
         return new KomaUma(owner);
     }
 
     @Override
-    public IPiece captured(final Player owner) {
+    public BasePiece captured(final Player owner) {
         return new KomaKaku(owner);
     }
 }

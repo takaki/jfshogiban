@@ -18,139 +18,87 @@
 
 package org.media_as.takaki.jfshogiban;
 
+import org.media_as.takaki.jfshogiban.piece.BasePiece;
+
 import java.util.*;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @SuppressWarnings("HardCodedStringLiteral")
 public final class ShogiBan {
+    // 1-index
     private static final int HEIGHT = 9;
     private static final int WIDTH = 9;
-    private static final EnumSet<Koma> ILLEGAL_SENTE = EnumSet
-            .of(Koma.SENTE_FU, Koma.SENTE_KYOSHA, Koma.SENTE_KEIMA);
-    private static final EnumSet<Koma> ILLEGAL_GOTE = EnumSet
-            .of(Koma.GOTE_FU, Koma.GOTE_KYOSHA, Koma.GOTE_KEIMA);
-
-    private static final Map<Koma, String> STRING_MAP = new EnumMap<>(
-            Koma.class);
-
-    static {
-        STRING_MAP.put(Koma.SENTE_HISYA, "+HI");
-        STRING_MAP.put(Koma.SENTE_RYU, "+RY");
-        STRING_MAP.put(Koma.GOTE_HISYA, "-HI");
-        STRING_MAP.put(Koma.GOTE_RYU, "-RY龍");
-        STRING_MAP.put(Koma.SENTE_KAKU, "+KA");
-        STRING_MAP.put(Koma.SENTE_UMA, "+UM");
-        STRING_MAP.put(Koma.GOTE_KAKU, "-KA");
-        STRING_MAP.put(Koma.GOTE_UMA, "-UM");
-        STRING_MAP.put(Koma.SENTE_KIN, "+KI");
-        STRING_MAP.put(Koma.GOTE_KIN, "-KI");
-        STRING_MAP.put(Koma.SENTE_GIN, "+GI");
-        STRING_MAP.put(Koma.SENTE_NARIGIN, "+NG");
-        STRING_MAP.put(Koma.GOTE_GIN, "-GI");
-        STRING_MAP.put(Koma.GOTE_NARIGIN, "-NG");
-        STRING_MAP.put(Koma.SENTE_KEIMA, "+KE");
-        STRING_MAP.put(Koma.SENTE_NARIKEI, "+NK");
-        STRING_MAP.put(Koma.GOTE_KEIMA, "-KE");
-        STRING_MAP.put(Koma.GOTE_NARIKEI, "-NK");
-        STRING_MAP.put(Koma.SENTE_KYOSHA, "+KY");
-        STRING_MAP.put(Koma.SENTE_NARIKYO, "+NK");
-        STRING_MAP.put(Koma.GOTE_KYOSHA, "-KY");
-        STRING_MAP.put(Koma.GOTE_NARIKYO, "-NK");
-        STRING_MAP.put(Koma.SENTE_FU, "+FU");
-        STRING_MAP.put(Koma.SENTE_TOKIN, "+TO");
-        STRING_MAP.put(Koma.GOTE_FU, "-FU");
-        STRING_MAP.put(Koma.GOTE_TOKIN, "-TO");
-        STRING_MAP.put(Koma.SENTE_GYOKU, "+OU");
-        STRING_MAP.put(Koma.GOTE_GYOKU, "-OU");
-        STRING_MAP.put(Koma.EMPTY, " * ");
-    }
 
     @SuppressWarnings("FieldNotUsedInToString")
-    private final List<Koma> board;
+    private final List<Optional<BasePiece>> board;
 
     public static ShogiBan startPosition() throws IllegalMoveException {
-        return initialize().set(0, 0, Koma.GOTE_KYOSHA)
-                .set(1, 0, Koma.GOTE_KEIMA).set(2, 0, Koma.GOTE_GIN)
-                .set(3, 0, Koma.GOTE_KIN).set(4, 0, Koma.GOTE_GYOKU)
-                .set(5, 0, Koma.GOTE_KIN).set(6, 0, Koma.GOTE_GIN)
-                .set(7, 0, Koma.GOTE_KEIMA).set(8, 0, Koma.GOTE_KYOSHA)
-                .set(1, 1, Koma.GOTE_KAKU).set(7, 1, Koma.GOTE_HISYA)
-                .set(0, 2, Koma.GOTE_FU).set(1, 2, Koma.GOTE_FU)
-                .set(2, 2, Koma.GOTE_FU).set(3, 2, Koma.GOTE_FU)
-                .set(4, 2, Koma.GOTE_FU).set(5, 2, Koma.GOTE_FU)
-                .set(6, 2, Koma.GOTE_FU).set(7, 2, Koma.GOTE_FU)
-                .set(8, 2, Koma.GOTE_FU).set(0, 6, Koma.SENTE_FU)
-                .set(1, 6, Koma.SENTE_FU).set(2, 6, Koma.SENTE_FU)
-                .set(3, 6, Koma.SENTE_FU).set(4, 6, Koma.SENTE_FU)
-                .set(5, 6, Koma.SENTE_FU).set(6, 6, Koma.SENTE_FU)
-                .set(7, 6, Koma.SENTE_FU).set(8, 6, Koma.SENTE_FU)
-                .set(0, 8, Koma.SENTE_KYOSHA).set(1, 8, Koma.SENTE_KEIMA)
-                .set(2, 8, Koma.SENTE_GIN).set(3, 8, Koma.SENTE_KIN)
-                .set(4, 8, Koma.SENTE_GYOKU).set(5, 8, Koma.SENTE_KIN)
-                .set(6, 8, Koma.SENTE_GIN).set(7, 8, Koma.SENTE_KEIMA)
-                .set(8, 8, Koma.SENTE_KYOSHA).set(7, 7, Koma.SENTE_KAKU)
-                .set(1, 7, Koma.SENTE_HISYA);
+        return initialize().set(1, 1, Koma.GOTE_KYOSHA)
+                .set(2, 1, Koma.GOTE_KEIMA).set(3, 1, Koma.GOTE_GIN)
+                .set(4, 1, Koma.GOTE_KIN).set(5, 1, Koma.GOTE_GYOKU)
+                .set(6, 1, Koma.GOTE_KIN).set(7, 1, Koma.GOTE_GIN)
+                .set(8, 1, Koma.GOTE_KEIMA).set(9, 1, Koma.GOTE_KYOSHA)
+                .set(2, 2, Koma.GOTE_KAKU).set(8, 2, Koma.GOTE_HISYA)
+                .set(1, 3, Koma.GOTE_FU).set(2, 3, Koma.GOTE_FU)
+                .set(3, 3, Koma.GOTE_FU).set(4, 3, Koma.GOTE_FU)
+                .set(5, 3, Koma.GOTE_FU).set(6, 3, Koma.GOTE_FU)
+                .set(7, 3, Koma.GOTE_FU).set(8, 3, Koma.GOTE_FU)
+                .set(9, 3, Koma.GOTE_FU).set(1, 7, Koma.SENTE_FU)
+                .set(2, 7, Koma.SENTE_FU).set(3, 7, Koma.SENTE_FU)
+                .set(4, 7, Koma.SENTE_FU).set(5, 7, Koma.SENTE_FU)
+                .set(6, 7, Koma.SENTE_FU).set(7, 7, Koma.SENTE_FU)
+                .set(8, 7, Koma.SENTE_FU).set(9, 7, Koma.SENTE_FU)
+                .set(1, 9, Koma.SENTE_KYOSHA).set(2, 9, Koma.SENTE_KEIMA)
+                .set(3, 9, Koma.SENTE_GIN).set(4, 9, Koma.SENTE_KIN)
+                .set(5, 9, Koma.SENTE_GYOKU).set(6, 9, Koma.SENTE_KIN)
+                .set(7, 9, Koma.SENTE_GIN).set(8, 9, Koma.SENTE_KEIMA)
+                .set(9, 9, Koma.SENTE_KYOSHA).set(8, 8, Koma.SENTE_KAKU)
+                .set(2, 9, Koma.SENTE_HISYA);
     }
 
     public static ShogiBan initialize() {
-        return new ShogiBan(
-                IntStream.range(0, HEIGHT * WIDTH).mapToObj(i -> Koma.EMPTY)
-                        .collect(Collectors.toList()));
+        final List<Optional<BasePiece>> board = new ArrayList<>(WIDTH * HEIGHT);
+        IntStream.range(0, HEIGHT * WIDTH)
+                .forEach(i -> board.add(Optional.empty()));
+        return new ShogiBan(board);
     }
 
-    private ShogiBan(final List<Koma> board) {
+    private ShogiBan(final List<Optional<BasePiece>> board) {
         this.board = Collections.unmodifiableList(board);
     }
 
-    public Koma get(final int x, final int y) throws IllegalMoveException {
+    public Optional<BasePiece> get(final int x,
+                                   final int y) throws IllegalMoveException {
         return board.get(calcIndex(x, y));
     }
 
+    public boolean isEmpty(final int x,
+                           final int y) throws IllegalMoveException {
+        return !get(x, y).isPresent();
+    }
+
     public ShogiBan set(final int x, final int y,
-                        final Koma koma) throws IllegalMoveException {
-        if (!isEmpty(x, y)) {
-            throw new IllegalMoveException("Try to put on other piece.");
-        }
-        if (ILLEGAL_SENTE.contains(koma) && y == 0 ||
-                koma == Koma.SENTE_KEIMA && y <= 1 ||
-                ILLEGAL_GOTE.contains(koma) && y == 8 ||
-                koma == Koma.GOTE_KEIMA && y >= 7) {
-            throw new IllegalMoveException("Out of bound.");
-        }
-        final List<Koma> board = new ArrayList<>(this.board);
-        board.set(calcIndex(x, y), koma);
+                        final BasePiece koma) throws IllegalMoveException {
+        final List<Optional<BasePiece>> board = new ArrayList<>(this.board);
+        board.set(calcIndex(x, y), Optional.of(koma));
         return new ShogiBan(board);
     }
 
     public ShogiBan remove(final int x,
                            final int y) throws IllegalMoveException {
-        if (isEmpty(x, y)) {
-            throw new IllegalMoveException("Try to remove piece from empty.");
-        }
-        final List<Koma> board = new ArrayList<>(this.board);
-        board.set(calcIndex(x, y), Koma.EMPTY);
+        final List<Optional<BasePiece>> board = new ArrayList<>(this.board);
+        board.set(calcIndex(x, y), Optional.empty());
         return new ShogiBan(board);
-    }
-
-    public boolean isEmpty(final int x,
-                           final int y) throws IllegalMoveException {
-        return get(x, y) == Koma.EMPTY;
-    }
-
-    public ShogiBan move(final int fx, final int fy, final int tx,
-                         final int ty) throws IllegalMoveException {
-        return remove(fx, fy).set(tx, ty, get(fx, fy));
     }
 
     // 3四 is 19.
     private static int calcIndex(final int x,
                                  final int y) throws IllegalMoveException {
-        if (x < 0 || x > 8 || y < 0 || y > 8) {
+        if (x < 1 || x > 9 || y < 1 || y > 9) {
             throw new IllegalMoveException(
                     String.format("Out of bound x = %d, y = %d", x, y));
         }
-        return x + y * HEIGHT;
+        return x - 1 + (y - 1) * HEIGHT;
     }
 
     @SuppressWarnings({"FieldRepeatedlyAccessedInMethod", "MethodWithMultipleLoops"})
@@ -162,7 +110,7 @@ public final class ShogiBan {
             builder.append('P').append(y + 1);
             for (int x = WIDTH - 1; x >= 0; x--) {
                 try {
-                    builder.append(STRING_MAP.get(get(x, y)));
+                    builder.append(get(x, y));
                 } catch (final IllegalMoveException ignored) {
                 }
             }

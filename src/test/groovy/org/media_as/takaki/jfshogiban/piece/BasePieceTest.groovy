@@ -16,11 +16,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.media_as.takaki.jfshogiban.piece;
+package org.media_as.takaki.jfshogiban.piece
 
-import org.media_as.takaki.jfshogiban.Player;
+import org.media_as.takaki.jfshogiban.Player
+import spock.lang.Specification
 
-@SuppressWarnings("InterfaceMayBeAnnotatedFunctional")
-public interface IPiece {
-    IPiece captured(final Player owner);
+class BasePieceTest extends Specification {
+    def "compare pieces each other" () {
+        expect:
+        new KomaFu(Player.SENTEBAN).equals(new KomaFu(Player.SENTEBAN)) ==  true
+        new KomaFu(Player.SENTEBAN).promotion().captured(Player.SENTEBAN).equals(new KomaFu(Player.SENTEBAN)) ==  true
+        new KomaFu(Player.SENTEBAN).equals(new KomaFu(Player.GOTEBAN)) ==  false
+        new KomaFu(Player.SENTEBAN).equals(new KomaKyosha(Player.SENTEBAN)) ==  false
+
+    }
+
 }

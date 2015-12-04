@@ -18,6 +18,22 @@
 
 package org.media_as.takaki.jfshogiban.piece;
 
-public interface IPromotablePiece extends IPiece {
-    IPiece promotion();
+import org.media_as.takaki.jfshogiban.IllegalMoveException;
+import org.media_as.takaki.jfshogiban.Player;
+
+public class KomaEmpty extends BasePiece {
+
+    public KomaEmpty(final Player owner) {
+        super(owner);
+        throw new IllegalAccessError();
+    }
+
+    public BasePiece captured(final Player owner) {
+        throw new IllegalAccessError();
+    }
+
+    @Override
+    public BasePiece promotion() throws IllegalMoveException {
+        throw new IllegalMoveException();
+    }
 }
