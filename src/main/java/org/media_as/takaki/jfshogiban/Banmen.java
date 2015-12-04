@@ -18,7 +18,7 @@
 
 package org.media_as.takaki.jfshogiban;
 
-import org.media_as.takaki.jfshogiban.piece.BasePiece;
+import org.media_as.takaki.jfshogiban.piece.IPiece;
 
 import java.util.Optional;
 
@@ -39,8 +39,8 @@ public final class Banmen {
         this.mochigoma = mochigoma;
     }
 
-    public Optional<BasePiece> get(final int x,
-                                   final int y) throws IllegalMoveException {
+    public Optional<IPiece> get(final int x,
+                                final int y) throws IllegalMoveException {
         return shogiBan.get(x, y);
     }
 
@@ -49,8 +49,7 @@ public final class Banmen {
         return shogiBan.isEmpty(x, y);
     }
 
-    public BasePiece pick(final int x,
-                          final int y) throws IllegalMoveException {
+    public IPiece pick(final int x, final int y) throws IllegalMoveException {
         if (isEmpty(x, y)) {
             throw new IllegalMoveException("Can't pick empty.");
         }
@@ -58,7 +57,7 @@ public final class Banmen {
     }
 
     public Banmen set(final int x, final int y,
-                      final BasePiece koma) throws IllegalMoveException {
+                      final IPiece koma) throws IllegalMoveException {
         if (!isEmpty(x, y)) {
             throw new IllegalMoveException(
                     String.format("Try to put %s on other piece.", koma));
@@ -88,18 +87,17 @@ public final class Banmen {
         return remove(x, y).pushMochigoma(pick(x, y).captured(player));
     }
 
-    public Banmen pushMochigoma(
-            final BasePiece koma) throws IllegalMoveException {
+    public Banmen pushMochigoma(final IPiece koma) throws IllegalMoveException {
         return new Banmen(shogiBan, mochigoma.push(koma));
     }
 
     public Banmen removeMochigoma(
-            final BasePiece koma) throws IllegalMoveException {
+            final IPiece koma) throws IllegalMoveException {
         return new Banmen(shogiBan, mochigoma.remove(koma));
     }
 
     public Banmen drop(final int x, final int y,
-                       final BasePiece koma) throws IllegalMoveException {
+                       final IPiece koma) throws IllegalMoveException {
         if (!koma.canSet(y)) {
             throw new IllegalMoveException(
                     String.format("Can't drop %s.", koma));
@@ -107,7 +105,7 @@ public final class Banmen {
         return removeMochigoma(koma).set(x, y, koma);
     }
 
-    public int countMochigoma(final BasePiece koma) {
+    public int countMochigoma(final IPiece koma) {
         return mochigoma.count(koma);
     }
 }

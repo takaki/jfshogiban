@@ -22,8 +22,6 @@ import org.media_as.takaki.jfshogiban.Banmen;
 import org.media_as.takaki.jfshogiban.IllegalMoveException;
 import org.media_as.takaki.jfshogiban.Player;
 
-import java.util.stream.IntStream;
-
 public final class KomaKaku extends BasePiece implements CheckerKaku {
     public KomaKaku(final Player owner) {
         super(owner);

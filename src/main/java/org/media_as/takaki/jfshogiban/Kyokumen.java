@@ -18,12 +18,11 @@
 
 package org.media_as.takaki.jfshogiban;
 
-import org.media_as.takaki.jfshogiban.piece.BasePiece;
+import org.media_as.takaki.jfshogiban.piece.IPiece;
 
 import java.util.Optional;
-import java.util.stream.IntStream;
 
-// Kyokumen understands Shogi move rule.
+/* Kyokumen understands Shogi move rule. */
 public final class Kyokumen {
     private final Banmen banmen;
     private final Player turn;
@@ -41,24 +40,22 @@ public final class Kyokumen {
         return turn;
     }
 
-    public Optional<BasePiece> get(final int x,
-                                   final int y) throws IllegalMoveException {
+    public Optional<IPiece> get(final int x,
+                                final int y) throws IllegalMoveException {
         return banmen.get(x, y);
     }
 
-    public BasePiece pick(final int x,
-                          final int y) throws IllegalMoveException {
+    public IPiece pick(final int x, final int y) throws IllegalMoveException {
         return banmen.pick(x, y);
     }
 
     public Kyokumen move(final int fx, final int fy, final int tx,
                          final int ty) throws IllegalMoveException {
-        if (!isOwn(fx, fy)) {
+        if (!isOwner(fx, fy)) {
             throw new IllegalMoveException("Try to move not own piece.");
         }
         if (!pick(fx, fy).checkMove(fx, fy, tx, ty, banmen)) {
-            throw new IllegalMoveException(
-                    String.format("Move does not keep rule."));
+            throw new IllegalMoveException("Move does not keep rule.");
         }
         return banmen.isEmpty(tx, ty) ? new Kyokumen(
                 banmen.move(fx, fy, tx, ty), turn.next()) : capture(fx, fy, tx,
@@ -67,15 +64,15 @@ public final class Kyokumen {
 
     private Kyokumen capture(final int fx, final int fy, final int tx,
                              final int ty) throws IllegalMoveException {
-        if (isOwn(tx, ty)) {
+        if (isOwner(tx, ty)) {
             throw new IllegalMoveException("Try to put on own piece.");
         }
         return new Kyokumen(banmen.capture(tx, ty, turn).move(fx, fy, tx, ty),
                 turn.next());
     }
 
-    private boolean isOwn(final int x,
-                          final int y) throws IllegalMoveException {
+    private boolean isOwner(final int x,
+                            final int y) throws IllegalMoveException {
         return pick(x, y).isOwner(turn);
     }
 
@@ -84,13 +81,7 @@ public final class Kyokumen {
         return banmen.isEmpty(x, y);
     }
 
-    private static IntStream autoIntRange(final int start, final int end) {
-        return start < end ? IntStream
-                .rangeClosed(start + 1, end - 1) : IntStream
-                .rangeClosed(end + 1, start - 1);
-    }
-
-    public int countMochigoma(final BasePiece koma) {
+    public int countMochigoma(final IPiece koma) {
         return banmen.countMochigoma(koma);
     }
 }

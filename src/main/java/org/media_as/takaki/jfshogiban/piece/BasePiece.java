@@ -18,8 +18,6 @@
 
 package org.media_as.takaki.jfshogiban.piece;
 
-import org.media_as.takaki.jfshogiban.Banmen;
-import org.media_as.takaki.jfshogiban.IllegalMoveException;
 import org.media_as.takaki.jfshogiban.Player;
 
 import java.util.Objects;
@@ -31,6 +29,7 @@ public abstract class BasePiece implements IPiece {
         this.owner = owner;
     }
 
+    @Override
     public final boolean isOwner(final Player player) {
         return player == owner;
     }
@@ -44,16 +43,10 @@ public abstract class BasePiece implements IPiece {
     }
 
     @SuppressWarnings("DesignForExtension")
+    @Override
     public boolean canSet(final int y) {
         return true;
     }
-
-    public abstract BasePiece captured(final Player owner);
-
-    public abstract BasePiece promotion() throws IllegalMoveException;
-
-    public abstract boolean checkMove(int fx, int fy, int tx, int ty,
-                                      Banmen banmen) throws IllegalMoveException;
 
     @Override
     public final int hashCode() {
@@ -78,7 +71,8 @@ public abstract class BasePiece implements IPiece {
     }
 
 
-    protected final String toCSA(final String fu) {
-        return owner + fu;
+    protected final String toCSA(final String str) {
+        //noinspection StringConcatenationMissingWhitespace
+        return owner + str;
     }
 }

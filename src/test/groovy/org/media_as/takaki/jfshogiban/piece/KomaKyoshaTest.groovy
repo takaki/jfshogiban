@@ -25,9 +25,11 @@ import spock.lang.Specification
 class KomaKyoshaTest extends Specification {
     def sente = new KomaKyosha(Player.SENTEBAN)
     def gote = new KomaKyosha(Player.GOTEBAN)
-    def "sente can't set illegal place" () {
+
+    @SuppressWarnings("GroovyAssignabilityCheck")
+    def "sente can't set illegal place"() {
         expect:
-        sente.canSet(y) == result
+        sente.canSet(y)
         where:
         y | result
         1 | false
@@ -35,7 +37,9 @@ class KomaKyoshaTest extends Specification {
         8 | true
         9 | true
     }
-    def "gote can't set illegal place" () {
+
+    @SuppressWarnings("GroovyAssignabilityCheck")
+    def "gote can't set illegal place"() {
         expect:
         gote.canSet(y) == result
         where:

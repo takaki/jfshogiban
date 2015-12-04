@@ -18,16 +18,15 @@
 
 package org.media_as.takaki.jfshogiban;
 
-import org.media_as.takaki.jfshogiban.piece.*;
+import org.media_as.takaki.jfshogiban.piece.IPiece;
 
-import java.text.MessageFormat;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public final class Mochigoma {
-    private final Map<BasePiece, Integer> mochigoma;
-    private static final Collection<BasePiece> MOCHIGOMA = new HashSet<>(
+    private final Map<IPiece, Integer> mochigoma;
+    private static final Collection<IPiece> MOCHIGOMA = new HashSet<>(
             Arrays.asList(Koma.SENTE_FU, Koma.SENTE_KYOSHA, Koma.SENTE_KEIMA,
                     Koma.SENTE_GIN, Koma.SENTE_KIN, Koma.SENTE_KAKU,
                     Koma.SENTE_HISYA, Koma.GOTE_FU, Koma.GOTE_KYOSHA,
@@ -39,32 +38,32 @@ public final class Mochigoma {
                 .collect(Collectors.toMap(Function.identity(), koma -> 0)));
     }
 
-    public Mochigoma(final Map<BasePiece, Integer> mochigoma) {
+    public Mochigoma(final Map<IPiece, Integer> mochigoma) {
         this.mochigoma = Collections.unmodifiableMap(mochigoma);
     }
 
-    public Mochigoma push(final BasePiece koma) throws IllegalMoveException {
+    public Mochigoma push(final IPiece koma) throws IllegalMoveException {
         if (!MOCHIGOMA.contains(koma)) {
             //noinspection HardCodedStringLiteral
             throw new IllegalMoveException(
                     String.format("Can't push %s to mochigoma.", koma));
         }
-        final Map<BasePiece, Integer> komaMap = new HashMap<>(mochigoma);
+        final Map<IPiece, Integer> komaMap = new HashMap<>(mochigoma);
         komaMap.computeIfPresent(koma, (p, n) -> n + 1);
         return new Mochigoma(komaMap);
     }
 
-    public Mochigoma remove(final BasePiece koma) throws IllegalMoveException {
+    public Mochigoma remove(final IPiece koma) throws IllegalMoveException {
         if (count(koma) <= 0) {
             //noinspection HardCodedStringLiteral
             throw new IllegalMoveException(String.format("%s is empty.", koma));
         }
-        final Map<BasePiece, Integer> mochigoma = new HashMap<>(this.mochigoma);
+        final Map<IPiece, Integer> mochigoma = new HashMap<>(this.mochigoma);
         mochigoma.computeIfPresent(koma, (p, n) -> n - 1);
         return new Mochigoma(mochigoma);
     }
 
-    public int count(final BasePiece koma) {
+    public int count(final IPiece koma) {
         return mochigoma.getOrDefault(koma, 0);
     }
 

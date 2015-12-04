@@ -18,9 +18,12 @@
 
 package org.media_as.takaki.jfshogiban;
 
-import org.media_as.takaki.jfshogiban.piece.BasePiece;
+import org.media_as.takaki.jfshogiban.piece.IPiece;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.IntStream;
 
 @SuppressWarnings("HardCodedStringLiteral")
@@ -30,7 +33,7 @@ public final class ShogiBan {
     private static final int WIDTH = 9;
 
     @SuppressWarnings("FieldNotUsedInToString")
-    private final List<Optional<BasePiece>> board;
+    private final List<Optional<IPiece>> board;
 
     public static ShogiBan startPosition() throws IllegalMoveException {
         return initialize().set(1, 1, Koma.GOTE_KYOSHA)
@@ -57,18 +60,18 @@ public final class ShogiBan {
     }
 
     public static ShogiBan initialize() {
-        final List<Optional<BasePiece>> board = new ArrayList<>(WIDTH * HEIGHT);
+        final List<Optional<IPiece>> board = new ArrayList<>(WIDTH * HEIGHT);
         IntStream.range(0, HEIGHT * WIDTH)
                 .forEach(i -> board.add(Optional.empty()));
         return new ShogiBan(board);
     }
 
-    private ShogiBan(final List<Optional<BasePiece>> board) {
+    private ShogiBan(final List<Optional<IPiece>> board) {
         this.board = Collections.unmodifiableList(board);
     }
 
-    public Optional<BasePiece> get(final int x,
-                                   final int y) throws IllegalMoveException {
+    public Optional<IPiece> get(final int x,
+                                final int y) throws IllegalMoveException {
         return board.get(calcIndex(x, y));
     }
 
@@ -78,15 +81,15 @@ public final class ShogiBan {
     }
 
     public ShogiBan set(final int x, final int y,
-                        final BasePiece koma) throws IllegalMoveException {
-        final List<Optional<BasePiece>> board = new ArrayList<>(this.board);
+                        final IPiece koma) throws IllegalMoveException {
+        final List<Optional<IPiece>> board = new ArrayList<>(this.board);
         board.set(calcIndex(x, y), Optional.of(koma));
         return new ShogiBan(board);
     }
 
     public ShogiBan remove(final int x,
                            final int y) throws IllegalMoveException {
-        final List<Optional<BasePiece>> board = new ArrayList<>(this.board);
+        final List<Optional<IPiece>> board = new ArrayList<>(this.board);
         board.set(calcIndex(x, y), Optional.empty());
         return new ShogiBan(board);
     }
@@ -111,7 +114,7 @@ public final class ShogiBan {
             for (int x = WIDTH; x >= 1; x--) {
                 try {
                     builder.append(
-                            get(x, y).map(k -> k.toString()).orElse(" * "));
+                            get(x, y).map(IPiece::toString).orElse(" * "));
                 } catch (final IllegalMoveException ignored) {
                 }
             }
