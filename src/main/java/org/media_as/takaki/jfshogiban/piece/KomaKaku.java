@@ -34,4 +34,9 @@ public final class KomaKaku extends BasePiece {
     public BasePiece captured(final Player owner) {
         return new KomaKaku(owner);
     }
+    @Override
+    public String toString() {
+        return toCSA("KA");
+    }
+
 }

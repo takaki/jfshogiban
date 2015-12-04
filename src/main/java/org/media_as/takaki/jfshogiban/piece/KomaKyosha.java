@@ -40,4 +40,9 @@ public final class KomaKyosha extends BasePiece {
     public KomaKyosha captured(final Player owner) {
         return new KomaKyosha(owner);
     }
+    @Override
+    public String toString() {
+        return toCSA("KY");
+    }
+
 }

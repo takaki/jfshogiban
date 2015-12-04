@@ -39,8 +39,6 @@ public final class KomaTokin extends BasePiece {
 
     @Override
     public String toString() {
-        //noinspection StringConcatenationMissingWhitespace
-        return owner + "TO"; //NON-NLS
+        return toCSA("TO");
     }
-
 }

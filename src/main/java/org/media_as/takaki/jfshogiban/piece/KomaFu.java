@@ -42,8 +42,7 @@ public final class KomaFu extends BasePiece {
 
     @Override
     public String toString() {
-        //noinspection StringConcatenationMissingWhitespace
-        return owner + "FU";
+        return toCSA("FU");
     }
 
 }

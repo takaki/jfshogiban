@@ -36,4 +36,9 @@ public final class KomaKin extends BasePiece  {
     public BasePiece promotion() throws IllegalMoveException {
         return new KomaKaku(owner);
     }
+    @Override
+    public String toString() {
+        return toCSA("KI");
+    }
+
 }

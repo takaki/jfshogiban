@@ -40,4 +40,9 @@ public final class KomaKeima extends BasePiece {
     public KomaKeima captured(final Player owner) {
         return new KomaKeima(owner);
     }
+    @Override
+    public String toString() {
+        return toCSA("KE");
+    }
+
 }

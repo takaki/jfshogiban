@@ -64,4 +64,7 @@ public abstract class BasePiece {
     }
 
 
+    public String toCSA(final String fu) {
+        return owner + fu;
+    }
 }

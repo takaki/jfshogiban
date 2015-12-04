@@ -34,4 +34,9 @@ public final class KomaHisha extends BasePiece {
     public KomaHisha captured(final Player owner) {
         return new KomaHisha(owner);
     }
+    @Override
+    public String toString() {
+        return toCSA("HI");
+    }
+
 }

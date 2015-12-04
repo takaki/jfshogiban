@@ -35,4 +35,9 @@ public final class KomaNarikei extends BasePiece {
     public BasePiece promotion() throws IllegalMoveException {
         throw new IllegalMoveException();
     }
+    @Override
+    public String toString() {
+        return toCSA("NK");
+    }
+
 }

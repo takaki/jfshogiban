@@ -35,5 +35,9 @@ public final class KomaNarikyo extends BasePiece  {
     public BasePiece promotion() throws IllegalMoveException {
         throw new IllegalMoveException("Narikyo can't promote.");
     }
+    @Override
+    public String toString() {
+        return toCSA("NY");
+    }
 
 }

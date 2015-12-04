@@ -34,4 +34,8 @@ public final class KomaGin extends BasePiece {
     public KomaNarigin promotion() {
         return new KomaNarigin(owner);
     }
+    @Override
+    public String toString() {
+        return toCSA("GI");
+    }
 }

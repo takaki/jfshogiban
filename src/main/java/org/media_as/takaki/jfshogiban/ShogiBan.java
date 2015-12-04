@@ -53,7 +53,7 @@ public final class ShogiBan {
                 .set(5, 9, Koma.SENTE_GYOKU).set(6, 9, Koma.SENTE_KIN)
                 .set(7, 9, Koma.SENTE_GIN).set(8, 9, Koma.SENTE_KEIMA)
                 .set(9, 9, Koma.SENTE_KYOSHA).set(8, 8, Koma.SENTE_KAKU)
-                .set(2, 9, Koma.SENTE_HISYA);
+                .set(2, 8, Koma.SENTE_HISYA);
     }
 
     public static ShogiBan initialize() {
@@ -105,12 +105,13 @@ public final class ShogiBan {
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder(120);
-        for (int y = 0; y < HEIGHT; y++) {
+        for (int y = 1; y <= HEIGHT; y++) {
             //noinspection MagicCharacter
-            builder.append('P').append(y + 1);
-            for (int x = WIDTH - 1; x >= 0; x--) {
+            builder.append('P').append(y);
+            for (int x = WIDTH; x >= 1; x--) {
                 try {
-                    builder.append(get(x, y));
+                    builder.append(
+                            get(x, y).map(k -> k.toString()).orElse(" * "));
                 } catch (final IllegalMoveException ignored) {
                 }
             }

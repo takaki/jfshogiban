@@ -26,60 +26,34 @@ class ShogiBanTest extends Specification {
     def "intialized board is entire empty"() {
         expect:
         //noinspection GroovyAssignabilityCheck
-        board.get(x, y) == Koma.EMPTY
+        board.isEmpty(x, y)
         where:
-        [x, y] << [0..8, 0..8].combinations()
+        [x, y] << [1..9, 1..9].combinations()
     }
 
     def "can't set out bound location"() {
         when:
-        board.get(-1, 0)
+        board.get(0, 1)
         then:
         thrown(IllegalMoveException)
 
         when:
-        board.get(2, 9)
+        board.get(3, 10)
         then:
         thrown(IllegalMoveException)
 
         when:
-        board.set(0, 9, Koma.GOTE_KAKU)
+        board.set(1, 10, Koma.GOTE_KAKU)
         then:
         thrown(IllegalMoveException)
     }
 
     def "set piece and got piece are same"() {
         expect:
-        board.set(x, y, p).get(1, 1) == p
+        board.set(x, y, p).get(2, 2).get() == p
         where:
         x | y || p
-        1 | 1 || Koma.GOTE_FU
-    }
-
-    def "can't place some kinds piece on illegal locatioin"() {
-        when:
-        board.set(0, 0, Koma.SENTE_FU)
-        then:
-        thrown(IllegalMoveException)
-
-        when:
-        board.set(0, 8, Koma.GOTE_FU)
-        then:
-        thrown(IllegalMoveException)
-    }
-
-    def "can't remove empty location"() {
-        when:
-        board.remove(0, 0)
-        then:
-        thrown(IllegalMoveException)
-    }
-
-    def "can't move empty location"() {
-        when:
-        board.move(0, 0, 1, 1)
-        then:
-        thrown(IllegalMoveException)
+        2 | 2 || Koma.GOTE_FU
     }
 
     def "toString test"() {
