@@ -16,21 +16,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.media_as.takaki.jfshogiban;
+package org.media_as.takaki.jfshogiban.piece;
 
-public enum Player {
-    SENTEBAN, GOTEBAN;
+import org.media_as.takaki.jfshogiban.Player;
 
-    public Player next() {
-        return this == SENTEBAN ? GOTEBAN : SENTEBAN;
-    }
+public final class KomaUma extends BasePiece implements IPiece {
 
-    public int sign() {
-        return this == SENTEBAN ? 1 : -1;
+    public KomaUma(final Player owner) {
+        super(owner);
     }
 
     @Override
-    public String toString() {
-        return this == SENTEBAN ? "+" : "-";
+    public IPiece captured(final Player owner) {
+        return new KomaKaku(owner);
     }
 }

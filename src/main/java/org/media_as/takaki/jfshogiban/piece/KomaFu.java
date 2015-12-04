@@ -16,21 +16,31 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.media_as.takaki.jfshogiban;
+package org.media_as.takaki.jfshogiban.piece;
 
-public enum Player {
-    SENTEBAN, GOTEBAN;
+import org.jetbrains.annotations.NonNls;
+import org.media_as.takaki.jfshogiban.Player;
 
-    public Player next() {
-        return this == SENTEBAN ? GOTEBAN : SENTEBAN;
-    }
-
-    public int sign() {
-        return this == SENTEBAN ? 1 : -1;
+public final class KomaFu extends BasePiece implements IPromotablePiece {
+    public KomaFu(final Player owner) {
+        super(owner);
     }
 
     @Override
-    public String toString() {
-        return this == SENTEBAN ? "+" : "-";
+    public KomaFu captured(final Player owner) {
+        return new KomaFu(owner);
     }
+
+    @Override
+    public KomaTokin promotion() {
+        return new KomaTokin(owner);
+    }
+
+    @NonNls
+    @Override
+    public String toString() {
+        //noinspection StringConcatenationMissingWhitespace
+        return owner + "FU";
+    }
+
 }

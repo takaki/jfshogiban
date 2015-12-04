@@ -16,21 +16,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.media_as.takaki.jfshogiban;
+package org.media_as.takaki.jfshogiban.piece;
 
-public enum Player {
-    SENTEBAN, GOTEBAN;
+import org.media_as.takaki.jfshogiban.Player;
 
-    public Player next() {
-        return this == SENTEBAN ? GOTEBAN : SENTEBAN;
-    }
-
-    public int sign() {
-        return this == SENTEBAN ? 1 : -1;
-    }
-
-    @Override
-    public String toString() {
-        return this == SENTEBAN ? "+" : "-";
-    }
+@SuppressWarnings("InterfaceMayBeAnnotatedFunctional")
+public interface IPiece {
+    IPiece captured(final Player owner);
 }

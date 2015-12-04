@@ -18,6 +18,8 @@
 
 package org.media_as.takaki.jfshogiban;
 
+import org.jetbrains.annotations.Contract;
+
 public final class Banmen {
     private final ShogiBan shogiBan;
     private final Mochigoma mochigoma;
