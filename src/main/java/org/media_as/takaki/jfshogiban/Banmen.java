@@ -82,6 +82,11 @@ public final class Banmen {
         return remove(fx, fy).set(tx, ty, pick(fx, fy));
     }
 
+    public Banmen promotion(final int fx, final int fy, final int tx,
+                            final int ty) throws IllegalMoveException {
+        return remove(fx, fy).set(tx, ty, pick(fx, fy).promotion());
+    }
+
     public Banmen capture(final int x, final int y,
                           final Player player) throws IllegalMoveException {
         return remove(x, y).pushMochigoma(pick(x, y).captured(player));
@@ -98,10 +103,6 @@ public final class Banmen {
 
     public Banmen drop(final int x, final int y,
                        final IPiece koma) throws IllegalMoveException {
-        if (!koma.canSet(y)) {
-            throw new IllegalMoveException(
-                    String.format("Can't drop %s.", koma));
-        }
         return removeMochigoma(koma).set(x, y, koma);
     }
 

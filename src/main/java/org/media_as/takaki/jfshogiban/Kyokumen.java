@@ -51,24 +51,39 @@ public final class Kyokumen {
 
     public Kyokumen move(final int fx, final int fy, final int tx,
                          final int ty) throws IllegalMoveException {
+        checkMove(fx, fy, tx, ty);
+        return new Kyokumen((banmen.isEmpty(tx  , ty) ? banmen : capture(tx, ty))
+                .move(fx, fy, tx, ty), turn.next());
+    }
+
+    public Kyokumen promotion(final int fx, final int fy, final int tx,
+                              final int ty) throws IllegalMoveException {
+        checkMove(fx, fy, tx, ty);
+        return new Kyokumen((banmen.isEmpty(tx, ty) ? banmen : capture(tx, ty))
+                .promotion(fx, fy, tx, ty), turn.next());
+    }
+
+    private void checkMove(final int fx, final int fy, final int tx,
+                           final int ty) throws IllegalMoveException {
         if (!isOwner(fx, fy)) {
             throw new IllegalMoveException("Don't move not own piece.");
         }
         if (!pick(fx, fy).checkMove(fx, fy, tx, ty, banmen)) {
             throw new IllegalMoveException("Move does not keep rule.");
         }
-        return banmen.isEmpty(tx, ty) ? new Kyokumen(
-                banmen.move(fx, fy, tx, ty), turn.next()) : capture(fx, fy, tx,
-                ty);
     }
 
-    private Kyokumen capture(final int fx, final int fy, final int tx,
-                             final int ty) throws IllegalMoveException {
+    private Banmen capture(final int tx,
+                           final int ty) throws IllegalMoveException {
         if (isOwner(tx, ty)) {
             throw new IllegalMoveException("Don't capture own piece.");
         }
-        return new Kyokumen(banmen.capture(tx, ty, turn).move(fx, fy, tx, ty),
-                turn.next());
+        return banmen.capture(tx, ty, turn);
+    }
+
+    public Kyokumen drop(final int tx, final int ty,
+                         final IPiece koma) throws IllegalMoveException {
+        return new Kyokumen(banmen.set(tx, ty, koma), turn.next());
     }
 
     private boolean isOwner(final int x,

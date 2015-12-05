@@ -18,8 +18,9 @@
 
 package org.media_as.takaki.jfshogiban.action;
 
-/**
- * Created by takaki on 15/12/05.
- */
-public interface IAction {
+import org.media_as.takaki.jfshogiban.IllegalMoveException;
+import org.media_as.takaki.jfshogiban.Kyokumen;
+
+public interface IMovement {
+    Kyokumen action(Kyokumen kyokumen) throws IllegalMoveException;
 }
