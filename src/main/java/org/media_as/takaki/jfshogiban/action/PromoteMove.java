@@ -30,7 +30,7 @@ public class PromoteMove implements IMovement {
     @Override
     public final Kyokumen action(
             final Kyokumen kyokumen) throws IllegalMoveException {
-        return kyokumen.move(fx, fy, tx, ty);
+        return kyokumen.promotion(fx, fy, tx, ty);
     }
 
     public PromoteMove(final int fx, final int fy, final int tx, final int ty) {

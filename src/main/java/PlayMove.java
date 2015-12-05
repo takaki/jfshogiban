@@ -16,12 +16,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.media_as.takaki.jfshogiban.action;
-
 import org.media_as.takaki.jfshogiban.IllegalMoveException;
 import org.media_as.takaki.jfshogiban.Kyokumen;
+import org.media_as.takaki.jfshogiban.action.IMovement;
 
-@FunctionalInterface
-public interface IMovement {
-    Kyokumen action(Kyokumen kyokumen) throws IllegalMoveException;
+import java.util.List;
+
+public class PlayMove {
+    private final Kyokumen initial;
+    private final List<IMovement> moves;
+
+    public PlayMove(final Kyokumen initial, final List<IMovement> moves) {
+        this.initial = initial;
+        this.moves = moves;
+    }
+
+    public Kyokumen getCurrentKyokumen() throws IllegalMoveException {
+        //noinspection LocalVariableOfConcreteClass
+        Kyokumen kyokumen = initial;
+        for (final IMovement move : moves) {
+            kyokumen = move.action(kyokumen);
+        }
+        return kyokumen;
+    }
 }

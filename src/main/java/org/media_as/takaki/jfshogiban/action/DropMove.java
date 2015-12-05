@@ -30,10 +30,10 @@ public class DropMove implements IMovement {
     @Override
     public final Kyokumen action(
             final Kyokumen kyokumen) throws IllegalMoveException {
-        return kyokumen.drop(tx, ty, this.koma);
+        return kyokumen.drop(tx, ty, koma);
     }
 
-    public DropMove(final int tx, final int ty, IPiece koma) {
+    public DropMove(final int tx, final int ty, final IPiece koma) {
         this.tx = tx;
         this.ty = ty;
         this.koma = koma;
