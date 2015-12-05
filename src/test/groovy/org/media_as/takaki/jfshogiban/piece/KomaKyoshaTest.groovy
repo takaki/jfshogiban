@@ -54,45 +54,30 @@ class KomaKyoshaTest extends Specification {
         9 | false
     }
 
-    def "sente keep Kyosha move rule"() {
+    def "Check Sente Kyosha rule"() {
         def piece = Koma.SENTE_KYOSHA
         expect:
-        piece.checkMove(fx, fy, tx, ty, banmen.set(1, 7, Koma.SENTE_FU))
+        piece.checkMove(fx, fy, tx, ty, banmen.set(1, 7, Koma.SENTE_FU)) == result
         where:
-        fx | fy | tx | ty
-        1  | 9  | 1  | 8
+        fx | fy | tx | ty || result
+        1  | 9  | 1  | 8  || true
+        1  | 9  | 1  | 3  || false
+        0  | 8  | 5  | 5  || false
     }
 
-    def "sente Does not keep rule"() {
-        def piece = Koma.SENTE_KYOSHA
-        expect:
-        !piece.checkMove(fx, fy, tx, ty, banmen.set(1, 7, Koma.SENTE_FU))
-        where:
-        fx | fy | tx | ty
-        1  | 9  | 1  | 3
-        0  | 8  | 5  | 5
-    }
-
-    def "gote keep Kyosha move rule"() {
+    def "Check Gote Kyosha move rule"() {
         def piece = Koma.GOTE_KYOSHA
         expect:
-        piece.checkMove(fx, fy, tx, ty, banmen.set(1, 7, Koma.SENTE_FU))
+        piece.checkMove(fx, fy, tx, ty, banmen.set(1, 7, Koma.SENTE_FU)) == result
         where:
-        fx | fy | tx | ty
-        1  | 1  | 1  | 2
-        1  | 1  | 1  | 5
-        1  | 1  | 1  | 6
-        1  | 1  | 1  | 7
+        fx | fy | tx | ty || result
+        1  | 1  | 1  | 2  || true
+        1  | 1  | 1  | 5  || true
+        1  | 1  | 1  | 6  || true
+        1  | 1  | 1  | 7  || true
+        1  | 1  | 1  | 8  || false
+        1  | 1  | 5  | 5  || false
     }
 
-    def "gote Does not keep rule"() {
-        expect:
-        def piece = Koma.GOTE_KYOSHA
-        !piece.checkMove(fx, fy, tx, ty, banmen.set(1, 7, Koma.SENTE_FU))
-        where:
-        fx | fy | tx | ty
-        1  | 1  | 1  | 8
-        1  | 1  | 5  | 5
-    }
 
 }

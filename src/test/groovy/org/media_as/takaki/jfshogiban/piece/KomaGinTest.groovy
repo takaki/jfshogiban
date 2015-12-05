@@ -21,34 +21,28 @@ package org.media_as.takaki.jfshogiban.piece
 import org.media_as.takaki.jfshogiban.Banmen
 import org.media_as.takaki.jfshogiban.IllegalMoveException
 import org.media_as.takaki.jfshogiban.Koma
+import org.media_as.takaki.jfshogiban.Player
 import spock.lang.Specification
 
 class KomaGinTest extends Specification {
     def banmen = Banmen.initialize();
 
-    def "sente keep rule"() {
-        def piece = Koma.SENTE_GIN
+    @SuppressWarnings("GroovyPointlessBoolean")
+    def "Check Sente Gin rule"() {
+        def piece = new KomaGin(Player.SENTEBAN)
         expect:
-        piece.checkMove(fx, fy, tx, ty, banmen)
+        piece.checkMove(fx, fy, tx, ty, banmen) == result
         where:
-        fx | fy | tx | ty
-        5  | 5  | 6  | 4
-        5  | 5  | 5  | 4
-        5  | 5  | 4  | 4
-        5  | 5  | 6  | 6
-        5  | 5  | 4  | 4
+        fx | fy | tx | ty || result
+        5  | 5  | 6  | 4  || true
+        5  | 5  | 5  | 4  || true
+        5  | 5  | 4  | 4  || true
+        5  | 5  | 6  | 6  || true
+        5  | 5  | 4  | 4  || true
+        5  | 5  | 4  | 5  || false
+        5  | 5  | 6  | 5  || false
+        5  | 5  | 5  | 3  || false
 
-    }
-
-    def "sente does not keep rule"() {
-        def piece = Koma.SENTE_GIN
-        expect:
-        !piece.checkMove(fx, fy, tx, ty, banmen)
-        where:
-        fx | fy | tx | ty
-        5  | 5  | 4  | 5
-        5  | 5  | 6  | 5
-        5  | 5  | 5  | 3
     }
 
     def "gote keep rule"() {
