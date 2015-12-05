@@ -22,7 +22,7 @@ import org.media_as.takaki.jfshogiban.Banmen;
 import org.media_as.takaki.jfshogiban.IllegalMoveException;
 import org.media_as.takaki.jfshogiban.Player;
 
-public final class KomaUma extends BasePiece implements CheckerKaku, CheckGyoku {
+public final class KomaUma extends BasePiece implements CheckerKaku, CheckerGyoku {
 
     public KomaUma(final Player owner) {
         super(owner);
@@ -34,8 +34,8 @@ public final class KomaUma extends BasePiece implements CheckerKaku, CheckGyoku 
     }
 
     @Override
-    public BasePiece promotion() throws IllegalMoveException {
-        throw new IllegalMoveException();
+    public BasePiece promotion() {
+        return new KomaUma(getOwner());
     }
 
     @Override

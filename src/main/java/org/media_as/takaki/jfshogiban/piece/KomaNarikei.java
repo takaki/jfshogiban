@@ -34,7 +34,7 @@ public final class KomaNarikei extends BasePiece implements CheckerKin {
 
     @Override
     public BasePiece promotion() throws IllegalMoveException {
-        throw new IllegalMoveException();
+        return new KomaNarikei((getOwner()));
     }
 
     @Override

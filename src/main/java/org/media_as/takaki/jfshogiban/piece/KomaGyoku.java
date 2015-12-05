@@ -22,7 +22,7 @@ import org.media_as.takaki.jfshogiban.Banmen;
 import org.media_as.takaki.jfshogiban.IllegalMoveException;
 import org.media_as.takaki.jfshogiban.Player;
 
-public final class KomaGyoku extends BasePiece implements CheckGyoku {
+public final class KomaGyoku extends BasePiece implements CheckerGyoku {
     public KomaGyoku(final Player owner) {
         super(owner);
     }

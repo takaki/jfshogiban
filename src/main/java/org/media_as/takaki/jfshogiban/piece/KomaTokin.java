@@ -34,8 +34,8 @@ public final class KomaTokin extends BasePiece implements CheckerKin {
     }
 
     @Override
-    public BasePiece promotion() throws IllegalMoveException {
-        throw new IllegalMoveException();
+    public BasePiece promotion() {
+        return new KomaTokin(getOwner());
     }
 
     @Override
