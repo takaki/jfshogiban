@@ -19,7 +19,6 @@
 package org.media_as.takaki.jfshogiban.piece;
 
 import org.media_as.takaki.jfshogiban.Banmen;
-import org.media_as.takaki.jfshogiban.IllegalMoveException;
 import org.media_as.takaki.jfshogiban.Player;
 
 public final class KomaHisha extends BasePiece implements CheckerHisha {
@@ -34,8 +33,7 @@ public final class KomaHisha extends BasePiece implements CheckerHisha {
 
     @Override
     public boolean checkMove(final int fx, final int fy, final int tx,
-                             final int ty,
-                             final Banmen banmen) throws IllegalMoveException {
+                             final int ty, final Banmen banmen) {
         return checkHishaMove(fx, fy, tx, ty, banmen);
     }
 

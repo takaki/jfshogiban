@@ -41,7 +41,7 @@ public final class KomaKeima extends BasePiece {
     @Override
     public boolean checkMove(final int fx, final int fy, final int tx,
                              final int ty,
-                             final Banmen banmen) throws IllegalMoveException {
+                             final Banmen banmen) {
         return Math.abs(fx - tx) == 1 && (fy - ty) * sign() == 2;
     }
 

@@ -34,14 +34,14 @@ public final class KomaKin extends BasePiece implements CheckerKin {
     }
 
     @Override
-    public BasePiece promotion() throws IllegalMoveException {
+    public BasePiece promotion() {
         return new KomaKaku(getOwner());
     }
 
     @Override
     public boolean checkMove(final int fx, final int fy, final int tx,
                              final int ty,
-                             final Banmen banmen) throws IllegalMoveException {
+                             final Banmen banmen) {
         return checkRuleKin(fx, fy, tx, ty, sign());
     }
 

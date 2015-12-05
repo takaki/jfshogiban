@@ -34,15 +34,14 @@ public final class KomaGyoku extends BasePiece implements CheckerGyoku {
 
     @Override
     public BasePiece promotion() throws IllegalMoveException {
-        throw new IllegalMoveException();
+        throw new IllegalMoveException("Gyoku can't promotion.");
     }
 
     @Override
     public boolean checkMove(final int fx, final int fy, final int tx,
-                             final int ty,
-                             final Banmen banmen) throws IllegalMoveException {
+                             final int ty, final Banmen banmen) {
         // 王取りのチェックをどこかに
-        return checkGyokuMove(fx, fy, tx, ty, banmen);
+        return checkGyokuMove(fx, fy, tx, ty);
     }
 
     @Override

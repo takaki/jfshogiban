@@ -19,7 +19,6 @@
 package org.media_as.takaki.jfshogiban.piece;
 
 import org.media_as.takaki.jfshogiban.Banmen;
-import org.media_as.takaki.jfshogiban.IllegalMoveException;
 import org.media_as.takaki.jfshogiban.Player;
 
 public final class KomaTokin extends BasePiece implements CheckerKin {
@@ -41,7 +40,7 @@ public final class KomaTokin extends BasePiece implements CheckerKin {
     @Override
     public boolean checkMove(final int fx, final int fy, final int tx,
                              final int ty,
-                             final Banmen banmen) throws IllegalMoveException {
+                             final Banmen banmen) {
         return checkRuleKin(fx, fy, tx, ty, sign());
     }
 

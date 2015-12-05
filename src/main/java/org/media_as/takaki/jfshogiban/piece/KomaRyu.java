@@ -33,16 +33,15 @@ public final class KomaRyu extends BasePiece implements CheckerHisha, CheckerGyo
     }
 
     @Override
-    public BasePiece promotion() throws IllegalMoveException {
+    public BasePiece promotion() {
         return new KomaRyu(getOwner());
     }
 
     @Override
     public boolean checkMove(final int fx, final int fy, final int tx,
-                             final int ty,
-                             final Banmen banmen) throws IllegalMoveException {
+                             final int ty, final Banmen banmen) {
         return checkHishaMove(fx, fy, tx, ty, banmen) || checkGyokuMove(fx, fy,
-                tx, ty, banmen);
+                tx, ty);
     }
 
     @Override

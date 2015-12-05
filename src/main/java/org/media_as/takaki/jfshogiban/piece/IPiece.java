@@ -27,8 +27,7 @@ public interface IPiece {
 
     IPiece promotion() throws IllegalMoveException;
 
-    boolean checkMove(int fx, int fy, int tx, int ty,
-                      Banmen banmen) throws IllegalMoveException;
+    boolean checkMove(int fx, int fy, int tx, int ty, Banmen banmen);
 
     boolean canSet(final int y);
 

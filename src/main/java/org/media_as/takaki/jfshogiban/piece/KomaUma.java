@@ -41,9 +41,9 @@ public final class KomaUma extends BasePiece implements CheckerKaku, CheckerGyok
     @Override
     public boolean checkMove(final int fx, final int fy, final int tx,
                              final int ty,
-                             final Banmen banmen) throws IllegalMoveException {
+                             final Banmen banmen) {
         return checkKakuMove(fx, fy, tx, ty, banmen) || checkGyokuMove(fx, fy,
-                tx, ty, banmen);
+                tx, ty);
     }
 
     @Override

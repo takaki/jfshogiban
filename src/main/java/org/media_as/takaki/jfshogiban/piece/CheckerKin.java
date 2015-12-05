@@ -18,12 +18,9 @@
 
 package org.media_as.takaki.jfshogiban.piece;
 
-import org.media_as.takaki.jfshogiban.IllegalMoveException;
-
 public interface CheckerKin {
     default boolean checkRuleKin(final int fx, final int fy, final int tx,
-                                 final int ty,
-                                 final int sign) throws IllegalMoveException {
+                                 final int ty, final int sign) {
         return Math.abs(fx - tx) <= 1 && fy - ty == sign || Math
                 .abs(fx - tx) == 1 && fy == ty || fx == tx && fy - ty == -sign;
 

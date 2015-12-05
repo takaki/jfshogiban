@@ -35,7 +35,7 @@ public final class KomaKaku extends BasePiece implements CheckerKaku {
     @Override
     public boolean checkMove(final int fx, final int fy, final int tx,
                              final int ty,
-                             final Banmen banmen) throws IllegalMoveException {
+                             final Banmen banmen) {
         return checkKakuMove(fx, fy, tx, ty, banmen);
     }
 
