@@ -44,7 +44,7 @@ public final class KomaGin extends BasePiece {
     }
 
     @Override
-    public String toString() {
-        return toCSA("GI");
+    public String toCSA() {
+        return "GI";
     }
 }

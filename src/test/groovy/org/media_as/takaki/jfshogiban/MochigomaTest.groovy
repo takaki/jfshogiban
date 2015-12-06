@@ -70,5 +70,11 @@ class MochigomaTest extends Specification {
         thrown(IllegalMoveException)
     }
 
+    def "toCSA" () {
+        expect:
+        mochigoma.push(Koma.SENTE_FU).push(Koma.SENTE_FU).push(Koma.GOTE_KEIMA).toCSA() ==
+                "P+00FU00FU\nP-00KE\n"
+    }
+
 
 }

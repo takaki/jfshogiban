@@ -40,15 +40,14 @@ public final class KomaUma extends BasePiece implements CheckerKaku, CheckerGyok
 
     @Override
     public boolean checkMove(final int fx, final int fy, final int tx,
-                             final int ty,
-                             final Banmen banmen) {
+                             final int ty, final Banmen banmen) {
         return checkKakuMove(fx, fy, tx, ty, banmen) || checkGyokuMove(fx, fy,
                 tx, ty);
     }
 
     @Override
-    public String toString() {
-        return toCSA("UM");
+    public String toCSA() {
+        return "UM";
     }
 
 }

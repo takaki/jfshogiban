@@ -45,8 +45,8 @@ public final class KomaKaku extends BasePiece implements CheckerKaku {
     }
 
     @Override
-    public String toString() {
-        return toCSA("KA");
+    public String toCSA() {
+        return "KA";
     }
 
 }

@@ -18,6 +18,8 @@
 
 package org.media_as.takaki.jfshogiban;
 
+
+import org.apache.commons.lang3.StringUtils;
 import org.media_as.takaki.jfshogiban.piece.IPiece;
 
 import java.util.*;
@@ -25,13 +27,24 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public final class Mochigoma {
-    private final Map<IPiece, Integer> mochigoma;
-    private static final Collection<IPiece> MOCHIGOMA = new HashSet<>(
-            Arrays.asList(Koma.SENTE_FU, Koma.SENTE_KYOSHA, Koma.SENTE_KEIMA,
+    private static final List<IPiece> MOCHIGOMA_SENTE = Arrays
+            .asList(Koma.SENTE_FU, Koma.SENTE_KYOSHA, Koma.SENTE_KEIMA,
                     Koma.SENTE_GIN, Koma.SENTE_KIN, Koma.SENTE_KAKU,
-                    Koma.SENTE_HISYA, Koma.GOTE_FU, Koma.GOTE_KYOSHA,
-                    Koma.GOTE_KEIMA, Koma.GOTE_GIN, Koma.GOTE_KIN,
-                    Koma.GOTE_KAKU, Koma.GOTE_HISYA));
+                    Koma.SENTE_HISYA);
+    private static final List<IPiece> MOCHIGOMA_GOTE = Arrays
+            .asList(Koma.GOTE_FU, Koma.GOTE_KYOSHA, Koma.GOTE_KEIMA,
+                    Koma.GOTE_GIN, Koma.GOTE_KIN, Koma.GOTE_KAKU,
+                    Koma.GOTE_HISYA);
+
+    private static final Collection<IPiece> MOCHIGOMA;
+
+    static {
+        final List<IPiece> all = new ArrayList<>(MOCHIGOMA_SENTE);
+        all.addAll(MOCHIGOMA_GOTE);
+        MOCHIGOMA = new HashSet<>(all);
+    }
+
+    private final Map<IPiece, Integer> mochigoma;
 
     public static Mochigoma initialize() {
         return new Mochigoma(MOCHIGOMA.stream()
@@ -67,4 +80,15 @@ public final class Mochigoma {
         return mochigoma.getOrDefault(koma, 0);
     }
 
+    public String toCSA() {
+        return String.join("", "P+", toCSALine(MOCHIGOMA_SENTE),
+                System.lineSeparator(), "P-", toCSALine(MOCHIGOMA_GOTE),
+                System.lineSeparator());
+    }
+
+    private String toCSALine(final List<IPiece> mochigoma) {
+        return mochigoma.stream().map(p -> StringUtils
+                .repeat(String.join("", "00", p.toCSA()), count(p)))
+                .collect(Collectors.joining());
+    }
 }

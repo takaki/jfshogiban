@@ -104,9 +104,7 @@ public final class ShogiBan {
         return x - 1 + (y - 1) * HEIGHT;
     }
 
-    @SuppressWarnings({"FieldRepeatedlyAccessedInMethod", "MethodWithMultipleLoops"})
-    @Override
-    public String toString() {
+    public String toCSA() {
         final StringBuilder builder = new StringBuilder(120);
         for (int y = 1; y <= HEIGHT; y++) {
             //noinspection MagicCharacter
@@ -114,12 +112,11 @@ public final class ShogiBan {
             for (int x = WIDTH; x >= 1; x--) {
                 try {
                     builder.append(
-                            get(x, y).map(IPiece::toString).orElse(" * "));
+                            get(x, y).map(IPiece::toPiece).orElse(" * "));
                 } catch (final IllegalMoveException ignored) {
                 }
             }
-            //noinspection MagicCharacter,HardcodedLineSeparator
-            builder.append('\n');
+            builder.append(System.lineSeparator());
         }
         return builder.toString();
     }

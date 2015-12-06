@@ -33,6 +33,7 @@ public final class KomaFu extends BasePiece {
 
     @Override
     public boolean canSet(final int y) {
+        // XXX : nifu
         return !(isOwner(Player.SENTEBAN) && y <= 1 || isOwner(
                 Player.GOTEBAN) && y >= 9);
     }
@@ -48,9 +49,10 @@ public final class KomaFu extends BasePiece {
         return fx == tx && fy - ty == sign();
     }
 
+
     @Override
-    public String toString() {
-        return toCSA("FU");
+    public String toCSA() {
+        return "FU";
     }
 
 }

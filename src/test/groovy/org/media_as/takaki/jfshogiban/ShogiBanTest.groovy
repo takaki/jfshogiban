@@ -56,9 +56,9 @@ class ShogiBanTest extends Specification {
         2 | 2 || Koma.GOTE_FU
     }
 
-    def "toString test"() {
+    def "toCSA test"() {
         expect:
-        ShogiBan.startPosition().toString() ==
+        ShogiBan.startPosition().toCSA() ==
                 "P1-KY-KE-GI-KI-OU-KI-GI-KE-KY\n" +
                 "P2 * -HI *  *  *  *  * -KA * \n" +
                 "P3-FU-FU-FU-FU-FU-FU-FU-FU-FU\n" +

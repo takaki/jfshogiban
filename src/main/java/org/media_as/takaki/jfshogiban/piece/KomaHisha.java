@@ -44,8 +44,8 @@ public final class KomaHisha extends BasePiece implements CheckerHisha {
     }
 
     @Override
-    public String toString() {
-        return toCSA("HI");
+    public String toCSA() {
+        return "HI";
     }
 
 

@@ -16,25 +16,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.media_as.takaki.jfshogiban.piece;
+package org.media_as.takaki.jfshogiban.protocol;
 
-import org.media_as.takaki.jfshogiban.Banmen;
-import org.media_as.takaki.jfshogiban.IllegalMoveException;
-import org.media_as.takaki.jfshogiban.Player;
-
-public interface IPiece {
-    IPiece captured(final Player owner);
-
-    IPiece promotion() throws IllegalMoveException;
-
-    boolean checkMove(int fx, int fy, int tx, int ty, Banmen banmen);
-
-    boolean canSet(final int y);
-
-    boolean isOwner(final Player player);
-
-    String toCSA();
-
-    String toPiece();
+public class Terminal {
 
 }

@@ -109,4 +109,8 @@ public final class Banmen {
     public int countMochigoma(final IPiece koma) {
         return mochigoma.count(koma);
     }
+
+    public String toCSA(){
+        return String.join("", shogiBan.toCSA(), mochigoma.toCSA());
+    }
 }

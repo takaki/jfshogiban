@@ -25,21 +25,9 @@ import java.util.Objects;
 public abstract class BasePiece implements IPiece {
     private final Player owner;
 
-    protected BasePiece(final Player owner) {
-        this.owner = owner;
-    }
-
     @Override
     public final boolean isOwner(final Player player) {
         return owner == player;
-    }
-
-    protected final int sign() {
-        return owner.sign();
-    }
-
-    protected final Player getOwner() { // XXX
-        return owner;
     }
 
     @SuppressWarnings("DesignForExtension")
@@ -70,9 +58,19 @@ public abstract class BasePiece implements IPiece {
 
     }
 
+    protected BasePiece(final Player owner) {
+        this.owner = owner;
+    }
 
-    protected final String toCSA(final String str) {
-        //noinspection StringConcatenationMissingWhitespace
-        return owner + str;
+    protected final int sign() {
+        return owner.sign();
+    }
+
+    protected final Player getOwner() { // XXX
+        return owner;
+    }
+
+    public final String toPiece() {
+        return String.join("", owner.toString(), toCSA());
     }
 }

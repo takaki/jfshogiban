@@ -60,8 +60,8 @@ public final class KomaKyosha extends BasePiece {
     }
 
     @Override
-    public String toString() {
-        return toCSA("KY");
+    public String toCSA() {
+        return "KY";
     }
 
 }

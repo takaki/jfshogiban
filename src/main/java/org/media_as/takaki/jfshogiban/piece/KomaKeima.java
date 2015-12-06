@@ -40,8 +40,7 @@ public final class KomaKeima extends BasePiece {
 
     @Override
     public boolean checkMove(final int fx, final int fy, final int tx,
-                             final int ty,
-                             final Banmen banmen) {
+                             final int ty, final Banmen banmen) {
         return Math.abs(fx - tx) == 1 && (fy - ty) * sign() == 2;
     }
 
@@ -51,8 +50,8 @@ public final class KomaKeima extends BasePiece {
     }
 
     @Override
-    public String toString() {
-        return toCSA("KE");
+    public String toCSA() {
+        return "KE";
     }
 
 }

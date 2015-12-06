@@ -45,8 +45,8 @@ public final class KomaGyoku extends BasePiece implements CheckerGyoku {
     }
 
     @Override
-    public String toString() {
-        return toCSA("OU");
+    public String toCSA() {
+        return "OU";
     }
 
 }

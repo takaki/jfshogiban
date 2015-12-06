@@ -38,14 +38,13 @@ public final class KomaNarikyo extends BasePiece implements CheckerKin {
 
     @Override
     public boolean checkMove(final int fx, final int fy, final int tx,
-                             final int ty,
-                             final Banmen banmen) {
+                             final int ty, final Banmen banmen) {
         return checkRuleKin(fx, fy, tx, ty, sign());
     }
 
     @Override
-    public String toString() {
-        return toCSA("NY");
+    public String toCSA() {
+        return "NY";
     }
 
 }
