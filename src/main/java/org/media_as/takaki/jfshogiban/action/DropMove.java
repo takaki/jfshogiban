@@ -33,6 +33,11 @@ public class DropMove implements IMovement {
         return kyokumen.drop(tx, ty, koma);
     }
 
+    @Override
+    public boolean isFinished() {
+        return false;
+    }
+
     public DropMove(final int tx, final int ty, final IPiece koma) {
         this.tx = tx;
         this.ty = ty;

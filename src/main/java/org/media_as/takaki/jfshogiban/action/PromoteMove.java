@@ -33,6 +33,11 @@ public class PromoteMove implements IMovement {
         return kyokumen.promotion(fx, fy, tx, ty);
     }
 
+    @Override
+    public boolean isFinished() {
+        return false;
+    }
+
     public PromoteMove(final int fx, final int fy, final int tx, final int ty) {
         this.fx = fx;
         this.fy = fy;

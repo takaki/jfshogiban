@@ -20,41 +20,25 @@ package org.media_as.takaki.jfshogiban;
 
 import org.media_as.takaki.jfshogiban.action.IMovement;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
 public final class PlayMove {
-    private final Kyokumen initial;
-    private final List<IMovement> moves;
+    private final Kyokumen kyokumen;
+    private final boolean finished;
 
-    public static PlayMove startPosition() throws IllegalMoveException {
-        return new PlayMove(Kyokumen.startPosition(), Collections.emptyList());
+    public PlayMove(final Kyokumen kyokumen, boolean finished) {
+        this.kyokumen = kyokumen;
+        this.finished = finished;
     }
 
-    public PlayMove(final Kyokumen initial, final List<IMovement> moves) {
-        this.initial = initial;
-        this.moves = Collections.unmodifiableList(moves);
+    public PlayMove getNextPlayMove(
+            final IMovement movement) throws IllegalMoveException {
+        return new PlayMove(movement.action(kyokumen), movement.isFinished());
     }
 
-    public PlayMove getNextKyokumen(final IMovement move) {
-        final List<IMovement> moves = new ArrayList<>(this.moves);
-        moves.add(move);
-        return new PlayMove(initial, moves);
-
+    public String toCSA() {
+        return kyokumen.toCSA();
     }
 
-    public Kyokumen getCurrentKyokumen() throws IllegalMoveException {
-        //noinspection LocalVariableOfConcreteClass
-        Kyokumen kyokumen = initial;
-        for (final IMovement move : moves) {
-            kyokumen = move.action(kyokumen);
-        }
-        return kyokumen;
-    }
-
-    public String toCSA() throws IllegalMoveException {
-        return getCurrentKyokumen().toCSA();
+    public boolean isFinished() {
+        return finished;
     }
 }

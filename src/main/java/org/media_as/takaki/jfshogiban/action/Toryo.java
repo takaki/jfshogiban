@@ -21,7 +21,15 @@ package org.media_as.takaki.jfshogiban.action;
 import org.media_as.takaki.jfshogiban.IllegalMoveException;
 import org.media_as.takaki.jfshogiban.Kyokumen;
 
-public interface IMovement {
-    Kyokumen action(Kyokumen kyokumen) throws IllegalMoveException;
-    boolean isFinished();
+public final class Toryo implements  IMovement{
+
+    @Override
+    public Kyokumen action(final Kyokumen kyokumen) {
+        return kyokumen;
+    }
+
+    @Override
+    public boolean isFinished() {
+        return true;
+    }
 }

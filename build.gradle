@@ -4,6 +4,19 @@ version '0.0.0-SNAPSHOT'
 apply plugin: 'java'
 apply plugin: 'groovy'
 
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'eu.appsatori:gradle-fatjar-plugin:0.3'
+    }
+}
+
+// apply plugin: 'eu.appsatori.fatjar'
+
+
 //noinspection GroovyUnusedAssignment
 sourceCompatibility = 1.8
 //noinspection GroovyUnusedAssignment
@@ -22,4 +35,14 @@ dependencies {
         'junit:junit:4.12',
         "org.spockframework:spock-core:1.0-groovy-2.4"
     )
+}
+
+task fatJar(type: Jar) {
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+    manifest {
+//        attributes 'Implementation-Title': 'Gradle Quickstart', 'Implementation-Version': version
+        attributes 'Main-Class': 'org.media_as.takaki.jfshogiban.Main'
+    }
 }

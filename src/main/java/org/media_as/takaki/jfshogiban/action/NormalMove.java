@@ -27,15 +27,22 @@ public class NormalMove implements IMovement {
     private final int tx;
     private final int ty;
 
-    @Override
-    public final Kyokumen action(final Kyokumen kyokumen) throws IllegalMoveException {
-        return kyokumen.move(fx, fy, tx, ty);
-    }
-
     public NormalMove(final int fx, final int fy, final int tx, final int ty) {
         this.fx = fx;
         this.fy = fy;
         this.tx = tx;
         this.ty = ty;
     }
+
+    @Override
+    public final Kyokumen action(final Kyokumen kyokumen) throws IllegalMoveException {
+        return kyokumen.move(fx, fy, tx, ty);
+    }
+
+    @Override
+    public boolean isFinished() {
+        return false;
+    }
+
+
 }
