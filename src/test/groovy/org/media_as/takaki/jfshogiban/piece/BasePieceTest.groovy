@@ -24,10 +24,10 @@ import spock.lang.Specification
 class BasePieceTest extends Specification {
     def "compare pieces each other" () {
         expect:
-        new KomaFu(Player.SENTEBAN).equals(new KomaFu(Player.SENTEBAN)) ==  true
-        new KomaFu(Player.SENTEBAN).promotion().captured(Player.SENTEBAN).equals(new KomaFu(Player.SENTEBAN)) ==  true
-        new KomaFu(Player.SENTEBAN).equals(new KomaFu(Player.GOTEBAN)) ==  false
-        new KomaFu(Player.SENTEBAN).equals(new KomaKyosha(Player.SENTEBAN)) ==  false
+        new KomaFu(Player.SENTEBAN).equals(new KomaFu(Player.SENTEBAN))
+        new KomaFu(Player.SENTEBAN).promotion().captured(Player.SENTEBAN).equals(new KomaFu(Player.SENTEBAN))
+        !new KomaFu(Player.SENTEBAN).equals(new KomaFu(Player.GOTEBAN))
+        !new KomaFu(Player.SENTEBAN).equals(new KomaKyosha(Player.SENTEBAN))
 
     }
 

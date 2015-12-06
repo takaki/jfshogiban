@@ -20,15 +20,29 @@ import org.media_as.takaki.jfshogiban.IllegalMoveException;
 import org.media_as.takaki.jfshogiban.Kyokumen;
 import org.media_as.takaki.jfshogiban.action.IMovement;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
-public class PlayMove {
+public final class PlayMove {
     private final Kyokumen initial;
     private final List<IMovement> moves;
 
+    public static PlayMove startPosition() throws IllegalMoveException {
+        return new PlayMove(Kyokumen.startPosition(), Arrays.asList());
+    }
+
     public PlayMove(final Kyokumen initial, final List<IMovement> moves) {
         this.initial = initial;
-        this.moves = moves;
+        this.moves = Collections.unmodifiableList(moves);
+    }
+
+    public PlayMove getNextKyokumen(final IMovement move) {
+        final List<IMovement> moves = this.moves;
+        moves.add(move);
+        return new PlayMove(initial, moves);
+
     }
 
     public Kyokumen getCurrentKyokumen() throws IllegalMoveException {
