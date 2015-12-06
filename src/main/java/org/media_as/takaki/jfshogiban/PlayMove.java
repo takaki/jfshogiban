@@ -16,8 +16,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import org.media_as.takaki.jfshogiban.IllegalMoveException;
-import org.media_as.takaki.jfshogiban.Kyokumen;
+package org.media_as.takaki.jfshogiban;
+
 import org.media_as.takaki.jfshogiban.action.IMovement;
 
 import java.util.ArrayList;
@@ -30,7 +30,7 @@ public final class PlayMove {
     private final List<IMovement> moves;
 
     public static PlayMove startPosition() throws IllegalMoveException {
-        return new PlayMove(Kyokumen.startPosition(), Arrays.asList());
+        return new PlayMove(Kyokumen.startPosition(), Collections.emptyList());
     }
 
     public PlayMove(final Kyokumen initial, final List<IMovement> moves) {
@@ -39,7 +39,7 @@ public final class PlayMove {
     }
 
     public PlayMove getNextKyokumen(final IMovement move) {
-        final List<IMovement> moves = this.moves;
+        final List<IMovement> moves = new ArrayList<>(this.moves);
         moves.add(move);
         return new PlayMove(initial, moves);
 
@@ -52,5 +52,9 @@ public final class PlayMove {
             kyokumen = move.action(kyokumen);
         }
         return kyokumen;
+    }
+
+    public String toCSA() throws IllegalMoveException {
+        return getCurrentKyokumen().toCSA();
     }
 }

@@ -99,4 +99,8 @@ public final class Kyokumen {
     public int countMochigoma(final IPiece koma) {
         return banmen.countMochigoma(koma);
     }
+
+    public String toCSA() {
+        return banmen.toCSA();
+    }
 }
