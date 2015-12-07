@@ -29,7 +29,8 @@ dependencies {
     compile(
             "org.codehaus.groovy:groovy-all:2.4.3",
             'org.apache.commons:commons-lang3:3.4',
-            'com.codepoetics:protonpack:1.7'
+            'com.codepoetics:protonpack:1.7',
+//            'org.functionaljava:functionaljava:4.4'
     )
     testCompile(
             'junit:junit:4.12',

@@ -38,8 +38,7 @@ public class Terminal implements IMoveChannel {
     public IMovement getMovement(final PlayMove playMove,
                                  final Player player) throws IllegalMoveException {
         System.out.println(playMove.toCSA());
-        System.out.print(String
-                .join("", player == Player.SENTEBAN ? "SENTE" : "GOTE ", "> "));
+        System.out.print(String.join("", player.toCSA(), "> "));
         final String input = scanner.next();
         final int fx = Integer.valueOf(input.substring(0, 1));
         final int fy = Integer.valueOf(input.substring(1, 2));

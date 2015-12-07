@@ -29,8 +29,7 @@ public enum Player {
         return this == SENTEBAN ? 1 : -1;
     }
 
-    @Override
-    public String toString() {
+    public String toCSA() {
         return this == SENTEBAN ? "+" : "-";
     }
 }

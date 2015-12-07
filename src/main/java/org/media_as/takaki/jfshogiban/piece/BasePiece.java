@@ -73,7 +73,7 @@ public abstract class BasePiece implements IPiece {
 
     @Override
     public final String toPiece() {
-        return String.join("", owner.toString(), toCSA());
+        return String.join("", owner.toCSA(), toCSA());
     }
 
     @Override
