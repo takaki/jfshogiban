@@ -62,9 +62,10 @@ public final class Banmen {
             throw new IllegalMoveException(
                     String.format("Try to put %s on other piece.", koma));
         }
-        if (!koma.canSet(y)) {
+        if (!koma.canSet(x, y, this)) {
             throw new IllegalMoveException(
-                    String.format("Can't set %s illegal location ", koma));
+                    String.format("%sCan't set %s [%d-%d] illegal location.",
+                            toCSA(), koma, x, y));
         }
 
         return new Banmen(shogiBan.set(x, y, koma), mochigoma);
@@ -110,7 +111,7 @@ public final class Banmen {
         return mochigoma.count(koma);
     }
 
-    public String toCSA(){
+    public String toCSA() {
         return String.join("", shogiBan.toCSA(), mochigoma.toCSA());
     }
 }

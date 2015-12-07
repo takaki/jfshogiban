@@ -29,8 +29,8 @@ import java.util.stream.IntStream;
 @SuppressWarnings("HardCodedStringLiteral")
 public final class ShogiBan {
     // 1-index
-    private static final int HEIGHT = 9;
-    private static final int WIDTH = 9;
+    public static final int HEIGHT = 9;
+    public static final int WIDTH = 9;
 
     @SuppressWarnings("FieldNotUsedInToString")
     private final List<Optional<IPiece>> board;

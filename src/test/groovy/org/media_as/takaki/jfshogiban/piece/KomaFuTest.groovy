@@ -24,11 +24,11 @@ import org.media_as.takaki.jfshogiban.Player
 import spock.lang.Specification
 
 @SuppressWarnings("GroovyPointlessBoolean")
-class KomaKyoshaTest extends Specification {
+class KomaFuTest extends Specification {
     def banmen = Banmen.initialize();
 
-    def sente = new KomaKyosha(Player.SENTEBAN)
-    def gote = new KomaKyosha(Player.GOTEBAN)
+    def sente = new KomaFu(Player.SENTEBAN)
+    def gote = new KomaFu(Player.GOTEBAN)
 
     def "sente can't set illegal place"() {
         expect:
@@ -52,10 +52,10 @@ class KomaKyoshaTest extends Specification {
         9 || false
     }
 
-    def "Check Sente Kyosha rule"() {
-        def piece = Koma.SENTE_KYOSHA
+    def "Check Sente Fu rule"() {
+        def piece = Koma.SENTE_FU
         expect:
-        piece.checkMove(fx, fy, tx, ty, banmen.set(1, 7, Koma.SENTE_FU)) == result
+        piece.checkMove(fx, fy, tx, ty, banmen) == result
         where:
         fx | fy | tx | ty || result
         1  | 9  | 1  | 8  || true
@@ -63,18 +63,26 @@ class KomaKyoshaTest extends Specification {
         0  | 8  | 5  | 5  || false
     }
 
-    def "Check Gote Kyosha rule"() {
-        def piece = Koma.GOTE_KYOSHA
+    def "Check Gote Fu move rule"() {
+        def piece = Koma.GOTE_FU
         expect:
-        piece.checkMove(fx, fy, tx, ty, banmen.set(1, 7, Koma.SENTE_FU)) == result
+        piece.checkMove(fx, fy, tx, ty, banmen) == result
         where:
         fx | fy | tx | ty || result
         1  | 1  | 1  | 2  || true
-        1  | 1  | 1  | 5  || true
-        1  | 1  | 1  | 6  || true
-        1  | 1  | 1  | 7  || true
         1  | 1  | 1  | 8  || false
         1  | 1  | 5  | 5  || false
+    }
+
+    def "Check Ni-Fu"() {
+        expect:
+        piece.canSet(x, y, banmen.set(1, 7, Koma.SENTE_FU).set(2, 7, Koma.GOTE_FU)) == result
+        where:
+        piece         | x | y || result
+        Koma.SENTE_FU | 1 | 8 || false
+        Koma.SENTE_FU | 2 | 7 || true
+        Koma.GOTE_FU  | 1 | 8 || true
+        Koma.GOTE_FU  | 2 | 8 || false
     }
 
 

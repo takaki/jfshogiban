@@ -16,20 +16,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.media_as.takaki.jfshogiban.action;
+package org.media_as.takaki.jfshogiban.protocol;
 
 import org.media_as.takaki.jfshogiban.IllegalMoveException;
-import org.media_as.takaki.jfshogiban.Kyokumen;
+import org.media_as.takaki.jfshogiban.PlayMove;
+import org.media_as.takaki.jfshogiban.Player;
+import org.media_as.takaki.jfshogiban.action.IMovement;
 
-public final class Toryo implements  IMovement{
-
-    @Override
-    public Kyokumen action(final Kyokumen kyokumen) {
-        return kyokumen;
-    }
-
-    @Override
-    public boolean isFinished() {
-        return true;
-    }
+public interface IMoveChannel {
+    IMovement getMovement(final PlayMove playMove,
+                          Player player) throws IllegalMoveException;
 }

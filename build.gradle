@@ -16,7 +16,6 @@ buildscript {
 
 // apply plugin: 'eu.appsatori.fatjar'
 
-
 //noinspection GroovyUnusedAssignment
 sourceCompatibility = 1.8
 //noinspection GroovyUnusedAssignment
@@ -27,13 +26,14 @@ repositories {
 }
 
 dependencies {
-    compile (
-        "org.codehaus.groovy:groovy-all:2.4.3",
-        'org.apache.commons:commons-lang3:3.4'
+    compile(
+            "org.codehaus.groovy:groovy-all:2.4.3",
+            'org.apache.commons:commons-lang3:3.4',
+            'com.codepoetics:protonpack:1.7'
     )
-    testCompile (
-        'junit:junit:4.12',
-        "org.spockframework:spock-core:1.0-groovy-2.4"
+    testCompile(
+            'junit:junit:4.12',
+            "org.spockframework:spock-core:1.0-groovy-2.4"
     )
 }
 

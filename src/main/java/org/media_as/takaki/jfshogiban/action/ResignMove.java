@@ -16,25 +16,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.media_as.takaki.jfshogiban.piece;
+package org.media_as.takaki.jfshogiban.action;
 
-import org.media_as.takaki.jfshogiban.Banmen;
 import org.media_as.takaki.jfshogiban.IllegalMoveException;
-import org.media_as.takaki.jfshogiban.Player;
+import org.media_as.takaki.jfshogiban.Kyokumen;
 
-public interface IPiece {
-    IPiece captured(final Player owner);
+public final class ResignMove implements  IMovement{
 
-    IPiece promotion() throws IllegalMoveException;
+    @Override
+    public Kyokumen action(final Kyokumen kyokumen) {
+        return kyokumen;
+    }
 
-    boolean checkMove(int fx, int fy, int tx, int ty, Banmen banmen);
-
-    boolean canSet(int x, final int y, Banmen banmen);
-
-    boolean isOwner(final Player player);
-
-    String toCSA();
-
-    String toPiece();
-
+    @Override
+    public boolean isFinished() {
+        return true;
+    }
 }

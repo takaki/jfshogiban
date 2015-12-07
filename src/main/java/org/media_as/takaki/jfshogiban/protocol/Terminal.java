@@ -27,15 +27,16 @@ import org.media_as.takaki.jfshogiban.action.PromoteMove;
 
 import java.util.Scanner;
 
-public class Terminal {
+public class Terminal implements IMoveChannel {
     private final Scanner scanner;
 
     public Terminal() {
         scanner = new Scanner(System.in);
     }
 
-    public IMovement toMovement(final PlayMove playMove,
-                                Player player) throws IllegalMoveException {
+    @Override
+    public IMovement getMovement(final PlayMove playMove,
+                                 final Player player) throws IllegalMoveException {
         System.out.println(playMove.toCSA());
         System.out.print(String
                 .join("", player == Player.SENTEBAN ? "SENTE" : "GOTE ", "> "));

@@ -52,7 +52,7 @@ public final class Kyokumen {
     public Kyokumen move(final int fx, final int fy, final int tx,
                          final int ty) throws IllegalMoveException {
         checkMove(fx, fy, tx, ty);
-        return new Kyokumen((banmen.isEmpty(tx  , ty) ? banmen : capture(tx, ty))
+        return new Kyokumen((banmen.isEmpty(tx, ty) ? banmen : capture(tx, ty))
                 .move(fx, fy, tx, ty), turn.next());
     }
 

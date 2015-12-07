@@ -19,7 +19,11 @@
 package org.media_as.takaki.jfshogiban.piece;
 
 import org.media_as.takaki.jfshogiban.Banmen;
+import org.media_as.takaki.jfshogiban.IllegalMoveException;
 import org.media_as.takaki.jfshogiban.Player;
+import org.media_as.takaki.jfshogiban.ShogiBan;
+
+import java.util.stream.IntStream;
 
 public final class KomaFu extends BasePiece {
     public KomaFu(final Player owner) {
@@ -32,11 +36,17 @@ public final class KomaFu extends BasePiece {
     }
 
     @Override
-    public boolean canSet(final int y) {
-        // XXX : nifu
+    public boolean canSet(final int x, final int y, final Banmen banmen) {
         // XXX : Uchifuzume
-        return !(isOwner(Player.SENTEBAN) && y <= 1 || isOwner(
-                Player.GOTEBAN) && y >= 9);
+        return IntStream.range(1, ShogiBan.HEIGHT).allMatch(y0 -> {
+            try {
+//                return banmen.get(x, y0).map(p -> !p.equals(this)).orElse(true);
+                return banmen.get(x, y0).map(p -> !equals(p)).orElse(true);
+            } catch (final IllegalMoveException ignored) {
+                return false;
+            }
+        }) && (isOwner(Player.SENTEBAN) && y >= 2 || isOwner(
+                Player.GOTEBAN) && y <= 8);
     }
 
     @Override

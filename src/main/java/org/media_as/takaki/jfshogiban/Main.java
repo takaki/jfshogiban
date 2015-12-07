@@ -18,9 +18,14 @@
 
 package org.media_as.takaki.jfshogiban;
 
+import com.codepoetics.protonpack.StreamUtils;
 import org.media_as.takaki.jfshogiban.action.IMovement;
+import org.media_as.takaki.jfshogiban.protocol.IMoveChannel;
 import org.media_as.takaki.jfshogiban.protocol.Terminal;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @SuppressWarnings({"HardCodedStringLiteral", "DuplicateStringLiteralInspection", "UtilityClassCanBeEnum"})
@@ -29,11 +34,11 @@ public final class Main {
 
     private final Player currentPlayer;
     private final PlayMove playMove;
-    final Terminal inputSente;
-    final Terminal inputGote;
+    private final IMoveChannel inputSente;
+    private final IMoveChannel inputGote;
 
     private Main(final PlayMove playMove, final Player currentPlayer,
-                 final Terminal inputSente, final Terminal inputGote,
+                 final IMoveChannel inputSente, final IMoveChannel inputGote,
                  final boolean finished) {
         this.currentPlayer = currentPlayer;
         this.playMove = playMove;
@@ -43,13 +48,13 @@ public final class Main {
 
     public Main getNextMain() throws IllegalMoveException {
         final IMovement movement = (currentPlayer == Player.SENTEBAN ? inputSente : inputGote)
-                .toMovement(playMove, currentPlayer);
+                .getMovement(playMove, currentPlayer);
         return new Main(playMove.getNextPlayMove(movement),
-                currentPlayer == Player.SENTEBAN ? Player.GOTEBAN : Player.SENTEBAN,
-                inputSente, inputGote, false);
+                currentPlayer.next(), inputSente, inputGote, false);
     }
 
     public static void main(final String[] args) throws IllegalMoveException {
+        System.out.println(Arrays.toString(args));
         final Main main = new Main(
                 new PlayMove(Kyokumen.startPosition(), false), Player.SENTEBAN,
                 new Terminal(), new Terminal(), false);
@@ -60,11 +65,10 @@ public final class Main {
                 throw new RuntimeException(e);
             }
         });
-        iterate.anyMatch(main0 -> main0.isFinished());
+        final List<Main> collect = StreamUtils
+                .takeUntil(iterate, Main::isFinished)
+                .collect(Collectors.toList());
 
-//        while (true) {
-//            main = main.getNextMain();
-//        }
     }
 
 

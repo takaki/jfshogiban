@@ -30,9 +30,9 @@ public final class KomaKyosha extends BasePiece {
     }
 
     @Override
-    public boolean canSet(final int y) {
-        return !(isOwner(Player.SENTEBAN) && y <= 1 || isOwner(
-                Player.GOTEBAN) && y >= 9);
+    public boolean canSet(final int x, final int y, final Banmen banmen) {
+        return isOwner(Player.SENTEBAN) && y >= 2 || isOwner(
+                Player.GOTEBAN) && y <= 8;
     }
 
     @Override

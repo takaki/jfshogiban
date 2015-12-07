@@ -19,7 +19,6 @@
 package org.media_as.takaki.jfshogiban.piece;
 
 import org.media_as.takaki.jfshogiban.Banmen;
-import org.media_as.takaki.jfshogiban.IllegalMoveException;
 import org.media_as.takaki.jfshogiban.Player;
 
 public final class KomaKeima extends BasePiece {
@@ -28,9 +27,9 @@ public final class KomaKeima extends BasePiece {
     }
 
     @Override
-    public boolean canSet(final int y) {
-        return !(isOwner(Player.SENTEBAN) && y <= 2 || isOwner(
-                Player.GOTEBAN) && y >= 8);
+    public boolean canSet(final int x, final int y, final Banmen banmen) {
+        return isOwner(Player.SENTEBAN) && y >= 3 || isOwner(
+                Player.GOTEBAN) && y <= 7;
     }
 
     @Override
