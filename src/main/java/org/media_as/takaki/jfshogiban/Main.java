@@ -34,23 +34,23 @@ public final class Main {
 
     private final Player currentPlayer;
     private final PlayMove playMove;
-    private final IMoveChannel inputSente;
-    private final IMoveChannel inputGote;
+    private final IMoveChannel channelSente;
+    private final IMoveChannel channelGote;
 
     private Main(final PlayMove playMove, final Player currentPlayer,
-                 final IMoveChannel inputSente, final IMoveChannel inputGote,
-                 final boolean finished) {
+                 final IMoveChannel channelSente,
+                 final IMoveChannel channelGote, final boolean finished) {
         this.currentPlayer = currentPlayer;
         this.playMove = playMove;
-        this.inputSente = inputSente;
-        this.inputGote = inputGote;
+        this.channelSente = channelSente;
+        this.channelGote = channelGote;
     }
 
     public Main getNextMain() throws IllegalMoveException {
-        final IMovement movement = (currentPlayer == Player.SENTEBAN ? inputSente : inputGote)
+        final IMovement movement = (currentPlayer == Player.SENTEBAN ? channelSente : channelGote)
                 .getMovement(playMove, currentPlayer);
         return new Main(playMove.getNextPlayMove(movement),
-                currentPlayer.next(), inputSente, inputGote, false);
+                currentPlayer.next(), channelSente, channelGote, false);
     }
 
     public static void main(final String[] args) throws IllegalMoveException {

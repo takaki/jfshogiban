@@ -16,17 +16,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.media_as.takaki.jfshogiban.protocol;
+package org.media_as.takaki.jfshogiban.protocol.usi;
 
-import org.media_as.takaki.jfshogiban.IllegalMoveException;
-import org.media_as.takaki.jfshogiban.PlayMove;
-import org.media_as.takaki.jfshogiban.Player;
 import org.media_as.takaki.jfshogiban.action.IMovement;
-import org.media_as.takaki.jfshogiban.protocol.usi.UsiChannel;
 
-public interface IMoveChannel {
-    IMovement getMovement(final PlayMove playMove,
-                          Player player) throws IllegalMoveException;
+import java.util.Collections;
+import java.util.List;
 
-    IMoveChannel getNextChannel();
+public class SendMovement implements UsiState {
+    private final String bestmove;
+
+    public SendMovement(String bestmove) {
+        this.bestmove = bestmove;
+    }
+
+    @Override
+    public List<String> getCommand() {
+        // 7g7f -> "normalmove", "7 7 7 6" ... example
+        return Collections.emptyList(); // TODO
+    }
+
+    @Override
+    public UsiState getNextState(String command) {
+        return new WaitBestmove();
+    }
+
 }

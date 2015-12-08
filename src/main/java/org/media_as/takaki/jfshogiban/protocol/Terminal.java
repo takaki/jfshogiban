@@ -24,6 +24,7 @@ import org.media_as.takaki.jfshogiban.Player;
 import org.media_as.takaki.jfshogiban.action.IMovement;
 import org.media_as.takaki.jfshogiban.action.NormalMove;
 import org.media_as.takaki.jfshogiban.action.PromoteMove;
+import org.media_as.takaki.jfshogiban.protocol.usi.UsiChannel;
 
 import java.util.Scanner;
 
@@ -48,5 +49,11 @@ public class Terminal implements IMoveChannel {
                 ty) : new NormalMove(fx, fy, tx, ty);
 
     }
+
+    @Override
+    public Terminal getNextChannel() {
+        return this;
+    }
+
 
 }
