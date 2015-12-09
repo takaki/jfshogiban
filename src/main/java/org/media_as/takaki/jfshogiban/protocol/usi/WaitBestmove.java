@@ -22,8 +22,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.io.PrintStream;
 import java.util.Optional;
-import java.util.Queue;
-import java.util.Scanner;
 import java.util.concurrent.BlockingQueue;
 
 public class WaitBestmove {
@@ -35,7 +33,8 @@ public class WaitBestmove {
     }
 
     public void sendPosition(final PrintStream out, final String position) {
-        out.println("position startpos moves 7g7f"); // TODO
+        System.out.println(getClass() +  ">" +  position);
+        out.println(position); // TODO
         out.println("go");
         out.flush();
     }
@@ -43,7 +42,7 @@ public class WaitBestmove {
     public WaitBestmove readResponse(final PrintStream out,
                                      final BlockingQueue<String> in) throws InterruptedException {
         if(bestmove.isPresent()) {
-            return null; // TODO
+            return null; // TODO: ugly
         }
         final String line = in.take();
         if (StringUtils.startsWith(line, "bestmove")) {

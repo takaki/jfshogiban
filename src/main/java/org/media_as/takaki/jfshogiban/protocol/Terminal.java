@@ -20,11 +20,9 @@ package org.media_as.takaki.jfshogiban.protocol;
 
 import org.media_as.takaki.jfshogiban.IllegalMoveException;
 import org.media_as.takaki.jfshogiban.PlayMove;
-import org.media_as.takaki.jfshogiban.Player;
 import org.media_as.takaki.jfshogiban.action.IMovement;
 import org.media_as.takaki.jfshogiban.action.NormalMove;
 import org.media_as.takaki.jfshogiban.action.PromoteMove;
-import org.media_as.takaki.jfshogiban.protocol.usi.UsiChannel;
 
 import java.util.Scanner;
 
@@ -36,10 +34,9 @@ public class Terminal implements IMoveChannel {
     }
 
     @Override
-    public IMovement getMovement(final PlayMove playMove,
-                                 final Player player) throws IllegalMoveException {
+    public IMovement getMovement(final PlayMove playMove) throws IllegalMoveException {
         System.out.println(playMove.toCSA());
-        System.out.print(String.join("", player.toCSA(), "> "));
+        System.out.print(String.join("", playMove.getTurn().toCSA(), "> "));
         final String input = scanner.next();
         final int fx = Integer.valueOf(input.substring(0, 1));
         final int fy = Integer.valueOf(input.substring(1, 2));
@@ -48,11 +45,6 @@ public class Terminal implements IMoveChannel {
         return input.length() > 4 ? new PromoteMove(fx, fy, tx,
                 ty) : new NormalMove(fx, fy, tx, ty);
 
-    }
-
-    @Override
-    public Terminal getNextChannel() {
-        return this;
     }
 
 

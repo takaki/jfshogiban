@@ -19,6 +19,7 @@
 package org.media_as.takaki.jfshogiban;
 
 import org.media_as.takaki.jfshogiban.action.IMovement;
+import org.media_as.takaki.jfshogiban.protocol.usi.Sfen;
 
 public final class PlayMove {
     private final Kyokumen kyokumen;
@@ -38,7 +39,15 @@ public final class PlayMove {
         return kyokumen.toCSA();
     }
 
+    public String toSfen() throws IllegalMoveException {
+        return String.join(" ", kyokumen.toSfen());
+    }
+
     public boolean isFinished() {
         return finished;
+    }
+
+    public Player getTurn() {
+        return kyokumen.getTurn();
     }
 }

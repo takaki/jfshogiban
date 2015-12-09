@@ -22,7 +22,9 @@ import com.codepoetics.protonpack.StreamUtils;
 import org.media_as.takaki.jfshogiban.action.IMovement;
 import org.media_as.takaki.jfshogiban.protocol.IMoveChannel;
 import org.media_as.takaki.jfshogiban.protocol.Terminal;
+import org.media_as.takaki.jfshogiban.protocol.usi.UsiChannel;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -48,16 +50,16 @@ public final class Main {
 
     public Main getNextMain() throws IllegalMoveException {
         final IMovement movement = (currentPlayer == Player.SENTEBAN ? channelSente : channelGote)
-                .getMovement(playMove, currentPlayer);
+                .getMovement(playMove);
         return new Main(playMove.getNextPlayMove(movement),
                 currentPlayer.next(), channelSente, channelGote, false);
     }
 
-    public static void main(final String[] args) throws IllegalMoveException {
+    public static void main(final String[] args) throws IllegalMoveException, IOException {
         System.out.println(Arrays.toString(args));
         final Main main = new Main(
                 new PlayMove(Kyokumen.startPosition(), false), Player.SENTEBAN,
-                new Terminal(), new Terminal(), false);
+                new Terminal(), new UsiChannel(), false);
         final Stream<Main> iterate = Stream.iterate(main, main0 -> {
             try {
                 return main0.getNextMain();

@@ -21,7 +21,6 @@ package org.media_as.takaki.jfshogiban.protocol.usi;
 import com.codepoetics.protonpack.StreamUtils;
 import org.media_as.takaki.jfshogiban.IllegalMoveException;
 import org.media_as.takaki.jfshogiban.PlayMove;
-import org.media_as.takaki.jfshogiban.Player;
 import org.media_as.takaki.jfshogiban.action.IMovement;
 import org.media_as.takaki.jfshogiban.action.NormalMove;
 import org.media_as.takaki.jfshogiban.protocol.IMoveChannel;
@@ -32,17 +31,15 @@ import org.media_as.takaki.jfshogiban.protocol.usi.init.UsiState;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 import java.util.concurrent.*;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @SuppressWarnings("ClassNamePrefixedWithPackageName")
 public class UsiChannel implements IMoveChannel {
 
-    private final PrintStream out;
+    private final PrintStream out; // TODO wrapper
     private final BlockingQueue<String> in = new LinkedBlockingQueue<>();
 
     public UsiChannel() throws IOException {
@@ -79,9 +76,8 @@ public class UsiChannel implements IMoveChannel {
     }
 
     @Override
-    public IMovement getMovement(PlayMove playMove,
-                                 Player player) throws IllegalMoveException {
-        final String position = "";
+    public IMovement getMovement(PlayMove playMove) throws IllegalMoveException {
+        final String position = String.join(" ", "position", playMove.toSfen());
         final WaitBestmove waitBestmove = new WaitBestmove(Optional.empty());
         waitBestmove.sendPosition(out, position);
         final Stream<WaitBestmove> iterate = Stream
@@ -93,10 +89,6 @@ public class UsiChannel implements IMoveChannel {
                         throw new RuntimeException(e);
                     }
                 });
-//        final Optional<String> bestmove = StreamUtils
-//                .takeUntil(iterate, state0 -> state0.getBestMove().isPresent())
-//                .reduce((a, b) -> b).get()
-//                .getBestMove();
 
         final String bestmove = StreamUtils
                 .takeUntil(iterate, state0 -> state0 == null)
@@ -116,8 +108,4 @@ public class UsiChannel implements IMoveChannel {
         }
     }
 
-    @Override
-    public UsiChannel getNextChannel() {
-        return this;
-    }
 }

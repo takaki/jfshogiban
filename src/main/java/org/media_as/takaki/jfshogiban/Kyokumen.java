@@ -19,6 +19,7 @@
 package org.media_as.takaki.jfshogiban;
 
 import org.media_as.takaki.jfshogiban.piece.IPiece;
+import org.media_as.takaki.jfshogiban.protocol.usi.Sfen;
 
 import java.util.Optional;
 
@@ -100,7 +101,21 @@ public final class Kyokumen {
         return banmen.countMochigoma(koma);
     }
 
+    // TODO: add bridge
     public String toCSA() {
         return banmen.toCSA();
+    }
+
+    // TODO: add bridge
+    public String toSfen() throws IllegalMoveException {
+        final StringBuilder str = new StringBuilder(150);
+        for (int y = 1; y < 10; y++) {
+            for (int x = 9; x <= 1; x--) {
+                str.append(banmen.get(x, y).map(p -> Sfen.PIECE_SFEN.get(p))
+                        .orElse("_"));
+            }
+            str.append('/');
+        }
+        return String.join(" ", str.toString(), getTurn().toSfen(), banmen.mochigomaSfen(), "1");
     }
 }

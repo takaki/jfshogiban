@@ -21,6 +21,7 @@ package org.media_as.takaki.jfshogiban;
 
 import org.apache.commons.lang3.StringUtils;
 import org.media_as.takaki.jfshogiban.piece.IPiece;
+import org.media_as.takaki.jfshogiban.protocol.usi.Sfen;
 
 import java.util.*;
 import java.util.function.Function;
@@ -90,5 +91,12 @@ public final class Mochigoma {
         return mochigoma.stream().map(p -> StringUtils
                 .repeat(String.join("", "00", p.toCSA()), count(p)))
                 .collect(Collectors.joining());
+    }
+
+    public String toSfen() {
+        String tmp =  MOCHIGOMA.stream().filter(p -> count(p) > 0).map(p -> String
+                .join(Sfen.PIECE_SFEN.get(p), Integer.toString(count(p))))
+                .collect(Collectors.joining());
+        return tmp.isEmpty() ? "-" : tmp;
     }
 }

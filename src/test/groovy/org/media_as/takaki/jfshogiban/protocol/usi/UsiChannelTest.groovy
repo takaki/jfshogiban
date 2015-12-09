@@ -18,6 +18,8 @@
 
 package org.media_as.takaki.jfshogiban.protocol.usi
 
+import org.media_as.takaki.jfshogiban.Kyokumen
+import org.media_as.takaki.jfshogiban.PlayMove
 import spock.lang.Specification
 
 class UsiChannelTest extends Specification {
@@ -25,7 +27,7 @@ class UsiChannelTest extends Specification {
     def "run channel"() {
         def channel = new UsiChannel()
         expect:
-        channel.getMovement(null, null) != null
+        channel.getMovement(new PlayMove(Kyokumen.startPosition(), false)) != null
 
     }
 }

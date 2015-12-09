@@ -22,7 +22,7 @@ import org.media_as.takaki.jfshogiban.piece.IPiece;
 
 import java.util.Optional;
 
-public final class Banmen {
+public final class Banmen { // TODO : merge with Kyokumen
     private final ShogiBan shogiBan;
     private final Mochigoma mochigoma;
 
@@ -113,5 +113,9 @@ public final class Banmen {
 
     public String toCSA() {
         return String.join("", shogiBan.toCSA(), mochigoma.toCSA());
+    }
+    // TODO
+    public String mochigomaSfen() {
+        return mochigoma.toSfen();
     }
 }

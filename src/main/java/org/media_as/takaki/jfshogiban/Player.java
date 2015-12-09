@@ -32,4 +32,8 @@ public enum Player {
     public String toCSA() {
         return this == SENTEBAN ? "+" : "-";
     }
+
+    public String toSfen() {
+        return this == SENTEBAN ? "b" : "w";
+    }
 }
