@@ -16,13 +16,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.media_as.takaki.jfshogiban.protocol.usi;
+package org.media_as.takaki.jfshogiban.protocol.usi.init;
 
 
-import java.util.List;
+import java.io.PrintStream;
+import java.util.concurrent.BlockingQueue;
 
 public interface UsiState {
-    List<String> getCommand();
-
-    UsiState getNextState(String command);
+    UsiState readResponse(PrintStream out, BlockingQueue<String> in) throws InterruptedException;
 }

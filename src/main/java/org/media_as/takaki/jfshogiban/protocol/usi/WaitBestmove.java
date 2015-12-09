@@ -18,22 +18,49 @@
 
 package org.media_as.takaki.jfshogiban.protocol.usi;
 
-import java.util.Arrays;
-import java.util.List;
+import org.apache.commons.lang3.StringUtils;
 
-public class WaitBestmove implements UsiState {
-    @Override
-    public List<String> getCommand() {
-        return Arrays.asList("position startpos moves 7g7f", "go");
+import java.io.PrintStream;
+import java.util.Optional;
+import java.util.Queue;
+import java.util.Scanner;
+import java.util.concurrent.BlockingQueue;
+
+public class WaitBestmove {
+
+    private final Optional<String> bestmove;
+
+    public WaitBestmove(final Optional<String> bestmove) {
+        this.bestmove = bestmove;
     }
 
-    @Override
-    public UsiState getNextState(String command) {
-        if (command.equals("bestmove")) {
-            // call  getMovement();
-        } else {
-            System.out.println(command);
+    public void sendPosition(final PrintStream out, final String position) {
+        out.println("position startpos moves 7g7f"); // TODO
+        out.println("go");
+        out.flush();
+    }
+
+    public WaitBestmove readResponse(final PrintStream out,
+                                     final BlockingQueue<String> in) throws InterruptedException {
+        if(bestmove.isPresent()) {
+            return null; // TODO
         }
-        return new SendMovement("bestmove line....");
+        final String line = in.take();
+        if (StringUtils.startsWith(line, "bestmove")) {
+            System.out.println(getClass() + "<" + line);
+            final String[] split = line.split(" ");
+            return new WaitBestmove(Optional.of(split[1]));
+        } else {
+            System.out.println(getClass() + "<" + line);
+            return new WaitBestmove(Optional.empty());
+
+        }
+    }
+
+    public Optional<String> getBestMove() {
+        System.out.println(
+                getClass() + (bestmove.isPresent() ? ":bestmove is " + bestmove
+                        .get() : ":empty"));
+        return bestmove;
     }
 }

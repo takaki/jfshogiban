@@ -16,21 +16,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.media_as.takaki.jfshogiban.protocol.usi;
+package org.media_as.takaki.jfshogiban.protocol.usi.init;
 
-import java.util.Arrays;
-import java.util.List;
+import java.io.PrintStream;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.TimeUnit;
 
-public class UsiNewgame extends WaitBestmove {
-    @Override
-    public List<String> getCommand() {
-        return Arrays
-                .asList("usinewgame", "position startpos moves 7g7f", "go");
-    }
+public class InitUsi implements UsiState {
 
     @Override
-    public UsiState getNextState(String command) {
-        return new WaitBestmove();
+    public UsiState readResponse(final PrintStream out,
+                                 final BlockingQueue<String> in) throws InterruptedException {
+        String line;
+        while ((line = in.poll(500, TimeUnit.MILLISECONDS)) != null) {
+            System.out.println(getClass() + "<" + line);
+        }
+        System.out.println(getClass() + ">" + "usi");
+        out.println("usi");
+        out.flush();
+        return new WaitUsiOK();
     }
-
 }

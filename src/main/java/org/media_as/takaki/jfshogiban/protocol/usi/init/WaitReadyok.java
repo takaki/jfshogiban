@@ -16,19 +16,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.media_as.takaki.jfshogiban.protocol.usi;
+package org.media_as.takaki.jfshogiban.protocol.usi.init;
 
-import java.util.Arrays;
-import java.util.List;
+import java.io.PrintStream;
+import java.util.concurrent.BlockingQueue;
 
-public final class WaitUsiOK implements UsiState {
-    @Override
-    public List<String> getCommand() {
-        return Arrays.asList("usi");
-    }
+public class WaitReadyok implements UsiState {
+
 
     @Override
-    public UsiState getNextState(final String command) {
-        return command.equals("usiok") ? new WaitReadyok() : new WaitUsiOK();
+    public UsiState readResponse(PrintStream out, BlockingQueue<String> in) throws InterruptedException {
+        final String line = in.take();
+        System.out.println(getClass() + "<" + line);
+        if (line.equals("readyok")) {
+            System.out.println(getClass() + ">" + "usinewgame");
+            out.println("usinewgame");
+            out.flush();
+            return new EndInit();
+        } else {
+            System.out.println(line);
+            return new WaitReadyok();
+        }
     }
 }

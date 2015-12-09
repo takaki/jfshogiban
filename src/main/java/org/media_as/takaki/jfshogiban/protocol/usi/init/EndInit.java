@@ -16,29 +16,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.media_as.takaki.jfshogiban.protocol.usi;
+package org.media_as.takaki.jfshogiban.protocol.usi.init;
 
-import org.media_as.takaki.jfshogiban.action.IMovement;
+import java.io.PrintStream;
+import java.util.concurrent.BlockingQueue;
 
-import java.util.Collections;
-import java.util.List;
-
-public class SendMovement implements UsiState {
-    private final String bestmove;
-
-    public SendMovement(String bestmove) {
-        this.bestmove = bestmove;
-    }
-
+public class EndInit implements UsiState {
     @Override
-    public List<String> getCommand() {
-        // 7g7f -> "normalmove", "7 7 7 6" ... example
-        return Collections.emptyList(); // TODO
+    public UsiState readResponse(PrintStream out, BlockingQueue<String> in) {
+        return null;
     }
-
-    @Override
-    public UsiState getNextState(String command) {
-        return new WaitBestmove();
-    }
-
 }

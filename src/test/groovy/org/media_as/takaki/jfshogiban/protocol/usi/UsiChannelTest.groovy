@@ -16,21 +16,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.media_as.takaki.jfshogiban.protocol.usi;
+package org.media_as.takaki.jfshogiban.protocol.usi
 
-import java.util.Arrays;
-import java.util.List;
+import spock.lang.Specification
 
-public class WaitReadyok implements UsiState {
-    @Override
-    public List<String> getCommand() {
-        return Arrays.asList("isready");
-    }
+class UsiChannelTest extends Specification {
 
+    def "run channel"() {
+        def channel = new UsiChannel()
+        expect:
+        channel.getMovement(null, null) != null
 
-    @Override
-    public UsiState getNextState(String command) {
-        return command
-                .equals("readyok") ? new WaitReadyok() : new WaitReadyok();
     }
 }
