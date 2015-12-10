@@ -38,7 +38,7 @@ public class WaitBestmove {
     public void sendPosition(final PrintStream out, final String position) {
         LOG.debug("> {}", position);
         out.println(position); // TODO
-        out.println("go byoyomi 500");
+        out.println("go byoyomi 1000");
         out.flush();
     }
 
@@ -49,11 +49,9 @@ public class WaitBestmove {
         }
         final String line = in.take();
         if (StringUtils.startsWith(line, "bestmove")) {
-            LOG.debug("< {}", line);
             final String[] split = line.split(" ");
             return new WaitBestmove(Optional.of(split[1]));
         } else {
-            LOG.debug("< {}", line);
             return new WaitBestmove(Optional.empty());
 
         }

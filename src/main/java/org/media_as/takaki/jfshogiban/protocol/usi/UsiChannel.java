@@ -49,6 +49,7 @@ public class UsiChannel implements IMoveChannel {
 
     private final PrintStream out; // TODO wrapper
     private final BlockingQueue<String> in = new LinkedBlockingQueue<>();
+    private String name; // TODO
 
     public UsiChannel(final Path directory,
                       final String exe) throws IOException {
@@ -75,7 +76,7 @@ public class UsiChannel implements IMoveChannel {
         }, 0, TimeUnit.MILLISECONDS);
 
         final Stream<UsiState> iterate = Stream
-                .iterate(new InitUsi(), state0 -> {
+                .iterate(new InitUsi(this), state0 -> {
                     try {
                         return state0.readResponse(out, in);
                     } catch (final InterruptedException e) {
@@ -150,4 +151,11 @@ public class UsiChannel implements IMoveChannel {
         }
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+    @Override
+    public String toString(){
+        return String.join(":", getClass().getSimpleName(), name);
+    }
 }

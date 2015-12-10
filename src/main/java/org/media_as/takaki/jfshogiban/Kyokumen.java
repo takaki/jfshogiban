@@ -111,6 +111,8 @@ public final class Kyokumen {
     }
 
 
+    // TODO: Sennichite
+    // TODO: Mate
     private void checkMove(final int fx, final int fy, final int tx,
                            final int ty) throws IllegalMoveException {
         if (!isOwner(fx, fy)) {

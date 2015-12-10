@@ -51,11 +51,11 @@ public final class Main {
                  final IMoveChannel channelSente,
                  final IMoveChannel channelGote, final boolean finished) {
         final PrintWriter writer = new PrintWriter(System.out);
-        writer.println(playMove.convertString(new SfenConverter()));
-        writer.println(playMove.convertString(new CsaConverter()));
+        writer.format("SFEN: %s\n",
+                playMove.convertString(new SfenConverter()));
+        writer.format("N+%s\nN-%s\n%s\n", channelSente, channelGote,
+                playMove.convertString(new CsaConverter()));
         writer.flush();
-
-        LOG.debug(playMove.convertString(new SfenConverter()));
         this.currentPlayer = currentPlayer;
         this.playMove = playMove;
         this.channelSente = channelSente;
@@ -65,7 +65,7 @@ public final class Main {
     public Main getNextMain() throws IllegalMoveException {
         final IMovement movement = (currentPlayer == Player.SENTEBAN ? channelSente : channelGote)
                 .getMovement(playMove);
-        LOG.debug("{} {}" , currentPlayer.toString(), movement.toString());
+        LOG.debug("{} {}", currentPlayer, movement);
         return new Main(playMove.getNextPlayMove(movement),
                 currentPlayer.next(), channelSente, channelGote, false);
     }
@@ -90,6 +90,11 @@ public final class Main {
         final List<Main> collect = StreamUtils
                 .takeUntil(iterate, Main::isFinished)
                 .collect(Collectors.toList());
+
+        int moves = collect.size() - 1;
+        LOG.debug("Game End: {} WON {} Moves",
+                moves % 2 == 1 ? Player.SENTEBAN : Player.GOTEBAN, moves);
+        System.exit(0); // FIXME
 
     }
 

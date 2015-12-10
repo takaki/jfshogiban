@@ -18,10 +18,16 @@
 
 package org.media_as.takaki.jfshogiban.protocol.usi.init;
 
+import org.media_as.takaki.jfshogiban.protocol.usi.UsiChannel;
+
 import java.io.PrintStream;
 import java.util.concurrent.BlockingQueue;
 
 public class EndInit implements UsiState {
+
+    public EndInit() {
+    }
+
     @Override
     public UsiState readResponse(PrintStream out, BlockingQueue<String> in) {
         return null;

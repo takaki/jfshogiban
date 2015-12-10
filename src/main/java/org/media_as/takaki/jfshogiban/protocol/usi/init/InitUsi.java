@@ -18,6 +18,7 @@
 
 package org.media_as.takaki.jfshogiban.protocol.usi.init;
 
+import org.media_as.takaki.jfshogiban.protocol.usi.UsiChannel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,6 +28,11 @@ import java.util.concurrent.TimeUnit;
 
 public class InitUsi implements UsiState {
     private static final Logger LOG = LoggerFactory.getLogger(InitUsi.class);
+    private final UsiChannel channel;
+
+    public InitUsi(UsiChannel usiChannel) {
+        channel = usiChannel;
+    }
 
     @Override
     public UsiState readResponse(final PrintStream out,
@@ -37,6 +43,6 @@ public class InitUsi implements UsiState {
         LOG.debug("> {}", "usi");
         out.println("usi");
         out.flush();
-        return new WaitUsiOK();
+        return new WaitUsiOK(channel);
     }
 }

@@ -19,6 +19,7 @@
 package org.media_as.takaki.jfshogiban.protocol.usi.init;
 
 import org.apache.commons.lang3.StringUtils;
+import org.media_as.takaki.jfshogiban.protocol.usi.UsiChannel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,6 +29,11 @@ import java.util.concurrent.TimeUnit;
 
 public final class WaitUsiOK implements UsiState {
     private static final Logger LOG = LoggerFactory.getLogger(WaitUsiOK.class);
+    private final UsiChannel channel;
+
+    public WaitUsiOK(UsiChannel channel) {
+        this.channel = channel;
+    }
 
     @Override
     public UsiState readResponse(final PrintStream out,
@@ -38,10 +44,13 @@ public final class WaitUsiOK implements UsiState {
             LOG.debug("> isready");
             out.println("isready");
             out.flush();
-            return new WaitReadyok();
+            return new WaitReadyok(channel);
         } else {
-
-            return new WaitUsiOK();
+            if (line.startsWith("id name")) {
+                final String name = line.split(" ")[2];
+                channel.setName(name);
+            }
+            return new WaitUsiOK(channel);
         }
     }
 }

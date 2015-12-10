@@ -18,6 +18,7 @@
 
 package org.media_as.takaki.jfshogiban.protocol.usi.init;
 
+import org.media_as.takaki.jfshogiban.protocol.usi.UsiChannel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,6 +28,11 @@ import java.util.concurrent.BlockingQueue;
 public class WaitReadyok implements UsiState {
     private static final Logger LOG = LoggerFactory
             .getLogger(WaitReadyok.class);
+
+    private final UsiChannel channel;
+    public WaitReadyok(UsiChannel channel){
+        this.channel = channel;
+    }
 
     @Override
     public UsiState readResponse(PrintStream out,
@@ -39,7 +45,7 @@ public class WaitReadyok implements UsiState {
             return new EndInit();
         } else {
             LOG.debug(line);
-            return new WaitReadyok();
+            return new WaitReadyok(channel);
         }
     }
 }

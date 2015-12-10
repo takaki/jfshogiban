@@ -132,7 +132,6 @@ public final class ShogiBan {
         for (int i = 0; i < sfen.length(); i++) {
             char ch = sfen.charAt(i);
             boolean promote = false;
-            System.out.print(ch);
             if (Character.isDigit(ch)) {
                 int n = Character.getNumericValue(ch);
                 x -= n;
