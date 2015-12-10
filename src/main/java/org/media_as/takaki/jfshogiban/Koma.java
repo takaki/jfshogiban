@@ -52,6 +52,6 @@ public enum Koma {
     public static final IPiece GOTE_NARIGIN = new KomaNarigin(Player.GOTEBAN);
     public static final IPiece GOTE_NARIKEI = new KomaNarikei(Player.GOTEBAN);
     public static final IPiece GOTE_NARIKYO = new KomaNarikyo(Player.GOTEBAN);
-    public static final IPiece GOTE_TOKIN = new KomaTokin(Player.SENTEBAN);
+    public static final IPiece GOTE_TOKIN = new KomaTokin(Player.GOTEBAN);
 
 }

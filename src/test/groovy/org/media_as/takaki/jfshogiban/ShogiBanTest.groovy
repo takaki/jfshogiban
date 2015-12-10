@@ -18,6 +18,7 @@
 
 package org.media_as.takaki.jfshogiban
 
+import org.media_as.takaki.jfshogiban.tostr.SfenConverter
 import spock.lang.Specification
 
 class ShogiBanTest extends Specification {
@@ -56,6 +57,13 @@ class ShogiBanTest extends Specification {
         2 | 2 || Koma.GOTE_FU
     }
 
-
+    def "sfen"() {
+        def sfen = "ln1gk1snl/1r1s2gb1/p2ppp1+p1/2p6/1p6P/2P2Pp2/PPBPPS3/2GS3R1/LN2KG1NL"
+        expect:
+        ShogiBan.sfen("lnsgkgsnl/1r5b1/ppppppppp/9/9/9/PPPPPPPPP/1B5R1/LNSGKGSNL").get(2, 2).get() == Koma.GOTE_KAKU
+        ShogiBan.sfen(sfen).get(2, 2).get() == Koma.GOTE_KAKU
+        ShogiBan.sfen(sfen).get(2,3).get() == Koma.GOTE_TOKIN
+        ShogiBan.sfen(sfen).convertString(new SfenConverter()) == sfen
+    }
 
 }

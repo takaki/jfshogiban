@@ -18,14 +18,13 @@
 
 package org.media_as.takaki.jfshogiban.piece;
 
-import org.media_as.takaki.jfshogiban.Banmen;
-import org.media_as.takaki.jfshogiban.IllegalMoveException;
+import org.media_as.takaki.jfshogiban.ShogiBan;
 
 import java.util.stream.IntStream;
 
 public interface CheckerKaku {
     default boolean checkKakuMove(final int fx, final int fy, final int tx,
-                                  final int ty, final Banmen banmen) {
+                                  final int ty, final ShogiBan banmen) {
         final int diffX = fx > tx ? -1 : 1;
         final int diffY = fy > ty ? -1 : 1;
         return Math.abs(fx - tx) == Math.abs(fy - ty) && IntStream

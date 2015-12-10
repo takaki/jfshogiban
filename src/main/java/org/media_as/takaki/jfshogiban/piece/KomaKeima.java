@@ -18,8 +18,8 @@
 
 package org.media_as.takaki.jfshogiban.piece;
 
-import org.media_as.takaki.jfshogiban.Banmen;
 import org.media_as.takaki.jfshogiban.Player;
+import org.media_as.takaki.jfshogiban.ShogiBan;
 
 public final class KomaKeima extends BasePiece {
     public KomaKeima(final Player owner) {
@@ -27,7 +27,7 @@ public final class KomaKeima extends BasePiece {
     }
 
     @Override
-    public boolean canSet(final int x, final int y, final Banmen banmen) {
+    public boolean canSet(final int x, final int y, final ShogiBan banmen) {
         return isOwner(Player.SENTEBAN) && y >= 3 || isOwner(
                 Player.GOTEBAN) && y <= 7;
     }
@@ -39,7 +39,7 @@ public final class KomaKeima extends BasePiece {
 
     @Override
     public boolean checkMove(final int fx, final int fy, final int tx,
-                             final int ty, final Banmen banmen) {
+                             final int ty, final ShogiBan shogiBan) {
         return Math.abs(fx - tx) == 1 && (fy - ty) * sign() == 2;
     }
 

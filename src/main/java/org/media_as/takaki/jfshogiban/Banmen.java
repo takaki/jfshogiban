@@ -62,7 +62,7 @@ public final class Banmen { // TODO : merge with Kyokumen
             throw new IllegalMoveException(
                     String.format("Try to put %s on other piece.", koma));
         }
-        if (!koma.canSet(x, y, this)) {
+        if (!koma.canSet(x, y, shogiBan)) {
             throw new IllegalMoveException(
                     String.format("%sCan't set %s [%d-%d] illegal location.",
                             convertString(new CsaConverter()), koma, x, y));

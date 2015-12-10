@@ -22,10 +22,11 @@ import org.media_as.takaki.jfshogiban.Banmen
 import org.media_as.takaki.jfshogiban.IllegalMoveException
 import org.media_as.takaki.jfshogiban.Koma
 import org.media_as.takaki.jfshogiban.Player
+import org.media_as.takaki.jfshogiban.ShogiBan
 import spock.lang.Specification
 
 class KomaGinTest extends Specification {
-    def banmen = Banmen.initialize();
+    def banmen = ShogiBan.initialize();
 
     @SuppressWarnings("GroovyPointlessBoolean")
     def "Check Sente Gin rule"() {

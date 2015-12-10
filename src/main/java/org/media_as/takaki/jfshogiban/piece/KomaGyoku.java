@@ -18,9 +18,9 @@
 
 package org.media_as.takaki.jfshogiban.piece;
 
-import org.media_as.takaki.jfshogiban.Banmen;
 import org.media_as.takaki.jfshogiban.IllegalMoveException;
 import org.media_as.takaki.jfshogiban.Player;
+import org.media_as.takaki.jfshogiban.ShogiBan;
 
 public final class KomaGyoku extends BasePiece implements CheckerGyoku {
     public KomaGyoku(final Player owner) {
@@ -39,7 +39,7 @@ public final class KomaGyoku extends BasePiece implements CheckerGyoku {
 
     @Override
     public boolean checkMove(final int fx, final int fy, final int tx,
-                             final int ty, final Banmen banmen) {
+                             final int ty, final ShogiBan shogiBan) {
         // 王取りのチェックをどこかに
         return checkGyokuMove(fx, fy, tx, ty);
     }

@@ -41,5 +41,5 @@ public interface IStringConverter {
 
     String convertShogiban(ShogiBan shogiban);
 
-    String convertKyokumen(Banmen banmen, Player turn);
+    String convertKyokumen(ShogiBan shogiBan, Mochigoma mochigoma, Player turn);
 }

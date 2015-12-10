@@ -74,7 +74,7 @@ public final class CsaConverter extends AbstractStringConverter {
         if (PIECE.containsKey(piece)) {
             return PIECE.get(piece);
         } else {
-            throw new IllegalArgumentException("Unknown piece");
+            throw new IllegalArgumentException("Unknown piece" + piece.toString());
         }
     }
 
@@ -111,7 +111,12 @@ public final class CsaConverter extends AbstractStringConverter {
     }
 
     @Override
-    public String convertKyokumen(final Banmen banmen, final Player turn) {
-        return banmen.convertString(this) + turn.convert(this) + System.lineSeparator();
+    public String convertKyokumen(final ShogiBan shogiBan,
+                                  final Mochigoma mochigoma,
+                                  final Player turn) {
+        return String.join("", shogiBan.convertString(this),
+                mochigoma.convertString(this), turn.convert(this),
+                System.lineSeparator());
     }
+
 }

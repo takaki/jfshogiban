@@ -63,6 +63,7 @@ public final class SfenConverter extends AbstractStringConverter {
         PIECE_SFEN.put(Koma.GOTE_NARIGIN, "+s");
         PIECE_SFEN.put(Koma.GOTE_UMA, "+b");
         PIECE_SFEN.put(Koma.GOTE_RYU, "+r");
+
     }
 
     @Override
@@ -109,9 +110,13 @@ public final class SfenConverter extends AbstractStringConverter {
     }
 
     @Override
-    public String convertKyokumen(final Banmen banmen, final Player turn) {
-        return banmen.convertString(this).replace(":",
-                String.join("", " ", turn.convert(this), " ")) + " 1";
+    public String convertKyokumen(final ShogiBan shogiBan,
+                                  final Mochigoma mochigoma,
+                                  final Player turn) {
+        return String
+                .join(" ", shogiBan.convertString(this), turn.convert(this),
+                        mochigoma.convertString(this), "1");
     }
+
 
 }

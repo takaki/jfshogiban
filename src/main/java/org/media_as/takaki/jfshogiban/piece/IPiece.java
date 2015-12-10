@@ -18,7 +18,7 @@
 
 package org.media_as.takaki.jfshogiban.piece;
 
-import org.media_as.takaki.jfshogiban.Banmen;
+import org.media_as.takaki.jfshogiban.ShogiBan;
 import org.media_as.takaki.jfshogiban.tostr.IStringConverter;
 import org.media_as.takaki.jfshogiban.IllegalMoveException;
 import org.media_as.takaki.jfshogiban.Player;
@@ -28,9 +28,9 @@ public interface IPiece {
 
     IPiece promotion() throws IllegalMoveException;
 
-    boolean checkMove(int fx, int fy, int tx, int ty, Banmen banmen);
+    boolean checkMove(int fx, int fy, int tx, int ty, ShogiBan shogiBan);
 
-    boolean canSet(int x, final int y, Banmen banmen);
+    boolean canSet(int x, final int y, ShogiBan banmen);
 
     boolean isOwner(final Player player);
 

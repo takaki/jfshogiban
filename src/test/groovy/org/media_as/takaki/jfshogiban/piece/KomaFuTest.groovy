@@ -21,11 +21,12 @@ package org.media_as.takaki.jfshogiban.piece
 import org.media_as.takaki.jfshogiban.Banmen
 import org.media_as.takaki.jfshogiban.Koma
 import org.media_as.takaki.jfshogiban.Player
+import org.media_as.takaki.jfshogiban.ShogiBan
 import spock.lang.Specification
 
 @SuppressWarnings("GroovyPointlessBoolean")
 class KomaFuTest extends Specification {
-    def banmen = Banmen.initialize();
+    def banmen = ShogiBan.initialize();
 
     def sente = new KomaFu(Player.SENTEBAN)
     def gote = new KomaFu(Player.GOTEBAN)

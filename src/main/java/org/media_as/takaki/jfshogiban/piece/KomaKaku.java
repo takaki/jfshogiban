@@ -18,9 +18,8 @@
 
 package org.media_as.takaki.jfshogiban.piece;
 
-import org.media_as.takaki.jfshogiban.Banmen;
-import org.media_as.takaki.jfshogiban.IllegalMoveException;
 import org.media_as.takaki.jfshogiban.Player;
+import org.media_as.takaki.jfshogiban.ShogiBan;
 
 public final class KomaKaku extends BasePiece implements CheckerKaku {
     public KomaKaku(final Player owner) {
@@ -34,8 +33,8 @@ public final class KomaKaku extends BasePiece implements CheckerKaku {
 
     @Override
     public boolean checkMove(final int fx, final int fy, final int tx,
-                             final int ty, final Banmen banmen) {
-        return checkKakuMove(fx, fy, tx, ty, banmen);
+                             final int ty, final ShogiBan shogiBan) {
+        return checkKakuMove(fx, fy, tx, ty, shogiBan);
     }
 
     @Override

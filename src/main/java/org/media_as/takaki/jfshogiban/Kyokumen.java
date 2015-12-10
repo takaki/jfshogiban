@@ -18,6 +18,7 @@
 
 package org.media_as.takaki.jfshogiban;
 
+import org.codehaus.groovy.util.StringUtil;
 import org.media_as.takaki.jfshogiban.piece.IPiece;
 import org.media_as.takaki.jfshogiban.tostr.IStringConverter;
 
@@ -25,15 +26,31 @@ import java.util.Optional;
 
 /* Kyokumen understands Shogi move rule. */
 public final class Kyokumen {
-    private final Banmen banmen;
+    private final ShogiBan shogiBan;
+    private final Mochigoma mochigoma;
     private final Player turn;
 
-    public static Kyokumen startPosition() {
-        return new Kyokumen(Banmen.startPosition(), Player.SENTEBAN);
+    public static Kyokumen initialize() {
+        return new Kyokumen(ShogiBan.initialize(), Mochigoma.initialize(),
+                Player.SENTEBAN);
     }
 
-    public Kyokumen(final Banmen banmen, final Player turn) {
-        this.banmen = banmen;
+
+    public static Kyokumen startPosition() {
+        return new Kyokumen(ShogiBan.startPosition(), Mochigoma.initialize(),
+                Player.SENTEBAN);
+    }
+
+    public static Kyokumen sfen(final String sfen) throws IllegalMoveException {
+        final String[] token = sfen.split(" ");
+        return new Kyokumen(ShogiBan.sfen(token[0]), Mochigoma.sfen(token[2]),
+                sfen.charAt(1) == 'b' ? Player.SENTEBAN : Player.GOTEBAN);
+    }
+
+    public Kyokumen(final ShogiBan shogiBan, final Mochigoma mochigoma,
+                    final Player turn) {
+        this.shogiBan = shogiBan;
+        this.mochigoma = mochigoma;
         this.turn = turn;
     }
 
@@ -41,49 +58,73 @@ public final class Kyokumen {
         return turn;
     }
 
+    public boolean isEmpty(final int x, final int y) {
+        return shogiBan.isEmpty(x, y);
+    }
+
     public Optional<IPiece> get(final int x, final int y) {
-        return banmen.get(x, y);
+        return shogiBan.get(x, y);
     }
 
     public IPiece pick(final int x, final int y) throws IllegalMoveException {
-        return banmen.pick(x, y);
+        if (isEmpty(x, y)) {
+            throw new IllegalMoveException("Can't pick empty.");
+        }
+        return shogiBan.get(x, y).get();
     }
 
     public Kyokumen move(final int fx, final int fy, final int tx,
                          final int ty) throws IllegalMoveException {
         checkMove(fx, fy, tx, ty);
-        return new Kyokumen((banmen.isEmpty(tx, ty) ? banmen : capture(tx, ty))
-                .move(fx, fy, tx, ty), turn.next());
+        if (isEmpty(tx, ty)) {
+            return new Kyokumen(getSet(fx, fy, tx, ty, pick(fx, fy)), mochigoma,
+                    turn.next());
+        } else {
+            if (isOwner(tx, ty)) {
+                throw new IllegalMoveException("Don't capture own piece.");
+            }
+            return new Kyokumen(getSet(fx, fy, tx, ty, pick(fx, fy)),
+                    mochigoma.push(pick(tx, ty).captured(turn)), turn.next());
+        }
     }
 
     public Kyokumen promotion(final int fx, final int fy, final int tx,
                               final int ty) throws IllegalMoveException {
         checkMove(fx, fy, tx, ty);
-        return new Kyokumen((banmen.isEmpty(tx, ty) ? banmen : capture(tx, ty))
-                .promotion(fx, fy, tx, ty), turn.next());
+        if (isEmpty(tx, ty)) {
+            return new Kyokumen(
+                    getSet(fx, fy, tx, ty, pick(fx, fy).promotion()), mochigoma,
+                    turn.next());
+        } else {
+            if (isOwner(tx, ty)) {
+                throw new IllegalMoveException("Don't capture own piece.");
+            }
+            return new Kyokumen(
+                    getSet(fx, fy, tx, ty, pick(fx, fy).promotion()),
+                    mochigoma.push(pick(tx, ty).captured(turn)), turn.next());
+        }
     }
+
+    private ShogiBan getSet(final int fx, final int fy, final int tx,
+                            final int ty, final IPiece koma) {
+        return shogiBan.remove(fx, fy).set(tx, ty, koma);
+    }
+
 
     private void checkMove(final int fx, final int fy, final int tx,
                            final int ty) throws IllegalMoveException {
         if (!isOwner(fx, fy)) {
             throw new IllegalMoveException("Don't move not own piece.");
         }
-        if (!pick(fx, fy).checkMove(fx, fy, tx, ty, banmen)) {
+        if (!pick(fx, fy).checkMove(fx, fy, tx, ty, shogiBan)) {
             throw new IllegalMoveException("Move does not keep rule.");
         }
     }
 
-    private Banmen capture(final int tx,
-                           final int ty) throws IllegalMoveException {
-        if (isOwner(tx, ty)) {
-            throw new IllegalMoveException("Don't capture own piece.");
-        }
-        return banmen.capture(tx, ty, turn);
-    }
-
     public Kyokumen drop(final int tx, final int ty,
                          final IPiece koma) throws IllegalMoveException {
-        return new Kyokumen(banmen.drop(tx, ty, koma), turn.next());
+        return new Kyokumen(shogiBan.set(tx, ty, koma), mochigoma.remove(koma),
+                turn.next());
     }
 
     private boolean isOwner(final int x,
@@ -91,16 +132,12 @@ public final class Kyokumen {
         return pick(x, y).isOwner(turn);
     }
 
-    private boolean isEmpty(final int x, final int y) {
-        return banmen.isEmpty(x, y);
-    }
-
     public int countMochigoma(final IPiece koma) {
-        return banmen.countMochigoma(koma);
+        return mochigoma.count(koma);
     }
 
     public String convertString(final IStringConverter converter) {
-        return converter.convertKyokumen(banmen, turn);
+        return converter.convertKyokumen(shogiBan, mochigoma, turn);
     }
 
 }

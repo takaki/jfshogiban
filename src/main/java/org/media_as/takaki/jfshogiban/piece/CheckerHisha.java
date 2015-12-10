@@ -18,14 +18,13 @@
 
 package org.media_as.takaki.jfshogiban.piece;
 
-import org.media_as.takaki.jfshogiban.Banmen;
-import org.media_as.takaki.jfshogiban.IllegalMoveException;
+import org.media_as.takaki.jfshogiban.ShogiBan;
 
 import java.util.stream.IntStream;
 
 public interface CheckerHisha {
     default boolean checkHishaMove(final int fx, final int fy, final int tx,
-                                   final int ty, final Banmen banmen) {
+                                   final int ty, final ShogiBan banmen) {
         return fx == tx && IntStream.rangeClosed(1, Math.abs(fy - ty) - 1)
                 .allMatch(diff -> banmen.isEmpty(fx,
                         fy + diff * (fy > ty ? -1 : 1))) || fy == ty && IntStream

@@ -18,8 +18,8 @@
 
 package org.media_as.takaki.jfshogiban.piece;
 
-import org.media_as.takaki.jfshogiban.Banmen;
 import org.media_as.takaki.jfshogiban.Player;
+import org.media_as.takaki.jfshogiban.ShogiBan;
 
 public final class KomaGin extends BasePiece {
     public KomaGin(final Player owner) {
@@ -38,7 +38,7 @@ public final class KomaGin extends BasePiece {
 
     @Override
     public boolean checkMove(final int fx, final int fy, final int tx,
-                             final int ty, final Banmen banmen) {
+                             final int ty, final ShogiBan shogiBan) {
         return Math.abs(fx - tx) == 1 && Math
                 .abs(fy - ty) == 1 || fx == tx && fy - ty == sign();
     }

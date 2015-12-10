@@ -51,8 +51,8 @@ public final class Main {
                  final IMoveChannel channelSente,
                  final IMoveChannel channelGote, final boolean finished) {
         final PrintWriter writer = new PrintWriter(System.out);
-        final IStringConverter csaConverter = new CsaConverter();
-        writer.println(playMove.convertString(csaConverter));
+        writer.println(playMove.convertString(new SfenConverter()));
+        writer.println(playMove.convertString(new CsaConverter()));
         writer.flush();
 
         LOG.debug(playMove.convertString(new SfenConverter()));

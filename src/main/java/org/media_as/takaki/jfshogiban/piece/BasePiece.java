@@ -18,7 +18,7 @@
 
 package org.media_as.takaki.jfshogiban.piece;
 
-import org.media_as.takaki.jfshogiban.Banmen;
+import org.media_as.takaki.jfshogiban.ShogiBan;
 import org.media_as.takaki.jfshogiban.tostr.CsaConverter;
 import org.media_as.takaki.jfshogiban.tostr.IStringConverter;
 import org.media_as.takaki.jfshogiban.Player;
@@ -35,7 +35,7 @@ public abstract class BasePiece implements IPiece {
 
     @SuppressWarnings("DesignForExtension")
     @Override
-    public boolean canSet(final int x, final int y, final Banmen banmen) {
+    public boolean canSet(final int x, final int y, final ShogiBan banmen) {
         return true;
     }
 
@@ -77,6 +77,6 @@ public abstract class BasePiece implements IPiece {
 
     @Override
     public final String toString() {
-        return convertString(new CsaConverter());
+        return String.join(":", getClass().getSimpleName().toString(), owner.toString());
     }
 }

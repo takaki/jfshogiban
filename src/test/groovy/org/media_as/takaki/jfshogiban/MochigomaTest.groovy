@@ -63,13 +63,17 @@ class MochigomaTest extends Specification {
 
     }
 
-    def "can't put on narigoma" () {
+    def "can't put on narigoma"() {
         when:
         mochigoma.push(Koma.GOTE_NARIGIN)
         then:
         thrown(IllegalMoveException)
     }
 
-
+    def "sfen"() {
+        expect:
+        Mochigoma.sfen("2Pp").count(Koma.SENTE_FU) == 2
+        Mochigoma.sfen("2Pp").count(Koma.GOTE_FU) == 1
+    }
 
 }

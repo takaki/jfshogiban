@@ -120,9 +120,4 @@ class BanmenTest extends Specification {
         thrown(IllegalMoveException)
     }
 
-    def "Fu promotion"(){
-        expect:
-        board.set(2,4,Koma.SENTE_FU).promotion(2,4,2,3).pick(2,3) == Koma.SENTE_TOKIN
-    }
-
 }

@@ -18,8 +18,8 @@
 
 package org.media_as.takaki.jfshogiban.piece;
 
-import org.media_as.takaki.jfshogiban.Banmen;
 import org.media_as.takaki.jfshogiban.Player;
+import org.media_as.takaki.jfshogiban.ShogiBan;
 
 public final class KomaNarikyo extends BasePiece implements CheckerKin {
     public KomaNarikyo(final Player owner) {
@@ -38,7 +38,7 @@ public final class KomaNarikyo extends BasePiece implements CheckerKin {
 
     @Override
     public boolean checkMove(final int fx, final int fy, final int tx,
-                             final int ty, final Banmen banmen) {
+                             final int ty, final ShogiBan shogiBan) {
         return checkRuleKin(fx, fy, tx, ty, sign());
     }
 

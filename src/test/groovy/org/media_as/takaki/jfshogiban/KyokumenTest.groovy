@@ -37,6 +37,7 @@ class KyokumenTest extends Specification {
 
         then:
         b2.pick(7, 6) == Koma.SENTE_FU
+        b2.get(7, 7) == Optional.empty()
     }
 
     def "can't move not own piece"() {
@@ -108,7 +109,7 @@ class KyokumenTest extends Specification {
         thrown(IllegalMoveException)
 
         when:
-        start.move(7, 7, 7, 6).move(3,3,3,4).move(8,8,5,5)
+        start.move(7, 7, 7, 6).move(3, 3, 3, 4).move(8, 8, 5, 5)
         then:
         notThrown(IllegalMoveException)
 
@@ -133,5 +134,13 @@ class KyokumenTest extends Specification {
         then:
         thrown(IllegalMoveException)
     }
+
+    def "Fu promotion"() {
+        def test = new Kyokumen(ShogiBan.initialize().set(2, 4, Koma.SENTE_FU), Mochigoma.initialize(), Player.SENTEBAN)
+        expect:
+        test.promotion(2, 4, 2, 3).pick(2, 3) == Koma.SENTE_TOKIN
+        test.promotion(2, 4, 2, 3).isEmpty(2, 4)
+    }
+
 
 }

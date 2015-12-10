@@ -18,9 +18,8 @@
 
 package org.media_as.takaki.jfshogiban.piece;
 
-import org.media_as.takaki.jfshogiban.Banmen;
-import org.media_as.takaki.jfshogiban.IllegalMoveException;
 import org.media_as.takaki.jfshogiban.Player;
+import org.media_as.takaki.jfshogiban.ShogiBan;
 
 import java.util.stream.IntStream;
 
@@ -30,7 +29,7 @@ public final class KomaKyosha extends BasePiece {
     }
 
     @Override
-    public boolean canSet(final int x, final int y, final Banmen banmen) {
+    public boolean canSet(final int x, final int y, final ShogiBan banmen) {
         return isOwner(Player.SENTEBAN) && y >= 2 || isOwner(
                 Player.GOTEBAN) && y <= 8;
     }
@@ -42,10 +41,10 @@ public final class KomaKyosha extends BasePiece {
 
     @Override
     public boolean checkMove(final int fx, final int fy, final int tx,
-                             final int ty, final Banmen banmen) {
+                             final int ty, final ShogiBan shogiBan) {
         return fx == tx && (fy - ty) * sign() > 0 &&
                 IntStream.rangeClosed(1, Math.abs(fy - ty) - 1).allMatch(
-                        diff -> banmen.isEmpty(fx, fy - sign() * diff));
+                        diff -> shogiBan.isEmpty(fx, fy - sign() * diff));
     }
 
     @Override
