@@ -19,8 +19,8 @@
 package org.media_as.takaki.jfshogiban.piece;
 
 import org.media_as.takaki.jfshogiban.Banmen;
-import org.media_as.takaki.jfshogiban.CsaConverter;
-import org.media_as.takaki.jfshogiban.IStringConverter;
+import org.media_as.takaki.jfshogiban.tostr.CsaConverter;
+import org.media_as.takaki.jfshogiban.tostr.IStringConverter;
 import org.media_as.takaki.jfshogiban.Player;
 
 import java.util.Objects;
@@ -72,7 +72,7 @@ public abstract class BasePiece implements IPiece {
 
     @Override
     public final String convertString(final IStringConverter converter) {
-        return converter.convert(this);
+        return converter.convertPiece(this);
     }
 
     @Override

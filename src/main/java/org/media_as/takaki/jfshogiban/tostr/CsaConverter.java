@@ -16,9 +16,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.media_as.takaki.jfshogiban;
+package org.media_as.takaki.jfshogiban.tostr;
 
 import org.apache.commons.lang3.StringUtils;
+import org.media_as.takaki.jfshogiban.*;
 import org.media_as.takaki.jfshogiban.piece.BasePiece;
 import org.media_as.takaki.jfshogiban.piece.IPiece;
 
@@ -26,18 +27,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public final class CsaConverter implements IStringConverter {
+public final class CsaConverter extends AbstractStringConverter {
 
     private static final Map<IPiece, String> PIECE = new HashMap<>(28);
-
-    private static final List<IPiece> SENTE_LIST = Arrays
-            .asList(Koma.SENTE_FU, Koma.SENTE_KYOSHA, Koma.SENTE_KEIMA,
-                    Koma.SENTE_GIN, Koma.SENTE_KIN, Koma.SENTE_KAKU,
-                    Koma.SENTE_HISYA);
-    private static final List<IPiece> GOTE_LIST = Arrays
-            .asList(Koma.GOTE_FU, Koma.GOTE_KYOSHA, Koma.GOTE_KEIMA,
-                    Koma.GOTE_GIN, Koma.GOTE_KIN, Koma.GOTE_KAKU,
-                    Koma.GOTE_HISYA);
 
     static {
         PIECE.put(Koma.SENTE_FU, "+FU");
@@ -73,12 +65,12 @@ public final class CsaConverter implements IStringConverter {
     }
 
     @Override
-    public String convert(final Player player) {
+    public String convertPlayer(final Player player) {
         return player == Player.SENTEBAN ? "+" : "-";
     }
 
     @Override
-    public String convert(final BasePiece piece) {
+    public String convertPiece(final BasePiece piece) {
         if (PIECE.containsKey(piece)) {
             return PIECE.get(piece);
         } else {
@@ -87,7 +79,7 @@ public final class CsaConverter implements IStringConverter {
     }
 
     @Override
-    public String convert(final Mochigoma mochigoma) {
+    public String convertMochigoma(final Mochigoma mochigoma) {
         return String.join("", "P+", mochigomaLine(mochigoma, SENTE_LIST),
                 System.lineSeparator(), "P-",
                 mochigomaLine(mochigoma, GOTE_LIST), System.lineSeparator());
@@ -102,18 +94,24 @@ public final class CsaConverter implements IStringConverter {
     }
 
     @Override
-    public String convert(final ShogiBan shogiBan, final Mochigoma mochigoma) {
+    public String convertBanmen(final ShogiBan shogiBan,
+                                final Mochigoma mochigoma) {
         return String.join("", shogiBan.convertString(this),
                 mochigoma.convertString(this));
     }
 
     @Override
-    public String convert(final ShogiBan shogiban) {
+    public String convertShogiban(final ShogiBan shogiban) {
         return IntStream.rangeClosed(1, 9).mapToObj(y -> String
                 .join("", "P", Integer.toString(y), IntStream.rangeClosed(1, 9)
                         .mapToObj(x -> shogiban.get(10 - x, y)
                                 .map(p -> p.convertString(this)).orElse(" * "))
                         .collect(Collectors.joining()), System.lineSeparator()))
                 .collect(Collectors.joining());
+    }
+
+    @Override
+    public String convertKyokumen(final Banmen banmen, final Player turn) {
+        return banmen.convertString(this);
     }
 }

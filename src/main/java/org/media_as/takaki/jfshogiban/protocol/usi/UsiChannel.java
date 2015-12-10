@@ -19,8 +19,10 @@
 package org.media_as.takaki.jfshogiban.protocol.usi;
 
 import com.codepoetics.protonpack.StreamUtils;
+import org.media_as.takaki.jfshogiban.tostr.IStringConverter;
 import org.media_as.takaki.jfshogiban.IllegalMoveException;
 import org.media_as.takaki.jfshogiban.PlayMove;
+import org.media_as.takaki.jfshogiban.tostr.SfenConverter;
 import org.media_as.takaki.jfshogiban.action.IMovement;
 import org.media_as.takaki.jfshogiban.action.NormalMove;
 import org.media_as.takaki.jfshogiban.protocol.IMoveChannel;
@@ -60,31 +62,33 @@ public class UsiChannel implements IMoveChannel {
             }
         }, 0, TimeUnit.MILLISECONDS);
 
-        final UsiState state;
         final Stream<UsiState> iterate = Stream
                 .iterate(new InitUsi(), state0 -> {
                     try {
                         return state0.readResponse(out, in);
-                    } catch (InterruptedException e) {
+                    } catch (final InterruptedException e) {
                         e.printStackTrace();
                         throw new RuntimeException(e);
                     }
                 });
         StreamUtils.takeUntil(iterate,
                 state0 -> state0.getClass().equals(EndInit.class))
-                .reduce((a, b) -> b);
+                .reduce((x, y) -> y);
     }
 
     @Override
-    public IMovement getMovement(PlayMove playMove) throws IllegalMoveException {
-        final String position = String.join(" ", "position", playMove.toSfen());
+    public IMovement getMovement(
+            final PlayMove playMove) throws IllegalMoveException {
+        final IStringConverter converter = new SfenConverter();
+        final String position = String
+                .join(" ", "position", playMove.convertString(converter));
         final WaitBestmove waitBestmove = new WaitBestmove(Optional.empty());
         waitBestmove.sendPosition(out, position);
         final Stream<WaitBestmove> iterate = Stream
                 .iterate(waitBestmove, state0 -> {
                     try {
                         return state0.readResponse(out, in);
-                    } catch (InterruptedException e) {
+                    } catch (final InterruptedException e) {
                         e.printStackTrace();
                         throw new RuntimeException(e);
                     }
@@ -96,12 +100,12 @@ public class UsiChannel implements IMoveChannel {
         return toMovement(bestmove);
     }
 
-    private IMovement toMovement(String command) {
+    private IMovement toMovement(final String command) {
         if (Character.isDigit(command.charAt(0))) {
-            int fx = Character.getNumericValue(command.charAt(0));
-            int fy = Character.getNumericValue(command.charAt(1)) - 9;
-            int tx = Character.getNumericValue(command.charAt(2));
-            int ty = Character.getNumericValue(command.charAt(3)) - 9;
+            final int fx = Character.getNumericValue(command.charAt(0));
+            final int fy = Character.getNumericValue(command.charAt(1)) - 9;
+            final int tx = Character.getNumericValue(command.charAt(2));
+            final int ty = Character.getNumericValue(command.charAt(3)) - 9;
             return new NormalMove(fx, fy, tx, ty);
         } else {
             throw new RuntimeException("FIX ME");

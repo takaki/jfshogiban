@@ -16,34 +16,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.media_as.takaki.jfshogiban;
+package org.media_as.takaki.jfshogiban
 
-import org.media_as.takaki.jfshogiban.piece.BasePiece;
+import org.media_as.takaki.jfshogiban.tostr.SfenConverter
+import spock.lang.Specification
 
-public final class SfenConverter implements IStringConverter {
-    @Override
-    public String convert(final Player player) {
-        return player == Player.SENTEBAN ? "b" : "w";
+class SfenConverterTest extends Specification {
+    def converter = new SfenConverter()
+
+    def "ShogiBan test"() {
+        expect:
+        ShogiBan.startPosition().convertString(converter) == "lnsgkgsnl/1r5b1/ppppppppp/9/9/9/PPPPPPPPP/1B5R1/LNSGKGSNL"
     }
 
-    @Override
-    public String convert(final BasePiece piece) {
-        throw new RuntimeException();
+    def "Mochigoma test"() {
+        expect:
+        Mochigoma.initialize().push(Koma.SENTE_FU).push(Koma.SENTE_FU).push(Koma.GOTE_KEIMA).
+                convertString(converter) == "2Pn"
     }
 
-    @Override
-    public String convert(final Mochigoma mochigoma) {
-        throw new RuntimeException();
+    def "Kyokumen test"() {
+        expect:
+        Kyokumen.startPosition().convertString(converter) == "lnsgkgsnl/1r5b1/ppppppppp/9/9/9/PPPPPPPPP/1B5R1/LNSGKGSNL b - 1"
     }
-
-    @Override
-    public String convert(final ShogiBan shogiBan, final Mochigoma mochigoma) {
-        throw new RuntimeException();
-    }
-
-    @Override
-    public String convert(final ShogiBan shogiban) {
-        throw new RuntimeException();
-    }
-
 }

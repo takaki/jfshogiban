@@ -18,6 +18,8 @@
 
 package org.media_as.takaki.jfshogiban;
 
+import org.media_as.takaki.jfshogiban.tostr.IStringConverter;
+
 public enum Player {
     SENTEBAN, GOTEBAN;
 
@@ -30,6 +32,6 @@ public enum Player {
     }
 
     public String convert(final IStringConverter converter) {
-        return converter.convert(this);
+        return converter.convertPlayer(this);
     }
 }

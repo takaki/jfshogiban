@@ -18,8 +18,8 @@
 
 package org.media_as.takaki.jfshogiban.protocol;
 
-import org.media_as.takaki.jfshogiban.CsaConverter;
-import org.media_as.takaki.jfshogiban.IStringConverter;
+import org.media_as.takaki.jfshogiban.tostr.CsaConverter;
+import org.media_as.takaki.jfshogiban.tostr.IStringConverter;
 import org.media_as.takaki.jfshogiban.IllegalMoveException;
 import org.media_as.takaki.jfshogiban.PlayMove;
 import org.media_as.takaki.jfshogiban.action.IMovement;

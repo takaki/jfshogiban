@@ -16,21 +16,30 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.media_as.takaki.jfshogiban;
+package org.media_as.takaki.jfshogiban.tostr;
 
+import org.media_as.takaki.jfshogiban.Banmen;
+import org.media_as.takaki.jfshogiban.Mochigoma;
+import org.media_as.takaki.jfshogiban.Player;
+import org.media_as.takaki.jfshogiban.ShogiBan;
 import org.media_as.takaki.jfshogiban.piece.BasePiece;
 import org.media_as.takaki.jfshogiban.piece.IPiece;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 public interface IStringConverter {
-    String convert(Player player);
 
-    String convert(BasePiece piece);
+    String convertPlayer(Player player);
 
-    String convert(Mochigoma mochigoma);
+    String convertPiece(BasePiece piece);
 
-    String convert(ShogiBan shogiBan, Mochigoma mochigoma);
+    String convertMochigoma(Mochigoma mochigoma);
 
-    String convert(ShogiBan shogiban);
+    String convertBanmen(ShogiBan shogiBan, Mochigoma mochigoma);
+
+    String convertShogiban(ShogiBan shogiban);
+
+    String convertKyokumen(Banmen banmen, Player turn);
 }

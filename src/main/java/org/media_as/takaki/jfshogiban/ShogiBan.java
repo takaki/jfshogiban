@@ -19,6 +19,7 @@
 package org.media_as.takaki.jfshogiban;
 
 import org.media_as.takaki.jfshogiban.piece.IPiece;
+import org.media_as.takaki.jfshogiban.tostr.IStringConverter;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -100,6 +101,6 @@ public final class ShogiBan {
     }
 
     public String convertString(final IStringConverter converter) {
-        return converter.convert(this);
+        return converter.convertShogiban(this);
     }
 }

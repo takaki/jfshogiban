@@ -19,6 +19,8 @@
 package org.media_as.takaki.jfshogiban;
 
 import org.media_as.takaki.jfshogiban.piece.IPiece;
+import org.media_as.takaki.jfshogiban.tostr.CsaConverter;
+import org.media_as.takaki.jfshogiban.tostr.IStringConverter;
 
 import java.util.Optional;
 
@@ -110,11 +112,7 @@ public final class Banmen { // TODO : merge with Kyokumen
     }
 
     public String convertString(final IStringConverter converter) {
-        return converter.convert(shogiBan, mochigoma);
+        return converter.convertBanmen(shogiBan, mochigoma);
     }
 
-    // TODO
-    public String mochigomaSfen() {
-        return mochigoma.toSfen();
-    }
 }

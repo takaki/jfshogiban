@@ -19,13 +19,10 @@
 package org.media_as.takaki.jfshogiban;
 
 
-import org.apache.commons.lang3.StringUtils;
 import org.media_as.takaki.jfshogiban.piece.IPiece;
-import org.media_as.takaki.jfshogiban.protocol.usi.Sfen;
+import org.media_as.takaki.jfshogiban.tostr.IStringConverter;
 
 import java.util.*;
-import java.util.function.BiFunction;
-import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -83,15 +80,8 @@ public final class Mochigoma {
     }
 
     public String convertString(final IStringConverter converter) {
-        return converter.convert(this);
+        return converter.convertMochigoma(this);
     }
 
 
-    public String toSfen() {
-        final String tmp = MOCHIGOMA.stream().filter(p -> count(p) > 0)
-                .map(p -> String.join(Sfen.PIECE_SFEN.get(p),
-                        Integer.toString(count(p))))
-                .collect(Collectors.joining());
-        return tmp.isEmpty() ? "-" : tmp;
-    }
 }

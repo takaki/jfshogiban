@@ -18,6 +18,7 @@
 
 package org.media_as.takaki.jfshogiban
 
+import org.media_as.takaki.jfshogiban.tostr.CsaConverter
 import spock.lang.Specification
 
 class CsaConverterTest extends Specification {
@@ -40,7 +41,7 @@ class CsaConverterTest extends Specification {
     def "Mochigoma "() {
         expect:
         Mochigoma.initialize().push(Koma.SENTE_FU).push(Koma.SENTE_FU).push(Koma.GOTE_KEIMA).
-                convertString(new CsaConverter()) ==
+                convertString(converter) ==
                 "P+00FU00FU\nP-00KE\n"
     }
 

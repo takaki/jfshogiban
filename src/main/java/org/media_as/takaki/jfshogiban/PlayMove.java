@@ -19,6 +19,7 @@
 package org.media_as.takaki.jfshogiban;
 
 import org.media_as.takaki.jfshogiban.action.IMovement;
+import org.media_as.takaki.jfshogiban.tostr.IStringConverter;
 
 public final class PlayMove {
     private final Kyokumen kyokumen;
@@ -34,12 +35,8 @@ public final class PlayMove {
         return new PlayMove(movement.action(kyokumen), movement.isFinished());
     }
 
-    public String convertString(IStringConverter converter) {
+    public String convertString(final IStringConverter converter) {
         return kyokumen.convertString(converter);
-    }
-
-    public String toSfen() {
-        return String.join(" ", kyokumen.toSfen());
     }
 
     public boolean isFinished() {

@@ -19,7 +19,7 @@
 package org.media_as.takaki.jfshogiban;
 
 import org.media_as.takaki.jfshogiban.piece.IPiece;
-import org.media_as.takaki.jfshogiban.protocol.usi.Sfen;
+import org.media_as.takaki.jfshogiban.tostr.IStringConverter;
 
 import java.util.Optional;
 
@@ -99,23 +99,8 @@ public final class Kyokumen {
         return banmen.countMochigoma(koma);
     }
 
-    // TODO: add bridge
     public String convertString(final IStringConverter converter) {
-        return banmen.convertString(converter);
+        return converter.convertKyokumen(banmen, turn);
     }
 
-    // TODO: add bridge
-    public String toSfen() {
-        final SfenConverter sfenString = new SfenConverter();
-        final StringBuilder str = new StringBuilder(150);
-        for (int y = 1; y < 10; y++) {
-            for (int x = 9; x <= 1; x--) {
-                str.append(banmen.get(x, y).map(p -> Sfen.PIECE_SFEN.get(p))
-                        .orElse("_"));
-            }
-            str.append('/');
-        }
-        return String.join(" ", str.toString(), getTurn().convert(sfenString),
-                banmen.mochigomaSfen(), "1");
-    }
 }
