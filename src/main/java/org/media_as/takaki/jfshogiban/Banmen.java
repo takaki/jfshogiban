@@ -30,7 +30,7 @@ public final class Banmen { // TODO : merge with Kyokumen
         return new Banmen(ShogiBan.initialize(), Mochigoma.initialize());
     }
 
-    public static Banmen startPosition() throws IllegalMoveException {
+    public static Banmen startPosition() {
         return new Banmen(ShogiBan.startPosition(), Mochigoma.initialize());
     }
 
@@ -40,12 +40,12 @@ public final class Banmen { // TODO : merge with Kyokumen
     }
 
     public Optional<IPiece> get(final int x,
-                                final int y) throws IllegalMoveException {
+                                final int y) {
         return shogiBan.get(x, y);
     }
 
     public boolean isEmpty(final int x,
-                           final int y) throws IllegalMoveException {
+                           final int y) {
         return shogiBan.isEmpty(x, y);
     }
 

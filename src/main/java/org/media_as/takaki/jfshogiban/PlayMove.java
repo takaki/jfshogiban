@@ -27,7 +27,7 @@ public final class PlayMove {
     private final Kyokumen kyokumen;
     private final boolean finished;
 
-    public PlayMove(final Kyokumen kyokumen, boolean finished) {
+    public PlayMove(final Kyokumen kyokumen, final boolean finished) {
         this.kyokumen = kyokumen;
         this.finished = finished;
     }
@@ -41,7 +41,7 @@ public final class PlayMove {
         return kyokumen.toCSA();
     }
 
-    public String toSfen() throws IllegalMoveException {
+    public String toSfen() {
         return String.join(" ", kyokumen.toSfen());
     }
 

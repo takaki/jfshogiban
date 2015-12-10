@@ -25,18 +25,10 @@ import java.util.stream.IntStream;
 
 public interface CheckerKaku {
     default boolean checkKakuMove(final int fx, final int fy, final int tx,
-                                  final int ty,
-                                  final Banmen banmen)  {
+                                  final int ty, final Banmen banmen) {
         final int diffX = fx > tx ? -1 : 1;
         final int diffY = fy > ty ? -1 : 1;
         return Math.abs(fx - tx) == Math.abs(fy - ty) && IntStream
-                .rangeClosed(1, Math.abs(fx - tx) - 1).allMatch(diff -> {
-                    try {
-                        return banmen
-                                .isEmpty(fx + diff * diffX, fy + diff * diffY);
-                    } catch (final IllegalMoveException ignored) {
-                        return false;
-                    }
-                });
+                .rangeClosed(1, Math.abs(fx - tx) - 1).allMatch(diff -> banmen.isEmpty(fx + diff * diffX, fy + diff * diffY));
     }
 }

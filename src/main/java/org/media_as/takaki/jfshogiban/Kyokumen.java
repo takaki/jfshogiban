@@ -29,7 +29,7 @@ public final class Kyokumen {
     private final Banmen banmen;
     private final Player turn;
 
-    public static Kyokumen startPosition() throws IllegalMoveException {
+    public static Kyokumen startPosition() {
         return new Kyokumen(Banmen.startPosition(), Player.SENTEBAN);
     }
 
@@ -43,7 +43,7 @@ public final class Kyokumen {
     }
 
     public Optional<IPiece> get(final int x,
-                                final int y) throws IllegalMoveException {
+                                final int y) {
         return banmen.get(x, y);
     }
 
@@ -94,7 +94,7 @@ public final class Kyokumen {
     }
 
     private boolean isEmpty(final int x,
-                            final int y) throws IllegalMoveException {
+                            final int y) {
         return banmen.isEmpty(x, y);
     }
 
@@ -108,7 +108,7 @@ public final class Kyokumen {
     }
 
     // TODO: add bridge
-    public String toSfen() throws IllegalMoveException {
+    public String toSfen() {
         final StringBuilder str = new StringBuilder(150);
         for (int y = 1; y < 10; y++) {
             for (int x = 9; x <= 1; x--) {

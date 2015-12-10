@@ -35,7 +35,7 @@ public final class ShogiBan {
     @SuppressWarnings("FieldNotUsedInToString")
     private final List<Optional<IPiece>> board;
 
-    public static ShogiBan startPosition() throws IllegalMoveException {
+    public static ShogiBan startPosition() {
         return initialize().set(1, 1, Koma.GOTE_KYOSHA)
                 .set(2, 1, Koma.GOTE_KEIMA).set(3, 1, Koma.GOTE_GIN)
                 .set(4, 1, Koma.GOTE_KIN).set(5, 1, Koma.GOTE_GYOKU)
@@ -70,35 +70,30 @@ public final class ShogiBan {
         this.board = Collections.unmodifiableList(board);
     }
 
-    public Optional<IPiece> get(final int x,
-                                final int y) throws IllegalMoveException {
+    public Optional<IPiece> get(final int x, final int y) {
         return board.get(calcIndex(x, y));
     }
 
-    public boolean isEmpty(final int x,
-                           final int y) throws IllegalMoveException {
+    public boolean isEmpty(final int x, final int y) {
         return !get(x, y).isPresent();
     }
 
-    public ShogiBan set(final int x, final int y,
-                        final IPiece koma) throws IllegalMoveException {
+    public ShogiBan set(final int x, final int y, final IPiece koma) {
         final List<Optional<IPiece>> board = new ArrayList<>(this.board);
         board.set(calcIndex(x, y), Optional.of(koma));
         return new ShogiBan(board);
     }
 
-    public ShogiBan remove(final int x,
-                           final int y) throws IllegalMoveException {
+    public ShogiBan remove(final int x, final int y) {
         final List<Optional<IPiece>> board = new ArrayList<>(this.board);
         board.set(calcIndex(x, y), Optional.empty());
         return new ShogiBan(board);
     }
 
     // 3四 is 19.
-    private static int calcIndex(final int x,
-                                 final int y) throws IllegalMoveException {
+    private static int calcIndex(final int x, final int y) {
         if (x < 1 || x > 9 || y < 1 || y > 9) {
-            throw new IllegalMoveException(
+            throw new IllegalArgumentException(
                     String.format("Out of bound x = %d, y = %d", x, y));
         }
         return x - 1 + (y - 1) * HEIGHT;
@@ -110,11 +105,7 @@ public final class ShogiBan {
             //noinspection MagicCharacter
             builder.append('P').append(y);
             for (int x = WIDTH; x >= 1; x--) {
-                try {
-                    builder.append(
-                            get(x, y).map(IPiece::toPiece).orElse(" * "));
-                } catch (final IllegalMoveException ignored) {
-                }
+                builder.append(get(x, y).map(IPiece::toPiece).orElse(" * "));
             }
             builder.append(System.lineSeparator());
         }

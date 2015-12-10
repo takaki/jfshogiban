@@ -58,7 +58,7 @@ public final class Main {
                 currentPlayer.next(), channelSente, channelGote, false);
     }
 
-    public static void main(final String[] args) throws IllegalMoveException, IOException {
+    public static void main(final String[] args) throws IOException {
         LOG.debug(Arrays.toString(args));
         final Main main = new Main(
                 new PlayMove(Kyokumen.startPosition(), false), Player.SENTEBAN,

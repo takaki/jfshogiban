@@ -27,22 +27,10 @@ public interface CheckerHisha {
     default boolean checkHishaMove(final int fx, final int fy, final int tx,
                                    final int ty, final Banmen banmen) {
         return fx == tx && IntStream.rangeClosed(1, Math.abs(fy - ty) - 1)
-                .allMatch(diff -> {
-                    try {
-                        return banmen
-                                .isEmpty(fx, fy + diff * (fy > ty ? -1 : 1));
-                    } catch (final IllegalMoveException ignored) {
-                        return false;
-                    }
-                }) || fy == ty && IntStream
-                .rangeClosed(1, Math.abs(fx - tx) - 1).allMatch(diff -> {
-                    try {
-                        return banmen
-                                .isEmpty(fx + diff * (fx > tx ? -1 : 1), fy);
-                    } catch (final IllegalMoveException ignored) {
-                        return false;
-                    }
-                });
+                .allMatch(diff -> banmen.isEmpty(fx,
+                        fy + diff * (fy > ty ? -1 : 1))) || fy == ty && IntStream
+                .rangeClosed(1, Math.abs(fx - tx) - 1).allMatch(diff -> banmen
+                        .isEmpty(fx + diff * (fx > tx ? -1 : 1), fy));
     }
 
 }

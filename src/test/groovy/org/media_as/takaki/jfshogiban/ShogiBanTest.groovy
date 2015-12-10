@@ -35,17 +35,17 @@ class ShogiBanTest extends Specification {
         when:
         board.get(0, 1)
         then:
-        thrown(IllegalMoveException)
+        thrown(IllegalArgumentException)
 
         when:
         board.get(3, 10)
         then:
-        thrown(IllegalMoveException)
+        thrown(IllegalArgumentException)
 
         when:
         board.set(1, 10, Koma.GOTE_KAKU)
         then:
-        thrown(IllegalMoveException)
+        thrown(IllegalArgumentException)
     }
 
     def "set piece and got piece are same"() {
