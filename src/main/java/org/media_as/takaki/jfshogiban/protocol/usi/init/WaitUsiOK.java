@@ -19,21 +19,24 @@
 package org.media_as.takaki.jfshogiban.protocol.usi.init;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.PrintStream;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 public final class WaitUsiOK implements UsiState {
+    private static final Logger LOG = LoggerFactory.getLogger(WaitUsiOK.class);
 
     @Override
     public UsiState readResponse(final PrintStream out,
                                  final BlockingQueue<String> in) throws InterruptedException {
         String line;
         line = in.take();
-        System.out.println(getClass() + "<" + line);
+        LOG.debug("< {}", line);
         if (StringUtils.equals(line, "usiok")) {
-            System.out.println(getClass() + ">" + "isready");
+            LOG.debug("> isready");
             out.println("isready");
             out.flush();
             return new WaitReadyok();

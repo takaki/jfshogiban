@@ -20,6 +20,7 @@ package org.media_as.takaki.jfshogiban;
 
 import org.media_as.takaki.jfshogiban.piece.IPiece;
 import org.media_as.takaki.jfshogiban.protocol.usi.Sfen;
+import org.slf4j.LoggerFactory;
 
 import java.util.Optional;
 

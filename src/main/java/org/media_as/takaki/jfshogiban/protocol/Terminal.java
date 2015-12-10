@@ -24,9 +24,11 @@ import org.media_as.takaki.jfshogiban.action.IMovement;
 import org.media_as.takaki.jfshogiban.action.NormalMove;
 import org.media_as.takaki.jfshogiban.action.PromoteMove;
 
+import java.io.PrintWriter;
 import java.util.Scanner;
 
 public class Terminal implements IMoveChannel {
+
     private final Scanner scanner;
 
     public Terminal() {
@@ -34,9 +36,11 @@ public class Terminal implements IMoveChannel {
     }
 
     @Override
-    public IMovement getMovement(final PlayMove playMove) throws IllegalMoveException {
-        System.out.println(playMove.toCSA());
-        System.out.print(String.join("", playMove.getTurn().toCSA(), "> "));
+    public IMovement getMovement(
+            final PlayMove playMove) throws IllegalMoveException {
+        final PrintWriter writer = new PrintWriter(System.out);
+        writer.println(playMove.toCSA());
+        writer.print(String.join("", playMove.getTurn().toCSA(), "> "));
         final String input = scanner.next();
         final int fx = Integer.valueOf(input.substring(0, 1));
         final int fy = Integer.valueOf(input.substring(1, 2));

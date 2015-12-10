@@ -18,20 +18,24 @@
 
 package org.media_as.takaki.jfshogiban.protocol.usi.init;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.PrintStream;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 public class InitUsi implements UsiState {
+    private static final Logger LOG = LoggerFactory.getLogger(InitUsi.class);
 
     @Override
     public UsiState readResponse(final PrintStream out,
                                  final BlockingQueue<String> in) throws InterruptedException {
         String line;
-        while ((line = in.poll(500, TimeUnit.MILLISECONDS)) != null) {
-            System.out.println(getClass() + "<" + line);
+        while ((line =  in.poll(500, TimeUnit.MILLISECONDS)) != null) {
+            LOG.debug("< {}", line);
         }
-        System.out.println(getClass() + ">" + "usi");
+        LOG.debug("> {}", "usi");
         out.println("usi");
         out.flush();
         return new WaitUsiOK();

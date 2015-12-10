@@ -19,13 +19,16 @@
 package org.media_as.takaki.jfshogiban.protocol.usi;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.PrintStream;
 import java.util.Optional;
 import java.util.concurrent.BlockingQueue;
 
 public class WaitBestmove {
-
+    private static final Logger LOG = LoggerFactory
+            .getLogger(WaitBestmove.class);
     private final Optional<String> bestmove;
 
     public WaitBestmove(final Optional<String> bestmove) {
@@ -33,7 +36,7 @@ public class WaitBestmove {
     }
 
     public void sendPosition(final PrintStream out, final String position) {
-        System.out.println(getClass() +  ">" +  position);
+        LOG.debug("> {}", position);
         out.println(position); // TODO
         out.println("go");
         out.flush();
@@ -41,25 +44,24 @@ public class WaitBestmove {
 
     public WaitBestmove readResponse(final PrintStream out,
                                      final BlockingQueue<String> in) throws InterruptedException {
-        if(bestmove.isPresent()) {
+        if (bestmove.isPresent()) {
             return null; // TODO: ugly
         }
         final String line = in.take();
         if (StringUtils.startsWith(line, "bestmove")) {
-            System.out.println(getClass() + "<" + line);
+            LOG.debug("< {}", line);
             final String[] split = line.split(" ");
             return new WaitBestmove(Optional.of(split[1]));
         } else {
-            System.out.println(getClass() + "<" + line);
+            LOG.debug("< {}", line);
             return new WaitBestmove(Optional.empty());
 
         }
     }
 
     public Optional<String> getBestMove() {
-        System.out.println(
-                getClass() + (bestmove.isPresent() ? ":bestmove is " + bestmove
-                        .get() : ":empty"));
+        LOG.debug(bestmove.isPresent() ? ":bestmove is " + bestmove
+                .get() : ":empty");
         return bestmove;
     }
 }

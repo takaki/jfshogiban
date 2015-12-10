@@ -18,23 +18,28 @@
 
 package org.media_as.takaki.jfshogiban.protocol.usi.init;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.PrintStream;
 import java.util.concurrent.BlockingQueue;
 
 public class WaitReadyok implements UsiState {
-
+    private static final Logger LOG = LoggerFactory
+            .getLogger(WaitReadyok.class);
 
     @Override
-    public UsiState readResponse(PrintStream out, BlockingQueue<String> in) throws InterruptedException {
+    public UsiState readResponse(PrintStream out,
+                                 BlockingQueue<String> in) throws InterruptedException {
         final String line = in.take();
-        System.out.println(getClass() + "<" + line);
+        LOG.debug("< {}", line);
         if (line.equals("readyok")) {
-            System.out.println(getClass() + ">" + "usinewgame");
+            LOG.debug("> usinewgame");
             out.println("usinewgame");
             out.flush();
             return new EndInit();
         } else {
-            System.out.println(line);
+            LOG.debug(line);
             return new WaitReadyok();
         }
     }

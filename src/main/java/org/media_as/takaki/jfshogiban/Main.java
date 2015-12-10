@@ -23,6 +23,8 @@ import org.media_as.takaki.jfshogiban.action.IMovement;
 import org.media_as.takaki.jfshogiban.protocol.IMoveChannel;
 import org.media_as.takaki.jfshogiban.protocol.Terminal;
 import org.media_as.takaki.jfshogiban.protocol.usi.UsiChannel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -33,6 +35,7 @@ import java.util.stream.Stream;
 @SuppressWarnings({"HardCodedStringLiteral", "DuplicateStringLiteralInspection", "UtilityClassCanBeEnum"})
 // public class Main extends Application {
 public final class Main {
+    private static final Logger LOG = LoggerFactory.getLogger(Main.class);
 
     private final Player currentPlayer;
     private final PlayMove playMove;
@@ -56,7 +59,7 @@ public final class Main {
     }
 
     public static void main(final String[] args) throws IllegalMoveException, IOException {
-        System.out.println(Arrays.toString(args));
+        LOG.debug(Arrays.toString(args));
         final Main main = new Main(
                 new PlayMove(Kyokumen.startPosition(), false), Player.SENTEBAN,
                 new Terminal(), new UsiChannel(), false);

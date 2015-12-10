@@ -30,6 +30,8 @@ dependencies {
             "org.codehaus.groovy:groovy-all:2.4.3",
             'org.apache.commons:commons-lang3:3.4',
             'com.codepoetics:protonpack:1.7',
+            'ch.qos.logback:logback-classic:1.1.3',
+
 //            'org.functionaljava:functionaljava:4.4'
     )
     testCompile(
