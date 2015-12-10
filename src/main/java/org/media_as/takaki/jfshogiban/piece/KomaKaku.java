@@ -34,8 +34,7 @@ public final class KomaKaku extends BasePiece implements CheckerKaku {
 
     @Override
     public boolean checkMove(final int fx, final int fy, final int tx,
-                             final int ty,
-                             final Banmen banmen) {
+                             final int ty, final Banmen banmen) {
         return checkKakuMove(fx, fy, tx, ty, banmen);
     }
 
@@ -44,9 +43,5 @@ public final class KomaKaku extends BasePiece implements CheckerKaku {
         return new KomaKaku(owner);
     }
 
-    @Override
-    public String toCSA() {
-        return "KA";
-    }
 
 }

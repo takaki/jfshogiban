@@ -19,6 +19,7 @@
 package org.media_as.takaki.jfshogiban.piece;
 
 import org.media_as.takaki.jfshogiban.Banmen;
+import org.media_as.takaki.jfshogiban.IStringConverter;
 import org.media_as.takaki.jfshogiban.IllegalMoveException;
 import org.media_as.takaki.jfshogiban.Player;
 
@@ -33,8 +34,6 @@ public interface IPiece {
 
     boolean isOwner(final Player player);
 
-    String toCSA();
-
-    String toPiece();
+    String convertString(IStringConverter converter);
 
 }

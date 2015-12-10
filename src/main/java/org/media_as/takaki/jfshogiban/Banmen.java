@@ -39,13 +39,11 @@ public final class Banmen { // TODO : merge with Kyokumen
         this.mochigoma = mochigoma;
     }
 
-    public Optional<IPiece> get(final int x,
-                                final int y) {
+    public Optional<IPiece> get(final int x, final int y) {
         return shogiBan.get(x, y);
     }
 
-    public boolean isEmpty(final int x,
-                           final int y) {
+    public boolean isEmpty(final int x, final int y) {
         return shogiBan.isEmpty(x, y);
     }
 
@@ -65,7 +63,7 @@ public final class Banmen { // TODO : merge with Kyokumen
         if (!koma.canSet(x, y, this)) {
             throw new IllegalMoveException(
                     String.format("%sCan't set %s [%d-%d] illegal location.",
-                            toCSA(), koma, x, y));
+                            convertString(new CsaConverter()), koma, x, y));
         }
 
         return new Banmen(shogiBan.set(x, y, koma), mochigoma);
@@ -111,9 +109,10 @@ public final class Banmen { // TODO : merge with Kyokumen
         return mochigoma.count(koma);
     }
 
-    public String toCSA() {
-        return String.join("", shogiBan.toCSA(), mochigoma.toCSA());
+    public String convertString(final IStringConverter converter) {
+        return converter.convert(shogiBan, mochigoma);
     }
+
     // TODO
     public String mochigomaSfen() {
         return mochigoma.toSfen();

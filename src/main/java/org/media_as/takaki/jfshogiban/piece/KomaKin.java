@@ -44,9 +44,5 @@ public final class KomaKin extends BasePiece implements CheckerKin {
         return checkRuleKin(fx, fy, tx, ty, sign());
     }
 
-    @Override
-    public String toCSA() {
-        return "KI";
-    }
 
 }

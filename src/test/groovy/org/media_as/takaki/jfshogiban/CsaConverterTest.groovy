@@ -20,42 +20,29 @@ package org.media_as.takaki.jfshogiban
 
 import spock.lang.Specification
 
-class ShogiBanTest extends Specification {
-    def board = ShogiBan.initialize()
+class CsaConverterTest extends Specification {
+    def converter = new CsaConverter()
 
-    def "intialized board is entire empty"() {
+    def "ShogiBan test"() {
         expect:
-        //noinspection GroovyAssignabilityCheck
-        board.isEmpty(x, y)
-        where:
-        [x, y] << [1..9, 1..9].combinations()
+        ShogiBan.startPosition().convertString(converter) ==
+                "P1-KY-KE-GI-KI-OU-KI-GI-KE-KY\n" +
+                "P2 * -HI *  *  *  *  * -KA * \n" +
+                "P3-FU-FU-FU-FU-FU-FU-FU-FU-FU\n" +
+                "P4 *  *  *  *  *  *  *  *  * \n" +
+                "P5 *  *  *  *  *  *  *  *  * \n" +
+                "P6 *  *  *  *  *  *  *  *  * \n" +
+                "P7+FU+FU+FU+FU+FU+FU+FU+FU+FU\n" +
+                "P8 * +KA *  *  *  *  * +HI * \n" +
+                "P9+KY+KE+GI+KI+OU+KI+GI+KE+KY\n"
     }
 
-    def "can't set out bound location"() {
-        when:
-        board.get(0, 1)
-        then:
-        thrown(IllegalArgumentException)
-
-        when:
-        board.get(3, 10)
-        then:
-        thrown(IllegalArgumentException)
-
-        when:
-        board.set(1, 10, Koma.GOTE_KAKU)
-        then:
-        thrown(IllegalArgumentException)
-    }
-
-    def "set piece and got piece are same"() {
+    def "Mochigoma "() {
         expect:
-        board.set(x, y, p).get(2, 2).get() == p
-        where:
-        x | y || p
-        2 | 2 || Koma.GOTE_FU
+        Mochigoma.initialize().push(Koma.SENTE_FU).push(Koma.SENTE_FU).push(Koma.GOTE_KEIMA).
+                convertString(new CsaConverter()) ==
+                "P+00FU00FU\nP-00KE\n"
     }
-
 
 
 }

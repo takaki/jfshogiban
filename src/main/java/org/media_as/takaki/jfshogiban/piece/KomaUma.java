@@ -45,9 +45,5 @@ public final class KomaUma extends BasePiece implements CheckerKaku, CheckerGyok
                 tx, ty);
     }
 
-    @Override
-    public String toCSA() {
-        return "UM";
-    }
 
 }

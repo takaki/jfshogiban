@@ -29,11 +29,7 @@ public enum Player {
         return this == SENTEBAN ? 1 : -1;
     }
 
-    public String toCSA() {
-        return this == SENTEBAN ? "+" : "-";
-    }
-
-    public String toSfen() {
-        return this == SENTEBAN ? "b" : "w";
+    public String convert(final IStringConverter converter) {
+        return converter.convert(this);
     }
 }

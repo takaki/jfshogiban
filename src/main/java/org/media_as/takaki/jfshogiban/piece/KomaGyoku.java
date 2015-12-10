@@ -44,9 +44,5 @@ public final class KomaGyoku extends BasePiece implements CheckerGyoku {
         return checkGyokuMove(fx, fy, tx, ty);
     }
 
-    @Override
-    public String toCSA() {
-        return "OU";
-    }
 
 }

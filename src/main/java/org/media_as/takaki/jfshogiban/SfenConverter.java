@@ -16,30 +16,34 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.media_as.takaki.jfshogiban.piece;
+package org.media_as.takaki.jfshogiban;
 
-import org.media_as.takaki.jfshogiban.Banmen;
-import org.media_as.takaki.jfshogiban.Player;
+import org.media_as.takaki.jfshogiban.piece.BasePiece;
 
-public final class KomaNarikyo extends BasePiece implements CheckerKin {
-    public KomaNarikyo(final Player owner) {
-        super(owner);
+public final class SfenConverter implements IStringConverter {
+    @Override
+    public String convert(final Player player) {
+        return player == Player.SENTEBAN ? "b" : "w";
     }
 
     @Override
-    public KomaKyosha captured(final Player owner) {
-        return new KomaKyosha(owner);
+    public String convert(final BasePiece piece) {
+        throw new RuntimeException();
     }
 
     @Override
-    public BasePiece promotion() {
-        return new KomaNarikyo(getOwner());
+    public String convert(final Mochigoma mochigoma) {
+        throw new RuntimeException();
     }
 
     @Override
-    public boolean checkMove(final int fx, final int fy, final int tx,
-                             final int ty, final Banmen banmen) {
-        return checkRuleKin(fx, fy, tx, ty, sign());
+    public String convert(final ShogiBan shogiBan, final Mochigoma mochigoma) {
+        throw new RuntimeException();
+    }
+
+    @Override
+    public String convert(final ShogiBan shogiban) {
+        throw new RuntimeException();
     }
 
 }

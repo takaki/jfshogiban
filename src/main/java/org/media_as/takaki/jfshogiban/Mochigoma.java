@@ -24,25 +24,26 @@ import org.media_as.takaki.jfshogiban.piece.IPiece;
 import org.media_as.takaki.jfshogiban.protocol.usi.Sfen;
 
 import java.util.*;
+import java.util.function.BiFunction;
+import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public final class Mochigoma {
-    private static final List<IPiece> MOCHIGOMA_SENTE = Arrays
+    private static final List<IPiece> SENTE_LIST = Arrays
             .asList(Koma.SENTE_FU, Koma.SENTE_KYOSHA, Koma.SENTE_KEIMA,
                     Koma.SENTE_GIN, Koma.SENTE_KIN, Koma.SENTE_KAKU,
                     Koma.SENTE_HISYA);
-    private static final List<IPiece> MOCHIGOMA_GOTE = Arrays
+    private static final List<IPiece> GOTE_LIST = Arrays
             .asList(Koma.GOTE_FU, Koma.GOTE_KYOSHA, Koma.GOTE_KEIMA,
                     Koma.GOTE_GIN, Koma.GOTE_KIN, Koma.GOTE_KAKU,
                     Koma.GOTE_HISYA);
 
-    private static final Collection<IPiece> MOCHIGOMA;
+    private static final List<IPiece> MOCHIGOMA;
 
     static {
-        final List<IPiece> all = new ArrayList<>(MOCHIGOMA_SENTE);
-        all.addAll(MOCHIGOMA_GOTE);
-        MOCHIGOMA = new HashSet<>(all);
+        MOCHIGOMA = new ArrayList<>(SENTE_LIST);
+        MOCHIGOMA.addAll(GOTE_LIST);
     }
 
     private final Map<IPiece, Integer> mochigoma;
@@ -81,21 +82,15 @@ public final class Mochigoma {
         return mochigoma.getOrDefault(koma, 0);
     }
 
-    public String toCSA() {
-        return String.join("", "P+", toCSALine(MOCHIGOMA_SENTE),
-                System.lineSeparator(), "P-", toCSALine(MOCHIGOMA_GOTE),
-                System.lineSeparator());
+    public String convertString(final IStringConverter converter) {
+        return converter.convert(this);
     }
 
-    private String toCSALine(final List<IPiece> mochigoma) {
-        return mochigoma.stream().map(p -> StringUtils
-                .repeat(String.join("", "00", p.toCSA()), count(p)))
-                .collect(Collectors.joining());
-    }
 
     public String toSfen() {
-        String tmp =  MOCHIGOMA.stream().filter(p -> count(p) > 0).map(p -> String
-                .join(Sfen.PIECE_SFEN.get(p), Integer.toString(count(p))))
+        final String tmp = MOCHIGOMA.stream().filter(p -> count(p) > 0)
+                .map(p -> String.join(Sfen.PIECE_SFEN.get(p),
+                        Integer.toString(count(p))))
                 .collect(Collectors.joining());
         return tmp.isEmpty() ? "-" : tmp;
     }

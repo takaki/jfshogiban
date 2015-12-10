@@ -44,9 +44,4 @@ public final class KomaRyu extends BasePiece implements CheckerHisha, CheckerGyo
                 tx, ty);
     }
 
-    @Override
-    public String toCSA() {
-        return "RY";
-    }
-
 }

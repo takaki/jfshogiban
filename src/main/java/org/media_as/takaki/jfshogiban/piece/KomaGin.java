@@ -43,8 +43,4 @@ public final class KomaGin extends BasePiece {
                 .abs(fy - ty) == 1 || fx == tx && fy - ty == sign();
     }
 
-    @Override
-    public String toCSA() {
-        return "GI";
-    }
 }

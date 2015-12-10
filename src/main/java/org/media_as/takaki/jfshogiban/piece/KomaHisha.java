@@ -43,10 +43,5 @@ public final class KomaHisha extends BasePiece implements CheckerHisha {
         return new KomaHisha(owner);
     }
 
-    @Override
-    public String toCSA() {
-        return "HI";
-    }
-
 
 }

@@ -38,7 +38,10 @@ public final class KomaFu extends BasePiece {
     @Override
     public boolean canSet(final int x, final int y, final Banmen banmen) {
         // XXX : Uchifuzume
-        return IntStream.range(1, ShogiBan.HEIGHT).allMatch(y0 -> banmen.get(x, y0).map(p -> !equals(p)).orElse(true)) && (isOwner(Player.SENTEBAN) && y >= 2 || isOwner(
+        return IntStream.range(1, ShogiBan.HEIGHT).allMatch(
+                y0 -> banmen.get(x, y0).map(p -> !equals(p))
+                        .orElse(true)) && (isOwner(
+                Player.SENTEBAN) && y >= 2 || isOwner(
                 Player.GOTEBAN) && y <= 8);
     }
 
@@ -53,10 +56,5 @@ public final class KomaFu extends BasePiece {
         return fx == tx && fy - ty == sign();
     }
 
-
-    @Override
-    public String toCSA() {
-        return "FU";
-    }
 
 }

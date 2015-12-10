@@ -48,9 +48,5 @@ public final class KomaKeima extends BasePiece {
         return new KomaKeima(owner);
     }
 
-    @Override
-    public String toCSA() {
-        return "KE";
-    }
 
 }

@@ -18,6 +18,8 @@
 
 package org.media_as.takaki.jfshogiban.protocol;
 
+import org.media_as.takaki.jfshogiban.CsaConverter;
+import org.media_as.takaki.jfshogiban.IStringConverter;
 import org.media_as.takaki.jfshogiban.IllegalMoveException;
 import org.media_as.takaki.jfshogiban.PlayMove;
 import org.media_as.takaki.jfshogiban.action.IMovement;
@@ -39,8 +41,10 @@ public class Terminal implements IMoveChannel {
     public IMovement getMovement(
             final PlayMove playMove) throws IllegalMoveException {
         final PrintWriter writer = new PrintWriter(System.out);
-        writer.println(playMove.toCSA());
-        writer.print(String.join("", playMove.getTurn().toCSA(), "> "));
+        final IStringConverter csaConverter = new CsaConverter();
+        writer.println(playMove.convertString(csaConverter));
+        writer.print(
+                String.join("", playMove.getTurn().convert(csaConverter), "> "));
         final String input = scanner.next();
         final int fx = Integer.valueOf(input.substring(0, 1));
         final int fy = Integer.valueOf(input.substring(1, 2));

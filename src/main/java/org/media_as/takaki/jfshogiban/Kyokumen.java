@@ -20,7 +20,6 @@ package org.media_as.takaki.jfshogiban;
 
 import org.media_as.takaki.jfshogiban.piece.IPiece;
 import org.media_as.takaki.jfshogiban.protocol.usi.Sfen;
-import org.slf4j.LoggerFactory;
 
 import java.util.Optional;
 
@@ -42,8 +41,7 @@ public final class Kyokumen {
         return turn;
     }
 
-    public Optional<IPiece> get(final int x,
-                                final int y) {
+    public Optional<IPiece> get(final int x, final int y) {
         return banmen.get(x, y);
     }
 
@@ -93,8 +91,7 @@ public final class Kyokumen {
         return pick(x, y).isOwner(turn);
     }
 
-    private boolean isEmpty(final int x,
-                            final int y) {
+    private boolean isEmpty(final int x, final int y) {
         return banmen.isEmpty(x, y);
     }
 
@@ -103,12 +100,13 @@ public final class Kyokumen {
     }
 
     // TODO: add bridge
-    public String toCSA() {
-        return banmen.toCSA();
+    public String convertString(final IStringConverter converter) {
+        return banmen.convertString(converter);
     }
 
     // TODO: add bridge
     public String toSfen() {
+        final SfenConverter sfenString = new SfenConverter();
         final StringBuilder str = new StringBuilder(150);
         for (int y = 1; y < 10; y++) {
             for (int x = 9; x <= 1; x--) {
@@ -117,6 +115,7 @@ public final class Kyokumen {
             }
             str.append('/');
         }
-        return String.join(" ", str.toString(), getTurn().toSfen(), banmen.mochigomaSfen(), "1");
+        return String.join(" ", str.toString(), getTurn().convert(sfenString),
+                banmen.mochigomaSfen(), "1");
     }
 }

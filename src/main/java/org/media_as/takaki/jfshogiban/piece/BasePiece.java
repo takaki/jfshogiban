@@ -19,6 +19,8 @@
 package org.media_as.takaki.jfshogiban.piece;
 
 import org.media_as.takaki.jfshogiban.Banmen;
+import org.media_as.takaki.jfshogiban.CsaConverter;
+import org.media_as.takaki.jfshogiban.IStringConverter;
 import org.media_as.takaki.jfshogiban.Player;
 
 import java.util.Objects;
@@ -42,19 +44,16 @@ public abstract class BasePiece implements IPiece {
         return Objects.hash(getClass(), owner);
     }
 
-    @SuppressWarnings("MethodWithMultipleReturnPoints")
+    @SuppressWarnings({"MethodWithMultipleReturnPoints", "InstanceofInterfaces", "LocalVariableOfConcreteClass", "AccessingNonPublicFieldOfAnotherObject"})
     @Override
     public final boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }
-        //noinspection InstanceofInterfaces
         if (!(obj instanceof BasePiece)) {
             return false;
         }
-        //noinspection LocalVariableOfConcreteClass
         final BasePiece bp = (BasePiece) obj;
-        //noinspection AccessingNonPublicFieldOfAnotherObject
         return bp.getClass() == getClass() && bp.owner == owner;
 
     }
@@ -72,12 +71,12 @@ public abstract class BasePiece implements IPiece {
     }
 
     @Override
-    public final String toPiece() {
-        return String.join("", owner.toCSA(), toCSA());
+    public final String convertString(final IStringConverter converter) {
+        return converter.convert(this);
     }
 
     @Override
     public final String toString() {
-        return toPiece();
+        return convertString(new CsaConverter());
     }
 }

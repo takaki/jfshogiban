@@ -19,9 +19,6 @@
 package org.media_as.takaki.jfshogiban;
 
 import org.media_as.takaki.jfshogiban.action.IMovement;
-import org.media_as.takaki.jfshogiban.protocol.usi.Sfen;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public final class PlayMove {
     private final Kyokumen kyokumen;
@@ -37,8 +34,8 @@ public final class PlayMove {
         return new PlayMove(movement.action(kyokumen), movement.isFinished());
     }
 
-    public String toCSA() {
-        return kyokumen.toCSA();
+    public String convertString(IStringConverter converter) {
+        return kyokumen.convertString(converter);
     }
 
     public String toSfen() {

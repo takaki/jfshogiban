@@ -16,30 +16,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.media_as.takaki.jfshogiban.piece;
+package org.media_as.takaki.jfshogiban;
 
-import org.media_as.takaki.jfshogiban.Banmen;
-import org.media_as.takaki.jfshogiban.Player;
+import org.media_as.takaki.jfshogiban.piece.BasePiece;
+import org.media_as.takaki.jfshogiban.piece.IPiece;
 
-public final class KomaNarikyo extends BasePiece implements CheckerKin {
-    public KomaNarikyo(final Player owner) {
-        super(owner);
-    }
+import java.util.Map;
 
-    @Override
-    public KomaKyosha captured(final Player owner) {
-        return new KomaKyosha(owner);
-    }
+public interface IStringConverter {
+    String convert(Player player);
 
-    @Override
-    public BasePiece promotion() {
-        return new KomaNarikyo(getOwner());
-    }
+    String convert(BasePiece piece);
 
-    @Override
-    public boolean checkMove(final int fx, final int fy, final int tx,
-                             final int ty, final Banmen banmen) {
-        return checkRuleKin(fx, fy, tx, ty, sign());
-    }
+    String convert(Mochigoma mochigoma);
 
+    String convert(ShogiBan shogiBan, Mochigoma mochigoma);
+
+    String convert(ShogiBan shogiban);
 }

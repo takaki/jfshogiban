@@ -99,16 +99,7 @@ public final class ShogiBan {
         return x - 1 + (y - 1) * HEIGHT;
     }
 
-    public String toCSA() {
-        final StringBuilder builder = new StringBuilder(120);
-        for (int y = 1; y <= HEIGHT; y++) {
-            //noinspection MagicCharacter
-            builder.append('P').append(y);
-            for (int x = WIDTH; x >= 1; x--) {
-                builder.append(get(x, y).map(IPiece::toPiece).orElse(" * "));
-            }
-            builder.append(System.lineSeparator());
-        }
-        return builder.toString();
+    public String convertString(final IStringConverter converter) {
+        return converter.convert(this);
     }
 }
