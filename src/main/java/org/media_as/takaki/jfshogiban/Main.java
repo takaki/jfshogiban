@@ -65,8 +65,7 @@ public final class Main {
     public Main getNextMain() throws IllegalMoveException {
         final IMovement movement = (currentPlayer == Player.SENTEBAN ? channelSente : channelGote)
                 .getMovement(playMove);
-        LOG.debug(movement.toString());
-        LOG.debug(currentPlayer.toString());
+        LOG.debug("{} {}" , currentPlayer.toString(), movement.toString());
         return new Main(playMove.getNextPlayMove(movement),
                 currentPlayer.next(), channelSente, channelGote, false);
     }

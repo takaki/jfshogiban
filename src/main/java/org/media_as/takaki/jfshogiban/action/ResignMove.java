@@ -21,7 +21,7 @@ package org.media_as.takaki.jfshogiban.action;
 import org.media_as.takaki.jfshogiban.IllegalMoveException;
 import org.media_as.takaki.jfshogiban.Kyokumen;
 
-public final class ResignMove implements  IMovement{
+public final class ResignMove implements IMovement {
 
     @Override
     public Kyokumen action(final Kyokumen kyokumen) {
@@ -32,4 +32,10 @@ public final class ResignMove implements  IMovement{
     public boolean isFinished() {
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "ResignMove";
+    }
+
 }

@@ -19,16 +19,14 @@
 package org.media_as.takaki.jfshogiban.protocol.usi;
 
 import com.codepoetics.protonpack.StreamUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.media_as.takaki.jfshogiban.Player;
-import org.media_as.takaki.jfshogiban.action.DropMove;
-import org.media_as.takaki.jfshogiban.action.PromoteMove;
+import org.media_as.takaki.jfshogiban.action.*;
 import org.media_as.takaki.jfshogiban.piece.*;
 import org.media_as.takaki.jfshogiban.tostr.IStringConverter;
 import org.media_as.takaki.jfshogiban.IllegalMoveException;
 import org.media_as.takaki.jfshogiban.PlayMove;
 import org.media_as.takaki.jfshogiban.tostr.SfenConverter;
-import org.media_as.takaki.jfshogiban.action.IMovement;
-import org.media_as.takaki.jfshogiban.action.NormalMove;
 import org.media_as.takaki.jfshogiban.protocol.IMoveChannel;
 import org.media_as.takaki.jfshogiban.protocol.usi.init.EndInit;
 import org.media_as.takaki.jfshogiban.protocol.usi.init.InitUsi;
@@ -115,19 +113,22 @@ public class UsiChannel implements IMoveChannel {
         return toMovement(bestmove, playMove.getTurn());
     }
 
-    private IMovement toMovement(final String command, final Player turn) {
-        if (Character.isDigit(command.charAt(0))) {
-            final int fx = Character.getNumericValue(command.charAt(0));
-            final int fy = Character.getNumericValue(command.charAt(1)) - 9;
-            final int tx = Character.getNumericValue(command.charAt(2));
-            final int ty = Character.getNumericValue(command.charAt(3)) - 9;
+    private IMovement toMovement(final String bestmove, final Player turn) {
+        if (StringUtils.equals(bestmove, "resign")) {
+            return new ResignMove();
+        }
+        if (Character.isDigit(bestmove.charAt(0))) {
+            final int fx = Character.getNumericValue(bestmove.charAt(0));
+            final int fy = Character.getNumericValue(bestmove.charAt(1)) - 9;
+            final int tx = Character.getNumericValue(bestmove.charAt(2));
+            final int ty = Character.getNumericValue(bestmove.charAt(3)) - 9;
             // FIXME: check '+'
-            return command.length() > 4 ? new PromoteMove(fx, fy, tx,
+            return bestmove.length() > 4 ? new PromoteMove(fx, fy, tx,
                     ty) : new NormalMove(fx, fy, tx, ty);
         } else {
-            final char c = command.charAt(0);
-            final int tx = Character.getNumericValue(command.charAt(2));
-            final int ty = Character.getNumericValue(command.charAt(3)) - 9;
+            final char c = bestmove.charAt(0);
+            final int tx = Character.getNumericValue(bestmove.charAt(2));
+            final int ty = Character.getNumericValue(bestmove.charAt(3)) - 9;
             switch (c) {
                 case 'P':
                     return new DropMove(tx, ty, new KomaFu(turn));
@@ -144,7 +145,7 @@ public class UsiChannel implements IMoveChannel {
                 case 'R':
                     return new DropMove(tx, ty, new KomaHisha(turn));
                 default:
-                    throw new RuntimeException("FIX ME");
+                    throw new RuntimeException("FIX ME: bestmove is " + bestmove);
             }
         }
     }

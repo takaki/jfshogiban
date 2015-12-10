@@ -44,5 +44,9 @@ public class PromoteMove implements IMovement {
         this.tx = tx;
         this.ty = ty;
     }
+    @Override
+    public String toString() {
+        return String.format("PromoteMove: %d%d%d%d", fx, fy, tx, ty);
+    }
 
 }

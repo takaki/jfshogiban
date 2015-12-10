@@ -133,4 +133,5 @@ class KyokumenTest extends Specification {
         then:
         thrown(IllegalMoveException)
     }
+
 }
