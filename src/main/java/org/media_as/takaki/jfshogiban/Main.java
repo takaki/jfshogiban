@@ -23,10 +23,15 @@ import org.media_as.takaki.jfshogiban.action.IMovement;
 import org.media_as.takaki.jfshogiban.protocol.IMoveChannel;
 import org.media_as.takaki.jfshogiban.protocol.Terminal;
 import org.media_as.takaki.jfshogiban.protocol.usi.UsiChannel;
+import org.media_as.takaki.jfshogiban.tostr.CsaConverter;
+import org.media_as.takaki.jfshogiban.tostr.IStringConverter;
+import org.media_as.takaki.jfshogiban.tostr.SfenConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -45,6 +50,12 @@ public final class Main {
     private Main(final PlayMove playMove, final Player currentPlayer,
                  final IMoveChannel channelSente,
                  final IMoveChannel channelGote, final boolean finished) {
+        final PrintWriter writer = new PrintWriter(System.out);
+        final IStringConverter csaConverter = new CsaConverter();
+        writer.println(playMove.convertString(csaConverter));
+        writer.flush();
+
+        LOG.debug(playMove.convertString(new SfenConverter()));
         this.currentPlayer = currentPlayer;
         this.playMove = playMove;
         this.channelSente = channelSente;
@@ -54,6 +65,8 @@ public final class Main {
     public Main getNextMain() throws IllegalMoveException {
         final IMovement movement = (currentPlayer == Player.SENTEBAN ? channelSente : channelGote)
                 .getMovement(playMove);
+        LOG.debug(movement.toString());
+        LOG.debug(currentPlayer.toString());
         return new Main(playMove.getNextPlayMove(movement),
                 currentPlayer.next(), channelSente, channelGote, false);
     }
@@ -62,11 +75,16 @@ public final class Main {
         LOG.debug(Arrays.toString(args));
         final Main main = new Main(
                 new PlayMove(Kyokumen.startPosition(), false), Player.SENTEBAN,
-                new Terminal(), new UsiChannel(), false);
+                new UsiChannel(Paths.get("/home/takaki/tmp/gpsfish/src"),
+                        "gpsfish"),
+                new UsiChannel(Paths.get("/home/takaki/tmp/apery/bin"),
+                        "apery"), false);
+        LOG.debug("run Main");
         final Stream<Main> iterate = Stream.iterate(main, main0 -> {
             try {
                 return main0.getNextMain();
             } catch (final IllegalMoveException e) {
+                LOG.debug("*** Raise Exception ***");
                 throw new RuntimeException(e);
             }
         });

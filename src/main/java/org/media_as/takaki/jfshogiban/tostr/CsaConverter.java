@@ -112,6 +112,6 @@ public final class CsaConverter extends AbstractStringConverter {
 
     @Override
     public String convertKyokumen(final Banmen banmen, final Player turn) {
-        return banmen.convertString(this);
+        return banmen.convertString(this) + turn.convert(this) + System.lineSeparator();
     }
 }

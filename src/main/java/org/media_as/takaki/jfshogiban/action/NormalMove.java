@@ -35,14 +35,19 @@ public class NormalMove implements IMovement {
     }
 
     @Override
-    public final Kyokumen action(final Kyokumen kyokumen) throws IllegalMoveException {
+    public final Kyokumen action(
+            final Kyokumen kyokumen) throws IllegalMoveException {
         return kyokumen.move(fx, fy, tx, ty);
     }
 
     @Override
-    public boolean isFinished() {
+    public boolean isFinished() { //  TODO: interface
         return false;
     }
 
+    @Override
+    public String toString() {
+        return String.format("NormalMove: %d%d%d%d", fx, fy, tx, ty);
+    }
 
 }

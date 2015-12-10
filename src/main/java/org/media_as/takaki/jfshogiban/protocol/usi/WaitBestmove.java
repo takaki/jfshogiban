@@ -38,7 +38,7 @@ public class WaitBestmove {
     public void sendPosition(final PrintStream out, final String position) {
         LOG.debug("> {}", position);
         out.println(position); // TODO
-        out.println("go");
+        out.println("go byoyomi 1000");
         out.flush();
     }
 
@@ -60,8 +60,8 @@ public class WaitBestmove {
     }
 
     public Optional<String> getBestMove() {
-        LOG.debug(bestmove.isPresent() ? ":bestmove is " + bestmove
-                .get() : ":empty");
+        LOG.debug(bestmove.isPresent() ? "bestmove is " + bestmove
+                .get() : "empty");
         return bestmove;
     }
 }

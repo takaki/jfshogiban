@@ -34,7 +34,6 @@ public final class WaitUsiOK implements UsiState {
                                  final BlockingQueue<String> in) throws InterruptedException {
         String line;
         line = in.take();
-        LOG.debug("< {}", line);
         if (StringUtils.equals(line, "usiok")) {
             LOG.debug("> isready");
             out.println("isready");

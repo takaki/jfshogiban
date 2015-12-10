@@ -19,6 +19,10 @@
 package org.media_as.takaki.jfshogiban.protocol.usi;
 
 import com.codepoetics.protonpack.StreamUtils;
+import org.media_as.takaki.jfshogiban.Player;
+import org.media_as.takaki.jfshogiban.action.DropMove;
+import org.media_as.takaki.jfshogiban.action.PromoteMove;
+import org.media_as.takaki.jfshogiban.piece.*;
 import org.media_as.takaki.jfshogiban.tostr.IStringConverter;
 import org.media_as.takaki.jfshogiban.IllegalMoveException;
 import org.media_as.takaki.jfshogiban.PlayMove;
@@ -29,10 +33,13 @@ import org.media_as.takaki.jfshogiban.protocol.IMoveChannel;
 import org.media_as.takaki.jfshogiban.protocol.usi.init.EndInit;
 import org.media_as.takaki.jfshogiban.protocol.usi.init.InitUsi;
 import org.media_as.takaki.jfshogiban.protocol.usi.init.UsiState;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.nio.file.Path;
 import java.util.Optional;
 import java.util.Scanner;
 import java.util.concurrent.*;
@@ -40,13 +47,18 @@ import java.util.stream.Stream;
 
 @SuppressWarnings("ClassNamePrefixedWithPackageName")
 public class UsiChannel implements IMoveChannel {
+    private static final Logger LOG = LoggerFactory.getLogger(UsiChannel.class);
 
     private final PrintStream out; // TODO wrapper
     private final BlockingQueue<String> in = new LinkedBlockingQueue<>();
 
-    public UsiChannel() throws IOException {
+    public UsiChannel(final Path directory,
+                      final String exe) throws IOException {
+//        String path ="/home/takaki/tmp/gpsfish/src/gpsfish" ;
+        final String path = "/home/takaki/tmp/apery/bin/apery";
         final ProcessBuilder processBuilder = new ProcessBuilder(
-                "/home/takaki/tmp/gpsfish/src/gpsfish");
+                directory.resolve(exe).toString());
+        processBuilder.directory(directory.toFile());
         final Process start = processBuilder.start();
 
         out = new PrintStream(
@@ -57,7 +69,9 @@ public class UsiChannel implements IMoveChannel {
         ses.schedule(() -> {
             try (Scanner scanner = new Scanner(start.getInputStream())) {
                 while (scanner.hasNextLine()) {
-                    in.add(scanner.nextLine());
+                    final String add = scanner.nextLine();
+                    LOG.debug("< {}", add);
+                    in.add(add);
                 }
             }
         }, 0, TimeUnit.MILLISECONDS);
@@ -80,8 +94,9 @@ public class UsiChannel implements IMoveChannel {
     public IMovement getMovement(
             final PlayMove playMove) throws IllegalMoveException {
         final IStringConverter converter = new SfenConverter();
+        LOG.debug(playMove.convertString(converter));
         final String position = String
-                .join(" ", "position", playMove.convertString(converter));
+                .join(" ", "position sfen", playMove.convertString(converter));
         final WaitBestmove waitBestmove = new WaitBestmove(Optional.empty());
         waitBestmove.sendPosition(out, position);
         final Stream<WaitBestmove> iterate = Stream
@@ -97,18 +112,40 @@ public class UsiChannel implements IMoveChannel {
         final String bestmove = StreamUtils
                 .takeUntil(iterate, state0 -> state0 == null)
                 .reduce((a, b) -> b).get().getBestMove().get();
-        return toMovement(bestmove);
+        return toMovement(bestmove, playMove.getTurn());
     }
 
-    private IMovement toMovement(final String command) {
+    private IMovement toMovement(final String command, final Player turn) {
         if (Character.isDigit(command.charAt(0))) {
             final int fx = Character.getNumericValue(command.charAt(0));
             final int fy = Character.getNumericValue(command.charAt(1)) - 9;
             final int tx = Character.getNumericValue(command.charAt(2));
             final int ty = Character.getNumericValue(command.charAt(3)) - 9;
-            return new NormalMove(fx, fy, tx, ty);
+            // FIXME: check '+'
+            return command.length() > 4 ? new PromoteMove(fx, fy, tx,
+                    ty) : new NormalMove(fx, fy, tx, ty);
         } else {
-            throw new RuntimeException("FIX ME");
+            final char c = command.charAt(0);
+            final int tx = Character.getNumericValue(command.charAt(2));
+            final int ty = Character.getNumericValue(command.charAt(3)) - 9;
+            switch (c) {
+                case 'P':
+                    return new DropMove(tx, ty, new KomaFu(turn));
+                case 'L':
+                    return new DropMove(tx, ty, new KomaKyosha(turn));
+                case 'N':
+                    return new DropMove(tx, ty, new KomaKeima(turn));
+                case 'S':
+                    return new DropMove(tx, ty, new KomaGin(turn));
+                case 'G':
+                    return new DropMove(tx, ty, new KomaKin(turn));
+                case 'B':
+                    return new DropMove(tx, ty, new KomaKaku(turn));
+                case 'R':
+                    return new DropMove(tx, ty, new KomaHisha(turn));
+                default:
+                    throw new RuntimeException("FIX ME");
+            }
         }
     }
 

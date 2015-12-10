@@ -83,7 +83,7 @@ public final class Kyokumen {
 
     public Kyokumen drop(final int tx, final int ty,
                          final IPiece koma) throws IllegalMoveException {
-        return new Kyokumen(banmen.set(tx, ty, koma), turn.next());
+        return new Kyokumen(banmen.drop(tx, ty, koma), turn.next());
     }
 
     private boolean isOwner(final int x,

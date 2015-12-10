@@ -32,8 +32,7 @@ public class InitUsi implements UsiState {
     public UsiState readResponse(final PrintStream out,
                                  final BlockingQueue<String> in) throws InterruptedException {
         String line;
-        while ((line =  in.poll(500, TimeUnit.MILLISECONDS)) != null) {
-            LOG.debug("< {}", line);
+        while ((line = in.poll(500, TimeUnit.MILLISECONDS)) != null) {
         }
         LOG.debug("> {}", "usi");
         out.println("usi");

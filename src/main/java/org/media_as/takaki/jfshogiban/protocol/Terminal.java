@@ -42,9 +42,10 @@ public class Terminal implements IMoveChannel {
             final PlayMove playMove) throws IllegalMoveException {
         final PrintWriter writer = new PrintWriter(System.out);
         final IStringConverter csaConverter = new CsaConverter();
-        writer.println(playMove.convertString(csaConverter));
-        writer.print(
-                String.join("", playMove.getTurn().convert(csaConverter), "> "));
+        //        writer.println(playMove.convertString(csaConverter));
+        writer.print(String.join("", playMove.getTurn().convert(csaConverter),
+                "> "));
+        writer.flush();
         final String input = scanner.next();
         final int fx = Integer.valueOf(input.substring(0, 1));
         final int fy = Integer.valueOf(input.substring(1, 2));

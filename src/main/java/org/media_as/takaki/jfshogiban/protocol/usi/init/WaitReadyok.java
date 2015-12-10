@@ -32,7 +32,6 @@ public class WaitReadyok implements UsiState {
     public UsiState readResponse(PrintStream out,
                                  BlockingQueue<String> in) throws InterruptedException {
         final String line = in.take();
-        LOG.debug("< {}", line);
         if (line.equals("readyok")) {
             LOG.debug("> usinewgame");
             out.println("usinewgame");

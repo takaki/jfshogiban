@@ -44,4 +44,10 @@ public class DropMove implements IMovement {
         this.koma = koma;
     }
 
+    @Override
+    public String toString() {
+        return String.format("DropMove: %d%d%s", tx, ty, koma);
+    }
+
+
 }
