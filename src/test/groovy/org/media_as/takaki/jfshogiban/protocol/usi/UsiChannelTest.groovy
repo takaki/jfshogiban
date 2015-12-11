@@ -19,16 +19,17 @@
 package org.media_as.takaki.jfshogiban.protocol.usi
 
 import org.media_as.takaki.jfshogiban.Kyokumen
-import org.media_as.takaki.jfshogiban.PlayMove
+import spock.lang.Ignore
 import spock.lang.Specification
 
 import java.nio.file.Paths
 
 class UsiChannelTest extends Specification {
 
+    @Ignore
     def "run channel"() {
         def channel = new UsiChannel(Paths.get("/home/takaki/tmp/gpsfish/src"), "gpsfish")
         expect:
-        channel.getMovement(new PlayMove(Kyokumen.startPosition(), false)) != null
+        channel.getMovement(Kyokumen.startPosition()) != null
     }
 }

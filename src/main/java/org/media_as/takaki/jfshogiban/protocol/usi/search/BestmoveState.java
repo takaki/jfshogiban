@@ -21,8 +21,7 @@ package org.media_as.takaki.jfshogiban.protocol.usi.search;
 import java.util.concurrent.BlockingQueue;
 
 public interface BestmoveState {
-    BestmoveState readResponse(BlockingQueue<String> out,
-                               BlockingQueue<String> in) throws InterruptedException;
+    BestmoveState readResponse(BlockingQueue<String> in) throws InterruptedException;
 
     String getMessage();
 }

@@ -25,20 +25,16 @@ import java.util.concurrent.BlockingQueue;
 public final class WaitBestmove implements BestmoveState {
 
     @Override
-    public BestmoveState readResponse(final BlockingQueue<String> out,
-                                      final BlockingQueue<String> in) throws InterruptedException {
+    public BestmoveState readResponse(
+            final BlockingQueue<String> in) throws InterruptedException {
         final String line = in.take();
-        if (StringUtils.startsWith(line, "bestmove")) {
-            final String[] split = line.split(" ");
-            return new FoundBestmove(split[1]);
-        } else {
-            return new WaitBestmove();
-        }
+        return StringUtils.startsWith(line, "bestmove") ? new FoundBestmove(
+                line.split(" ")[1]) : new WaitBestmove();
     }
 
     @Override
     public String getMessage() {
-        throw new RuntimeException("Should not call");
+        throw new RuntimeException("WaitBestMove should not call");
     }
 
 }

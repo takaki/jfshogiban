@@ -18,13 +18,12 @@
 
 package org.media_as.takaki.jfshogiban.protocol;
 
-import org.media_as.takaki.jfshogiban.tostr.CsaConverter;
-import org.media_as.takaki.jfshogiban.tostr.IStringConverter;
-import org.media_as.takaki.jfshogiban.IllegalMoveException;
-import org.media_as.takaki.jfshogiban.PlayMove;
+import org.media_as.takaki.jfshogiban.Kyokumen;
 import org.media_as.takaki.jfshogiban.action.IMovement;
 import org.media_as.takaki.jfshogiban.action.NormalMove;
 import org.media_as.takaki.jfshogiban.action.PromoteMove;
+import org.media_as.takaki.jfshogiban.tostr.CsaConverter;
+import org.media_as.takaki.jfshogiban.tostr.IStringConverter;
 
 import java.io.PrintWriter;
 import java.util.Scanner;
@@ -38,12 +37,11 @@ public final class Terminal implements IMoveChannel {
     }
 
     @Override
-    public IMovement getMovement(
-            final PlayMove playMove) throws IllegalMoveException {
+    public IMovement getMovement(final Kyokumen kyokumen) {
         final PrintWriter writer = new PrintWriter(System.out);
         final IStringConverter csaConverter = new CsaConverter();
-        //        writer.println(playMove.convertString(csaConverter));
-        writer.print(String.join("", playMove.getTurn().convert(csaConverter),
+        //        writer.println(playMain.convertString(csaConverter));
+        writer.print(String.join("", kyokumen.getTurn().convert(csaConverter),
                 "> "));
         writer.flush();
         final String input = scanner.next();

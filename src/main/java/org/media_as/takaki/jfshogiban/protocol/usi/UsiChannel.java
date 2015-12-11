@@ -19,16 +19,18 @@
 package org.media_as.takaki.jfshogiban.protocol.usi;
 
 import org.apache.commons.lang3.StringUtils;
-import org.media_as.takaki.jfshogiban.PlayMove;
+import org.media_as.takaki.jfshogiban.Kyokumen;
 import org.media_as.takaki.jfshogiban.Player;
 import org.media_as.takaki.jfshogiban.action.*;
 import org.media_as.takaki.jfshogiban.piece.*;
 import org.media_as.takaki.jfshogiban.protocol.IMoveChannel;
+import org.media_as.takaki.jfshogiban.protocol.usi.init.EndState;
+import org.media_as.takaki.jfshogiban.protocol.usi.init.StartFail;
+import org.media_as.takaki.jfshogiban.protocol.usi.init.StartUsi;
+import org.media_as.takaki.jfshogiban.protocol.usi.init.UsiState;
 import org.media_as.takaki.jfshogiban.protocol.usi.search.BestmoveState;
 import org.media_as.takaki.jfshogiban.protocol.usi.search.EndSearchState;
-import org.media_as.takaki.jfshogiban.protocol.usi.search.FoundBestmove;
 import org.media_as.takaki.jfshogiban.protocol.usi.search.WaitBestmove;
-import org.media_as.takaki.jfshogiban.protocol.usi.init.*;
 import org.media_as.takaki.jfshogiban.tostr.IStringConverter;
 import org.media_as.takaki.jfshogiban.tostr.SfenConverter;
 import org.slf4j.Logger;
@@ -45,7 +47,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.stream.Stream;
 
-@SuppressWarnings("ClassNamePrefixedWithPackageName")
 public final class UsiChannel implements IMoveChannel {
     private static final Logger LOG = LoggerFactory.getLogger(UsiChannel.class);
 
@@ -96,17 +97,19 @@ public final class UsiChannel implements IMoveChannel {
     }
 
     @Override
-    public IMovement getMovement(final PlayMove playMove) {
+    public IMovement getMovement(final Kyokumen kyokumen) {
         final IStringConverter converter = new SfenConverter();
-        LOG.debug(playMove.convertString(converter));
-        final String position = String
-                .join(" ", "position sfen", playMove.convertString(converter));
+        final String sfen = kyokumen.convertString(converter);
+        final Player turn = kyokumen.getTurn();
+
+
+        final String position = String.join(" ", "position sfen", sfen);
         out.add(position);
         out.add("go byoyomi 1000");
         final Stream<BestmoveState> iterate = Stream
                 .iterate(new WaitBestmove(), state0 -> {
                     try {
-                        return state0.readResponse(out, in);
+                        return state0.readResponse(in);
                     } catch (final InterruptedException e) {
                         e.printStackTrace();
                         throw new RuntimeException(e); // FIXME
@@ -117,7 +120,7 @@ public final class UsiChannel implements IMoveChannel {
                 .filter(usiState -> usiState instanceof EndSearchState)
                 .findFirst().get();
         final String bestmove = found.getMessage();
-        return toMovement(bestmove, playMove.getTurn());
+        return toMovement(bestmove, kyokumen.getTurn());
     }
 
     private static IMovement toMovement(final String bestmove,
@@ -125,6 +128,7 @@ public final class UsiChannel implements IMoveChannel {
         if (StringUtils.equals(bestmove, "resign")) {
             return new ResignMove();
         }
+
         if (Character.isDigit(bestmove.charAt(0))) {
             final int fx = Character.getNumericValue(bestmove.charAt(0));
             final int fy = Character.getNumericValue(bestmove.charAt(1)) - 9;

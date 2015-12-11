@@ -19,16 +19,11 @@
 package org.media_as.takaki.jfshogiban;
 
 import com.codepoetics.protonpack.StreamUtils;
-import org.media_as.takaki.jfshogiban.action.IMovement;
-import org.media_as.takaki.jfshogiban.protocol.IMoveChannel;
 import org.media_as.takaki.jfshogiban.protocol.usi.UsiChannel;
-import org.media_as.takaki.jfshogiban.tostr.CsaConverter;
-import org.media_as.takaki.jfshogiban.tostr.SfenConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
@@ -40,67 +35,37 @@ import java.util.stream.Stream;
 public final class Main {
     private static final Logger LOG = LoggerFactory.getLogger(Main.class);
 
-    private final Player currentPlayer;
-    private final PlayMove playMove;
-    private final IMoveChannel channelSente;
-    private final IMoveChannel channelGote;
-
-    private Main(final PlayMove playMove, final Player currentPlayer,
-                 final IMoveChannel channelSente,
-                 final IMoveChannel channelGote, final boolean finished) {
-        final PrintWriter writer = new PrintWriter(System.out);
-        writer.format("SFEN: %s\n",
-                playMove.convertString(new SfenConverter()));
-        writer.format("N+%s\nN-%s\n%s\n", channelSente, channelGote,
-                playMove.convertString(new CsaConverter()));
-        writer.flush();
-
-        this.currentPlayer = currentPlayer;
-        this.playMove = playMove;
-        this.channelSente = channelSente;
-        this.channelGote = channelGote;
-    }
-
-    public Main getNextMain() throws IllegalMoveException {
-        final IMovement movement = (currentPlayer == Player.SENTEBAN ? channelSente : channelGote)
-                .getMovement(playMove);
-        LOG.debug("{} {}", currentPlayer, movement);
-        return new Main(playMove.getNextPlayMove(movement),
-                currentPlayer.next(), channelSente, channelGote, false);
+    private Main() {
     }
 
     public static void main(final String[] args) throws IOException {
         LOG.debug(Arrays.toString(args));
-        final Main main = new Main(
-                new PlayMove(Kyokumen.startPosition(), false), Player.SENTEBAN,
-                new UsiChannel(Paths.get("/home/takaki/tmp/gpsfish/src"),
-                        "gpsfish"),
-                new UsiChannel(Paths.get("/home/takaki/tmp/apery/bin"),
-                        "apery"), false);
         LOG.debug("run Main");
-        final Stream<Main> iterate = Stream.iterate(main, main0 -> {
-            try {
-                return main0.getNextMain();
-            } catch (final IllegalMoveException e) {
-                LOG.debug("*** Raise Exception ***");
-                throw new RuntimeException(e);
-            }
-        });
-        final List<Main> collect = StreamUtils
-                .takeUntil(iterate, Main::isFinished)
+
+        final Stream<PlayMain> iterate = Stream.iterate(
+                new PlayMain(Kyokumen.startPosition(), false, new UsiChannel(
+                        Paths.get("/home/takaki/tmp/gpsfish/src"), "gpsfish"),
+                        new UsiChannel(Paths.get("/home/takaki/tmp/apery/bin"),
+                                "apery")), playMain -> {
+                    try {
+                        return playMain.getNextPlayMain();
+                    } catch (final IllegalMoveException e) {
+                        LOG.debug("*** Raise Exception ***");
+                        throw new RuntimeException(e);
+                    }
+                });
+        final List<PlayMain> collect = StreamUtils
+                .takeUntil(iterate, PlayMain::isFinished)
                 .collect(Collectors.toList());
 
-        int moves = collect.size() - 1;
+        final int moves = collect.size() - 1;
         LOG.debug("Game End: {} WON {} Moves",
-                moves % 2 == 1 ? Player.SENTEBAN : Player.GOTEBAN, moves);
+                (moves & 1) == 1 ? Player.SENTEBAN : Player.GOTEBAN, moves);
         System.exit(0); // FIXME
 
     }
 
 
-    public boolean isFinished() {
-        return playMove.isFinished();
-    }
 //    public static void main(final String[] args) {
 //        launch(args);
 //    }

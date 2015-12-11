@@ -34,8 +34,7 @@ public final class FoundBestmove implements EndSearchState {
     }
 
     @Override
-    public BestmoveState readResponse(final BlockingQueue<String> out,
-                                      final BlockingQueue<String> in) {
-        throw new RuntimeException("Should not call");
+    public BestmoveState readResponse(final BlockingQueue<String> in) {
+        throw new RuntimeException("FoundBestmove should not call");
     }
 }
