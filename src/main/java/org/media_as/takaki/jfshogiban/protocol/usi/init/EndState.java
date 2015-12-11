@@ -18,8 +18,6 @@
 
 package org.media_as.takaki.jfshogiban.protocol.usi.init;
 
-import java.util.concurrent.BlockingQueue;
-
 public interface EndState extends UsiState {
     String getMessage();
 }

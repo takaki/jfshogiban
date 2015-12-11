@@ -25,7 +25,7 @@ import java.util.concurrent.BlockingQueue;
 public final class WaitBestmove implements BestmoveState {
 
     @Override
-    public BestmoveState readResponse(
+    public BestmoveState next(
             final BlockingQueue<String> in) throws InterruptedException {
         final String line = in.take();
         return StringUtils.startsWith(line, "bestmove") ? new FoundBestmove(

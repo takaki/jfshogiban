@@ -55,7 +55,7 @@ public final class PlayMain {
 
     }
 
-    public PlayMain getNextPlayMain() throws IllegalMoveException {
+    public PlayMain next() throws IllegalMoveException {
         final IMovement movement = (kyokumen
                 .getTurn() == Player.SENTEBAN ? channelSente : channelGote)
                 .getMovement(kyokumen);

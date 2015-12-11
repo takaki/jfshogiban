@@ -19,10 +19,9 @@
 package org.media_as.takaki.jfshogiban.protocol.usi.init;
 
 
-import java.io.PrintStream;
 import java.util.concurrent.BlockingQueue;
 
 public interface UsiState {
-    UsiState readResponse(BlockingQueue<String> out,
-                          BlockingQueue<String> in) throws InterruptedException;
+    UsiState next(BlockingQueue<String> out,
+                  BlockingQueue<String> in) throws InterruptedException;
 }

@@ -48,7 +48,7 @@ public final class Main {
                         new UsiChannel(Paths.get("/home/takaki/tmp/apery/bin"),
                                 "apery")), playMain -> {
                     try {
-                        return playMain.getNextPlayMain();
+                        return playMain.next();
                     } catch (final IllegalMoveException e) {
                         LOG.debug("*** Raise Exception ***");
                         throw new RuntimeException(e);

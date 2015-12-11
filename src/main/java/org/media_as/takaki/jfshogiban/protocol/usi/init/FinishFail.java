@@ -18,18 +18,26 @@
 
 package org.media_as.takaki.jfshogiban.protocol.usi.init;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
+
 import java.util.concurrent.BlockingQueue;
 
-public final class StartSuccess implements EndState {
+public final class FinishFail implements EndState {
+    private final InterruptedException e;
+
+    public FinishFail(final InterruptedException e) {
+        this.e = e;
+    }
+
 
     @Override
-    public EndState readResponse(final BlockingQueue<String> out,
-                                 final BlockingQueue<String> in) {
-        throw new RuntimeException("Should not call");
+    public EndState next(final BlockingQueue<String> out,
+                         final BlockingQueue<String> in) {
+        throw new RuntimeException("FinishFail must not call next.");
     }
 
     @Override
     public String getMessage() {
-        throw new RuntimeException("Should not call");
+        return ExceptionUtils.getStackTrace(e);
     }
 }

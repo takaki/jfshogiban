@@ -36,12 +36,12 @@ public final class WaitReadyok implements UsiState {
     }
 
     @Override
-    public UsiState readResponse(final BlockingQueue<String> out,
-                                 final BlockingQueue<String> in) throws InterruptedException {
+    public UsiState next(final BlockingQueue<String> out,
+                         final BlockingQueue<String> in) throws InterruptedException {
         final String line = in.take();
         if (StringUtils.equals(line, "readyok")) {
             out.add("usinewgame");
-            return new StartSuccess();
+            return new FinishSuccess();
         } else {
             return new WaitReadyok(channel);
         }

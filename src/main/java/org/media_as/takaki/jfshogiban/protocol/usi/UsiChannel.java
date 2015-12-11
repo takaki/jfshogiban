@@ -25,7 +25,7 @@ import org.media_as.takaki.jfshogiban.action.*;
 import org.media_as.takaki.jfshogiban.piece.*;
 import org.media_as.takaki.jfshogiban.protocol.IMoveChannel;
 import org.media_as.takaki.jfshogiban.protocol.usi.init.EndState;
-import org.media_as.takaki.jfshogiban.protocol.usi.init.StartFail;
+import org.media_as.takaki.jfshogiban.protocol.usi.init.FinishFail;
 import org.media_as.takaki.jfshogiban.protocol.usi.init.StartUsi;
 import org.media_as.takaki.jfshogiban.protocol.usi.init.UsiState;
 import org.media_as.takaki.jfshogiban.protocol.usi.search.BestmoveState;
@@ -88,9 +88,9 @@ public final class UsiChannel implements IMoveChannel {
         final Stream<UsiState> iterate = Stream
                 .iterate(new StartUsi(this), state0 -> {
                     try {
-                        return state0.readResponse(out, in);
+                        return state0.next(out, in);
                     } catch (final InterruptedException e) {
-                        return new StartFail(e);
+                        return new FinishFail(e);
                     }
                 });
         iterate.filter(usiState -> usiState instanceof EndState).findFirst();
@@ -109,7 +109,7 @@ public final class UsiChannel implements IMoveChannel {
         final Stream<BestmoveState> iterate = Stream
                 .iterate(new WaitBestmove(), state0 -> {
                     try {
-                        return state0.readResponse(in);
+                        return state0.next(in);
                     } catch (final InterruptedException e) {
                         e.printStackTrace();
                         throw new RuntimeException(e); // FIXME

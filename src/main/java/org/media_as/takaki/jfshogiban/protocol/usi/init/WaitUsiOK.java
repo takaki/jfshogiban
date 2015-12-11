@@ -23,7 +23,6 @@ import org.media_as.takaki.jfshogiban.protocol.usi.UsiChannel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.PrintStream;
 import java.util.concurrent.BlockingQueue;
 
 public final class WaitUsiOK implements UsiState {
@@ -35,8 +34,8 @@ public final class WaitUsiOK implements UsiState {
     }
 
     @Override
-    public UsiState readResponse(final BlockingQueue<String> out,
-                                 final BlockingQueue<String> in) throws InterruptedException {
+    public UsiState next(final BlockingQueue<String> out,
+                         final BlockingQueue<String> in) throws InterruptedException {
         final String line = in.take();
         if (StringUtils.equals(line, "usiok")) {
             out.add("isready");
