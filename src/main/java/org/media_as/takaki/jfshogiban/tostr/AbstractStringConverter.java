@@ -18,7 +18,7 @@
 
 package org.media_as.takaki.jfshogiban.tostr;
 
-import org.media_as.takaki.jfshogiban.Koma;
+import org.media_as.takaki.jfshogiban.core.Koma;
 import org.media_as.takaki.jfshogiban.piece.IPiece;
 
 import java.util.Arrays;

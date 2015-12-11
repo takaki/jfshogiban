@@ -18,8 +18,8 @@
 
 package org.media_as.takaki.jfshogiban.protocol;
 
-import org.media_as.takaki.jfshogiban.Kyokumen;
-import org.media_as.takaki.jfshogiban.action.IMovement;
+import org.media_as.takaki.jfshogiban.core.Kyokumen;
+import org.media_as.takaki.jfshogiban.move.IMovement;
 
 public interface IMoveChannel {
     IMovement getMovement(Kyokumen kyokumen);

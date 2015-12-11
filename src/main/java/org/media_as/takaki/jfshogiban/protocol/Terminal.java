@@ -18,10 +18,10 @@
 
 package org.media_as.takaki.jfshogiban.protocol;
 
-import org.media_as.takaki.jfshogiban.Kyokumen;
-import org.media_as.takaki.jfshogiban.action.IMovement;
-import org.media_as.takaki.jfshogiban.action.NormalMove;
-import org.media_as.takaki.jfshogiban.action.PromoteMove;
+import org.media_as.takaki.jfshogiban.core.Kyokumen;
+import org.media_as.takaki.jfshogiban.move.IMovement;
+import org.media_as.takaki.jfshogiban.move.NormalMove;
+import org.media_as.takaki.jfshogiban.move.PromoteMove;
 import org.media_as.takaki.jfshogiban.tostr.CsaConverter;
 import org.media_as.takaki.jfshogiban.tostr.IStringConverter;
 

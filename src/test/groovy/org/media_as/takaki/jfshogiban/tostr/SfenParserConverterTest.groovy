@@ -16,34 +16,30 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.media_as.takaki.jfshogiban
+package org.media_as.takaki.jfshogiban.tostr
 
-import org.media_as.takaki.jfshogiban.tostr.CsaConverter
+import org.media_as.takaki.jfshogiban.core.Koma
+import org.media_as.takaki.jfshogiban.core.Kyokumen
+import org.media_as.takaki.jfshogiban.core.Mochigoma
+import org.media_as.takaki.jfshogiban.core.ShogiBan
 import spock.lang.Specification
 
-class CsaConverterTest extends Specification {
-    def converter = new CsaConverter()
+class SfenParserConverterTest extends Specification {
+    def converter = new SfenConverter()
 
     def "ShogiBan test"() {
         expect:
-        ShogiBan.startPosition().convertString(converter) ==
-                "P1-KY-KE-GI-KI-OU-KI-GI-KE-KY\n" +
-                "P2 * -HI *  *  *  *  * -KA * \n" +
-                "P3-FU-FU-FU-FU-FU-FU-FU-FU-FU\n" +
-                "P4 *  *  *  *  *  *  *  *  * \n" +
-                "P5 *  *  *  *  *  *  *  *  * \n" +
-                "P6 *  *  *  *  *  *  *  *  * \n" +
-                "P7+FU+FU+FU+FU+FU+FU+FU+FU+FU\n" +
-                "P8 * +KA *  *  *  *  * +HI * \n" +
-                "P9+KY+KE+GI+KI+OU+KI+GI+KE+KY\n"
+        ShogiBan.startPosition().convertString(converter) == "lnsgkgsnl/1r5b1/ppppppppp/9/9/9/PPPPPPPPP/1B5R1/LNSGKGSNL"
     }
 
-    def "Mochigoma "() {
+    def "Mochigoma test"() {
         expect:
         Mochigoma.initialize().push(Koma.SENTE_FU).push(Koma.SENTE_FU).push(Koma.GOTE_KEIMA).
-                convertString(converter) ==
-                "P+00FU00FU\nP-00KE\n"
+                convertString(converter) == "2Pn"
     }
 
-
+    def "Kyokumen test"() {
+        expect:
+        Kyokumen.startPosition().convertString(converter) == "lnsgkgsnl/1r5b1/ppppppppp/9/9/9/PPPPPPPPP/1B5R1/LNSGKGSNL b - 1"
+    }
 }

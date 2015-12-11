@@ -18,7 +18,7 @@
 
 package org.media_as.takaki.jfshogiban.piece
 
-import org.media_as.takaki.jfshogiban.Player
+import org.media_as.takaki.jfshogiban.core.Player
 import spock.lang.Specification
 
 class BasePieceTest extends Specification {

@@ -16,27 +16,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.media_as.takaki.jfshogiban
+package org.media_as.takaki.jfshogiban.core;
 
-import org.media_as.takaki.jfshogiban.tostr.SfenConverter
-import spock.lang.Specification
+import org.media_as.takaki.jfshogiban.tostr.IStringConverter;
 
-class SfenParserConverterTest extends Specification {
-    def converter = new SfenConverter()
+public enum Player {
+    SENTEBAN, GOTEBAN;
 
-    def "ShogiBan test"() {
-        expect:
-        ShogiBan.startPosition().convertString(converter) == "lnsgkgsnl/1r5b1/ppppppppp/9/9/9/PPPPPPPPP/1B5R1/LNSGKGSNL"
+    public Player next() {
+        return this == SENTEBAN ? GOTEBAN : SENTEBAN;
     }
 
-    def "Mochigoma test"() {
-        expect:
-        Mochigoma.initialize().push(Koma.SENTE_FU).push(Koma.SENTE_FU).push(Koma.GOTE_KEIMA).
-                convertString(converter) == "2Pn"
+    public int sign() {
+        return this == SENTEBAN ? 1 : -1;
     }
 
-    def "Kyokumen test"() {
-        expect:
-        Kyokumen.startPosition().convertString(converter) == "lnsgkgsnl/1r5b1/ppppppppp/9/9/9/PPPPPPPPP/1B5R1/LNSGKGSNL b - 1"
+    public String convert(final IStringConverter converter) {
+        return converter.convertPlayer(this);
     }
 }

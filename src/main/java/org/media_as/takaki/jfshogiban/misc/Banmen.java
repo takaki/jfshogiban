@@ -16,8 +16,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.media_as.takaki.jfshogiban;
+package org.media_as.takaki.jfshogiban.misc;
 
+import org.media_as.takaki.jfshogiban.core.Mochigoma;
+import org.media_as.takaki.jfshogiban.core.Player;
+import org.media_as.takaki.jfshogiban.core.ShogiBan;
+import org.media_as.takaki.jfshogiban.exception.IllegalMoveException;
 import org.media_as.takaki.jfshogiban.piece.IPiece;
 import org.media_as.takaki.jfshogiban.tostr.CsaConverter;
 import org.media_as.takaki.jfshogiban.tostr.IStringConverter;

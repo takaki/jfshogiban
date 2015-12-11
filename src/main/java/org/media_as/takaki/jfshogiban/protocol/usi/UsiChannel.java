@@ -19,9 +19,9 @@
 package org.media_as.takaki.jfshogiban.protocol.usi;
 
 import org.apache.commons.lang3.StringUtils;
-import org.media_as.takaki.jfshogiban.Kyokumen;
-import org.media_as.takaki.jfshogiban.Player;
-import org.media_as.takaki.jfshogiban.action.*;
+import org.media_as.takaki.jfshogiban.core.Kyokumen;
+import org.media_as.takaki.jfshogiban.core.Player;
+import org.media_as.takaki.jfshogiban.move.*;
 import org.media_as.takaki.jfshogiban.piece.*;
 import org.media_as.takaki.jfshogiban.protocol.IMoveChannel;
 import org.media_as.takaki.jfshogiban.protocol.usi.init.EndState;

@@ -16,9 +16,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.media_as.takaki.jfshogiban.action;
+package org.media_as.takaki.jfshogiban.move;
 
-import org.media_as.takaki.jfshogiban.Kyokumen;
+import org.media_as.takaki.jfshogiban.core.Kyokumen;
 
 public final class PromoteMove implements IMovement {
     private final int fx;

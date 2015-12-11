@@ -18,7 +18,7 @@
 
 package org.media_as.takaki.jfshogiban.protocol.usi
 
-import org.media_as.takaki.jfshogiban.Kyokumen
+import org.media_as.takaki.jfshogiban.core.Kyokumen
 import spock.lang.Ignore
 import spock.lang.Specification
 

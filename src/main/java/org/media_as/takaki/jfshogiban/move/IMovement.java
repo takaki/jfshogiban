@@ -16,20 +16,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.media_as.takaki.jfshogiban.action;
+package org.media_as.takaki.jfshogiban.move;
 
-import org.media_as.takaki.jfshogiban.Kyokumen;
+import org.media_as.takaki.jfshogiban.core.Kyokumen;
 
-public final class ResignMove implements EndMove {
-
-    @Override
-    public Kyokumen action(final Kyokumen kyokumen) {
-        return kyokumen;
-    }
-
-    @Override
-    public String toString() {
-        return "ResignMove";
-    }
-
+public interface IMovement {
+    Kyokumen action(Kyokumen kyokumen);
 }

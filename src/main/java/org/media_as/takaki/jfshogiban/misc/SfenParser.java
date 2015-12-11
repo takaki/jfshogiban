@@ -16,9 +16,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.media_as.takaki.jfshogiban;
+package org.media_as.takaki.jfshogiban.misc;
 
 import org.apache.commons.lang3.StringUtils;
+import org.media_as.takaki.jfshogiban.core.*;
 import org.media_as.takaki.jfshogiban.piece.IPiece;
 
 import java.util.HashMap;

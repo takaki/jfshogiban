@@ -18,6 +18,8 @@
 
 package org.media_as.takaki.jfshogiban
 
+import org.media_as.takaki.jfshogiban.core.Koma
+import org.media_as.takaki.jfshogiban.misc.SfenParser
 import org.media_as.takaki.jfshogiban.tostr.SfenConverter
 import spock.lang.Specification
 

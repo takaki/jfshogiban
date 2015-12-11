@@ -16,22 +16,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.media_as.takaki.jfshogiban;
+package org.media_as.takaki.jfshogiban.move;
 
-import org.media_as.takaki.jfshogiban.tostr.IStringConverter;
+import org.media_as.takaki.jfshogiban.core.Kyokumen;
 
-public enum Player {
-    SENTEBAN, GOTEBAN;
+public final class ResignMove implements EndMove {
 
-    public Player next() {
-        return this == SENTEBAN ? GOTEBAN : SENTEBAN;
+    @Override
+    public Kyokumen action(final Kyokumen kyokumen) {
+        return kyokumen;
     }
 
-    public int sign() {
-        return this == SENTEBAN ? 1 : -1;
+    @Override
+    public String toString() {
+        return "ResignMove";
     }
 
-    public String convert(final IStringConverter converter) {
-        return converter.convertPlayer(this);
-    }
 }

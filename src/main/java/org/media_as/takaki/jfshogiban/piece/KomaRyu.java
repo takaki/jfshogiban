@@ -18,8 +18,8 @@
 
 package org.media_as.takaki.jfshogiban.piece;
 
-import org.media_as.takaki.jfshogiban.Player;
-import org.media_as.takaki.jfshogiban.ShogiBan;
+import org.media_as.takaki.jfshogiban.core.Player;
+import org.media_as.takaki.jfshogiban.core.ShogiBan;
 
 public final class KomaRyu extends BasePiece implements CheckerHisha, CheckerGyoku {
     public KomaRyu(final Player owner) {

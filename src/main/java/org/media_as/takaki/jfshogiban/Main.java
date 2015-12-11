@@ -18,6 +18,8 @@
 
 package org.media_as.takaki.jfshogiban;
 
+import org.media_as.takaki.jfshogiban.core.Kyokumen;
+import org.media_as.takaki.jfshogiban.core.Player;
 import org.media_as.takaki.jfshogiban.main.IMain;
 import org.media_as.takaki.jfshogiban.main.PlayEnd;
 import org.media_as.takaki.jfshogiban.main.PlayMain;

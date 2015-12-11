@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.media_as.takaki.jfshogiban.action;
+package org.media_as.takaki.jfshogiban.move;
 
 public interface EndMove extends IMovement{
 }

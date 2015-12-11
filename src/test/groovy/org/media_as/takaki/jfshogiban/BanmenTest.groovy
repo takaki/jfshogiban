@@ -18,6 +18,10 @@
 
 package org.media_as.takaki.jfshogiban
 
+import org.media_as.takaki.jfshogiban.core.Koma
+import org.media_as.takaki.jfshogiban.core.Player
+import org.media_as.takaki.jfshogiban.exception.IllegalMoveException
+import org.media_as.takaki.jfshogiban.misc.Banmen
 import spock.lang.Specification
 
 class BanmenTest extends Specification {

@@ -18,10 +18,10 @@
 
 package org.media_as.takaki.jfshogiban.main;
 
-import org.media_as.takaki.jfshogiban.Kyokumen;
-import org.media_as.takaki.jfshogiban.Player;
-import org.media_as.takaki.jfshogiban.action.EndMove;
-import org.media_as.takaki.jfshogiban.action.IMovement;
+import org.media_as.takaki.jfshogiban.core.Kyokumen;
+import org.media_as.takaki.jfshogiban.core.Player;
+import org.media_as.takaki.jfshogiban.move.EndMove;
+import org.media_as.takaki.jfshogiban.move.IMovement;
 import org.media_as.takaki.jfshogiban.protocol.IMoveChannel;
 import org.media_as.takaki.jfshogiban.tostr.CsaConverter;
 import org.media_as.takaki.jfshogiban.tostr.IStringConverter;
@@ -31,14 +31,14 @@ import org.slf4j.LoggerFactory;
 
 import java.io.PrintWriter;
 
-public class PlayMain implements IMain {
+public final class PlayMain implements IMain {
     private static final Logger LOG = LoggerFactory.getLogger(PlayMain.class);
 
     private final Kyokumen kyokumen;
 
     private final IMoveChannel channelSente;
     private final IMoveChannel channelGote;
-    private final int moves;  // TODO: move list 
+    private final int moves;  // TODO: move list
 
     public PlayMain(final Kyokumen kyokumen, final int moves,
                     final IMoveChannel channelSente,

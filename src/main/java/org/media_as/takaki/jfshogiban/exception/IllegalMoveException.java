@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.media_as.takaki.jfshogiban;
+package org.media_as.takaki.jfshogiban.exception;
 
 public class IllegalMoveException extends IllegalArgumentException {
     private static final long serialVersionUID = -3047309423218446728L;

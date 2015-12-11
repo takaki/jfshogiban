@@ -16,12 +16,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.media_as.takaki.jfshogiban;
+package org.media_as.takaki.jfshogiban.core;
 
 import org.media_as.takaki.jfshogiban.piece.IPiece;
 import org.media_as.takaki.jfshogiban.tostr.IStringConverter;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.IntStream;
 
 @SuppressWarnings("HardCodedStringLiteral")

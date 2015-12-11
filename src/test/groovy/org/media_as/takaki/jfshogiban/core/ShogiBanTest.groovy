@@ -16,9 +16,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.media_as.takaki.jfshogiban
+package org.media_as.takaki.jfshogiban.core
 
-import org.media_as.takaki.jfshogiban.tostr.SfenConverter
 import spock.lang.Specification
 
 class ShogiBanTest extends Specification {

@@ -19,11 +19,16 @@
 package org.media_as.takaki.jfshogiban.tostr;
 
 import org.apache.commons.lang3.StringUtils;
-import org.media_as.takaki.jfshogiban.*;
+import org.media_as.takaki.jfshogiban.core.Koma;
+import org.media_as.takaki.jfshogiban.core.Mochigoma;
+import org.media_as.takaki.jfshogiban.core.Player;
+import org.media_as.takaki.jfshogiban.core.ShogiBan;
 import org.media_as.takaki.jfshogiban.piece.BasePiece;
 import org.media_as.takaki.jfshogiban.piece.IPiece;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 

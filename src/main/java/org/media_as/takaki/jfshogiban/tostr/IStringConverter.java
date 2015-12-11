@@ -18,9 +18,9 @@
 
 package org.media_as.takaki.jfshogiban.tostr;
 
-import org.media_as.takaki.jfshogiban.Mochigoma;
-import org.media_as.takaki.jfshogiban.Player;
-import org.media_as.takaki.jfshogiban.ShogiBan;
+import org.media_as.takaki.jfshogiban.core.Mochigoma;
+import org.media_as.takaki.jfshogiban.core.Player;
+import org.media_as.takaki.jfshogiban.core.ShogiBan;
 import org.media_as.takaki.jfshogiban.piece.BasePiece;
 
 public interface IStringConverter {
