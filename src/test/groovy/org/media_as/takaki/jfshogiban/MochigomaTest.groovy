@@ -70,10 +70,5 @@ class MochigomaTest extends Specification {
         thrown(IllegalMoveException)
     }
 
-    def "sfen"() {
-        expect:
-        Mochigoma.sfen("2Pp").count(Koma.SENTE_FU) == 2
-        Mochigoma.sfen("2Pp").count(Koma.GOTE_FU) == 1
-    }
 
 }

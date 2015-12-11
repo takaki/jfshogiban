@@ -42,8 +42,8 @@ public final class Kyokumen {
 
     public static Kyokumen sfen(final String sfen) throws IllegalMoveException {
         final String[] token = sfen.split(" ");
-        return new Kyokumen(ShogiBan.sfen(token[0]), Mochigoma.sfen(token[2]),
-                sfen.charAt(1) == 'b' ? Player.SENTEBAN : Player.GOTEBAN);
+        return new Kyokumen(SfenUtil.shogiban(token[0]), SfenUtil.mochigoma(token[2]),
+                token[1].equals("b") ? Player.SENTEBAN : Player.GOTEBAN);
     }
 
     public Kyokumen(final ShogiBan shogiBan, final Mochigoma mochigoma,

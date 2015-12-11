@@ -21,40 +21,21 @@ package org.media_as.takaki.jfshogiban
 import org.media_as.takaki.jfshogiban.tostr.SfenConverter
 import spock.lang.Specification
 
-class ShogiBanTest extends Specification {
-    def board = ShogiBan.initialize()
-
-    def "intialized board is entire empty"() {
+class SfenUtilTest extends Specification {
+    def "mochigoma"() {
         expect:
-        //noinspection GroovyAssignabilityCheck
-        board.isEmpty(x, y)
-        where:
-        [x, y] << [1..9, 1..9].combinations()
+        SfenUtil.mochigoma("B2Pp").count(Koma.SENTE_FU) == 2
+        SfenUtil.mochigoma("B2Pp").count(Koma.GOTE_FU) == 1
+        SfenUtil.mochigoma("B2Pp").count(Koma.SENTE_KAKU) == 1
     }
 
-    def "can't set out bound location"() {
-        when:
-        board.get(0, 1)
-        then:
-        thrown(IllegalArgumentException)
-
-        when:
-        board.get(3, 10)
-        then:
-        thrown(IllegalArgumentException)
-
-        when:
-        board.set(1, 10, Koma.GOTE_KAKU)
-        then:
-        thrown(IllegalArgumentException)
-    }
-
-    def "set piece and got piece are same"() {
+    def "shogiban"() {
+        def sfen = "ln1gk1snl/1r1s2gb1/p2ppp1+p1/2p6/1p6P/2P2Pp2/PPBPPS3/2GS3R1/LN2KG1NL"
         expect:
-        board.set(x, y, p).get(2, 2).get() == p
-        where:
-        x | y || p
-        2 | 2 || Koma.GOTE_FU
+        SfenUtil.shogiban("lnsgkgsnl/1r5b1/ppppppppp/9/9/9/PPPPPPPPP/1B5R1/LNSGKGSNL").get(2, 2).get() == Koma.GOTE_KAKU
+        SfenUtil.shogiban(sfen).get(2, 2).get() == Koma.GOTE_KAKU
+        SfenUtil.shogiban(sfen).get(2, 3).get() == Koma.GOTE_TOKIN
+        SfenUtil.shogiban(sfen).convertString(new SfenConverter()) == sfen
     }
 
 

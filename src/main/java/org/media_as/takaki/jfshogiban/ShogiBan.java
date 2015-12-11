@@ -22,7 +22,6 @@ import org.media_as.takaki.jfshogiban.piece.IPiece;
 import org.media_as.takaki.jfshogiban.tostr.IStringConverter;
 
 import java.util.*;
-import java.util.stream.Collector;
 import java.util.stream.IntStream;
 
 @SuppressWarnings("HardCodedStringLiteral")
@@ -102,58 +101,5 @@ public final class ShogiBan {
         return converter.convertShogiban(this);
     }
 
-    private static final Map<Character, IPiece> SFEN_PIECE = new HashMap<>(14);
 
-    static {
-        SFEN_PIECE.put('P', Koma.SENTE_FU);
-        SFEN_PIECE.put('L', Koma.SENTE_KYOSHA);
-        SFEN_PIECE.put('N', Koma.SENTE_KEIMA);
-        SFEN_PIECE.put('S', Koma.SENTE_GIN);
-        SFEN_PIECE.put('G', Koma.SENTE_KIN);
-        SFEN_PIECE.put('B', Koma.SENTE_KAKU);
-        SFEN_PIECE.put('R', Koma.SENTE_HISYA);
-        SFEN_PIECE.put('K', Koma.SENTE_GYOKU);
-
-        SFEN_PIECE.put('p', Koma.GOTE_FU);
-        SFEN_PIECE.put('l', Koma.GOTE_KYOSHA);
-        SFEN_PIECE.put('n', Koma.GOTE_KEIMA);
-        SFEN_PIECE.put('s', Koma.GOTE_GIN);
-        SFEN_PIECE.put('g', Koma.GOTE_KIN);
-        SFEN_PIECE.put('b', Koma.GOTE_KAKU);
-        SFEN_PIECE.put('r', Koma.GOTE_HISYA);
-        SFEN_PIECE.put('k', Koma.GOTE_GYOKU);
-    }
-
-
-    // FIXME: ugly
-    public static ShogiBan sfen(final String sfen) throws IllegalMoveException {
-        int x = 9, y = 1;
-        ShogiBan shogiBan = initialize();
-        for (int i = 0; i < sfen.length(); i++) {
-            char ch = sfen.charAt(i);
-            boolean promote = false;
-            if (Character.isDigit(ch)) {
-                int n = Character.getNumericValue(ch);
-                x -= n;
-            } else if (ch == '/') {
-                x = 9;
-                y++;
-            } else {
-                if (ch == '+') {
-                    i++;
-                    promote = true;
-                }
-                ch = sfen.charAt(i);
-                if (!SFEN_PIECE.containsKey(ch)) {
-                    throw new IllegalMoveException("Unknown=" + ch + x + y);
-                }
-                final IPiece piece = promote ? SFEN_PIECE.get(ch)
-                        .promotion() : SFEN_PIECE.get(ch);
-                shogiBan = shogiBan.set(x, y, piece);
-                x--;
-            }
-        }
-
-        return shogiBan;
-    }
 }

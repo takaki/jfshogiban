@@ -84,48 +84,5 @@ public final class Mochigoma {
         return converter.convertMochigoma(this);
     }
 
-    private static final Map<Character, IPiece> SFEN_PIECE = new HashMap<>(14);
 
-    static {
-        SFEN_PIECE.put('P', Koma.SENTE_FU);
-        SFEN_PIECE.put('L', Koma.SENTE_KYOSHA);
-        SFEN_PIECE.put('N', Koma.SENTE_KEIMA);
-        SFEN_PIECE.put('S', Koma.SENTE_GIN);
-        SFEN_PIECE.put('G', Koma.SENTE_KIN);
-        SFEN_PIECE.put('B', Koma.SENTE_KAKU);
-        SFEN_PIECE.put('R', Koma.SENTE_HISYA);
-
-        SFEN_PIECE.put('p', Koma.GOTE_FU);
-        SFEN_PIECE.put('l', Koma.GOTE_KYOSHA);
-        SFEN_PIECE.put('n', Koma.GOTE_KEIMA);
-        SFEN_PIECE.put('s', Koma.GOTE_GIN);
-        SFEN_PIECE.put('g', Koma.GOTE_KIN);
-        SFEN_PIECE.put('b', Koma.GOTE_KAKU);
-        SFEN_PIECE.put('r', Koma.GOTE_HISYA);
-    }
-
-    // FIXME: ugly
-    public static Mochigoma sfen(
-            final String sfen) throws IllegalMoveException {
-        Mochigoma mochigoma = initialize();
-        for (int i = 0; i < sfen.length(); i++) {
-            char c = sfen.charAt(i);
-            final int n;
-            if (Character.isDigit(c)) {
-                n = Character.getNumericValue(c);
-                i++;
-                c = sfen.charAt(i);
-            } else {
-                n = 1;
-            }
-            for (int j = 0; j < n; j++) {
-                if (!SFEN_PIECE.containsKey(c)) {
-                    throw new IllegalMoveException("Unknown=" + c);
-                }
-                mochigoma = mochigoma.push(SFEN_PIECE.get(c));
-            }
-        }
-        return mochigoma;
-
-    }
 }
