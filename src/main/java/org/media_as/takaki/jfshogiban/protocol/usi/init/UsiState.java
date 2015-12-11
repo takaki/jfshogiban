@@ -23,5 +23,6 @@ import java.io.PrintStream;
 import java.util.concurrent.BlockingQueue;
 
 public interface UsiState {
-    UsiState readResponse(PrintStream out, BlockingQueue<String> in) throws InterruptedException;
+    UsiState readResponse(BlockingQueue<String> out,
+                          BlockingQueue<String> in) throws InterruptedException;
 }

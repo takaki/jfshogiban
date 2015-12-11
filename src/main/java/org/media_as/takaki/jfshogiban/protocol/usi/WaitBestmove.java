@@ -24,6 +24,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.PrintStream;
 import java.util.Optional;
+import java.util.Queue;
 import java.util.concurrent.BlockingQueue;
 
 public class WaitBestmove {
@@ -35,15 +36,7 @@ public class WaitBestmove {
         this.bestmove = bestmove;
     }
 
-    public void sendPosition(final PrintStream out, final String position) {
-        LOG.debug("> {}", position);
-        out.println(position); // TODO writing thread.
-        out.println("go byoyomi 1000");
-        out.flush();
-    }
-
-    public WaitBestmove readResponse(final PrintStream out,
-                                     final BlockingQueue<String> in) throws InterruptedException {
+    public WaitBestmove readResponse(final BlockingQueue<String> in) throws InterruptedException {
         if (bestmove.isPresent()) {
             return null; // TODO: ugly
         }

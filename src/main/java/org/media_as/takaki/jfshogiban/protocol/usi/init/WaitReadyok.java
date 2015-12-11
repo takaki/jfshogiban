@@ -37,13 +37,11 @@ public class WaitReadyok implements UsiState {
     }
 
     @Override
-    public UsiState readResponse(final PrintStream out,
+    public UsiState readResponse(final BlockingQueue<String> out,
                                  final BlockingQueue<String> in) throws InterruptedException {
         final String line = in.take();
         if (StringUtils.equals(line, "readyok")) {
-            LOG.debug("> usinewgame");
-            out.println("usinewgame");
-            out.flush();
+            out.add("usinewgame");
             return new EndInit();
         } else {
             LOG.debug(line);

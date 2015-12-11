@@ -35,14 +35,11 @@ public final class StartUsi implements UsiState {
     }
 
     @Override
-    public UsiState readResponse(final PrintStream out,
+    public UsiState readResponse(final BlockingQueue<String> out,
                                  final BlockingQueue<String> in) throws InterruptedException {
-        String line;
-        while ((line = in.poll(500, TimeUnit.MILLISECONDS)) != null) {
+        while (in.poll(500, TimeUnit.MILLISECONDS) != null) {
         }
-        LOG.debug("> {}", "usi");
-        out.println("usi");
-        out.flush();
+        out.add("usi");
         return new WaitUsiOK(channel);
     }
 }

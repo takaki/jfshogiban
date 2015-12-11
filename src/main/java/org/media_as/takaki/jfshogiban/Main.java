@@ -54,6 +54,7 @@ public final class Main {
         writer.format("N+%s\nN-%s\n%s\n", channelSente, channelGote,
                 playMove.convertString(new CsaConverter()));
         writer.flush();
+
         this.currentPlayer = currentPlayer;
         this.playMove = playMove;
         this.channelSente = channelSente;

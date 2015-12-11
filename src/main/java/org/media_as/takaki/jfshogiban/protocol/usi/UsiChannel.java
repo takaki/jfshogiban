@@ -20,7 +20,6 @@ package org.media_as.takaki.jfshogiban.protocol.usi;
 
 import com.codepoetics.protonpack.StreamUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.media_as.takaki.jfshogiban.IllegalMoveException;
 import org.media_as.takaki.jfshogiban.PlayMove;
 import org.media_as.takaki.jfshogiban.Player;
 import org.media_as.takaki.jfshogiban.action.*;
@@ -40,32 +39,29 @@ import java.io.PrintStream;
 import java.nio.file.Path;
 import java.util.Optional;
 import java.util.Scanner;
-import java.util.concurrent.*;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.stream.Stream;
 
 @SuppressWarnings("ClassNamePrefixedWithPackageName")
 public final class UsiChannel implements IMoveChannel {
     private static final Logger LOG = LoggerFactory.getLogger(UsiChannel.class);
 
-    private final PrintStream out; // TODO wrapper
     private final BlockingQueue<String> in = new LinkedBlockingQueue<>();
-    private String name; // TODO
+    private final BlockingQueue<String> out = new LinkedBlockingQueue<>();
+    private String name; // FIXME
 
     public UsiChannel(final Path directory,
                       final String exe) throws IOException {
-//        String path ="/home/takaki/tmp/gpsfish/src/gpsfish" ;
-        final String path = "/home/takaki/tmp/apery/bin/apery";
         final ProcessBuilder processBuilder = new ProcessBuilder(
                 directory.resolve(exe).toString());
         processBuilder.directory(directory.toFile());
         final Process start = processBuilder.start();
 
-        out = new PrintStream(
-                new BufferedOutputStream(start.getOutputStream()));
-
-        final ScheduledExecutorService ses = Executors
-                .newSingleThreadScheduledExecutor();
-        ses.schedule(() -> {
+        final ExecutorService ses = Executors.newFixedThreadPool(2);
+        ses.execute(() -> {
             try (Scanner scanner = new Scanner(start.getInputStream())) {
                 while (scanner.hasNextLine()) {
                     final String add = scanner.nextLine();
@@ -73,7 +69,20 @@ public final class UsiChannel implements IMoveChannel {
                     in.add(add);
                 }
             }
-        }, 0, TimeUnit.MILLISECONDS);
+        });
+        ses.execute(() -> {
+            try (final PrintStream writer = new PrintStream(
+                    new BufferedOutputStream(start.getOutputStream()))) {
+                while (true) {
+                    final String take = out.take();
+                    LOG.debug("> {}", take);
+                    writer.println(take);
+                    writer.flush();
+                }
+            } catch (final InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
         final Stream<UsiState> iterate = Stream
                 .iterate(new StartUsi(this), state0 -> {
@@ -90,18 +99,18 @@ public final class UsiChannel implements IMoveChannel {
     }
 
     @Override
-    public IMovement getMovement(
-            final PlayMove playMove) throws IllegalMoveException {
+    public IMovement getMovement(final PlayMove playMove) {
         final IStringConverter converter = new SfenConverter();
         LOG.debug(playMove.convertString(converter));
         final String position = String
                 .join(" ", "position sfen", playMove.convertString(converter));
+        out.add(position);
+        out.add("go byoyomi 1000");
         final WaitBestmove waitBestmove = new WaitBestmove(Optional.empty());
-        waitBestmove.sendPosition(out, position);
         final Stream<WaitBestmove> iterate = Stream
                 .iterate(waitBestmove, state0 -> {
                     try {
-                        return state0.readResponse(out, in);
+                        return state0.readResponse(in);
                     } catch (final InterruptedException e) {
                         e.printStackTrace();
                         throw new RuntimeException(e);
@@ -110,11 +119,12 @@ public final class UsiChannel implements IMoveChannel {
 
         final String bestmove = StreamUtils
                 .takeUntil(iterate, state0 -> state0 == null)
-                .reduce((a, b) -> b).get().getBestMove().get();
+                .reduce((x, y) -> y).get().getBestMove().get();
         return toMovement(bestmove, playMove.getTurn());
     }
 
-    private IMovement toMovement(final String bestmove, final Player turn) {
+    private static IMovement toMovement(final String bestmove,
+                                        final Player turn) {
         if (StringUtils.equals(bestmove, "resign")) {
             return new ResignMove();
         }

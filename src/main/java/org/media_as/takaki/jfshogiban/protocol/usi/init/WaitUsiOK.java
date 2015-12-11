@@ -35,13 +35,11 @@ public final class WaitUsiOK implements UsiState {
     }
 
     @Override
-    public UsiState readResponse(final PrintStream out,
+    public UsiState readResponse(final BlockingQueue<String> out,
                                  final BlockingQueue<String> in) throws InterruptedException {
         final String line = in.take();
         if (StringUtils.equals(line, "usiok")) {
-            LOG.debug("> isready");
-            out.println("isready");
-            out.flush();
+            out.add("isready");
             return new WaitReadyok(channel);
         } else {
             if (line.startsWith("id name")) {

@@ -26,7 +26,7 @@ import java.util.concurrent.BlockingQueue;
 public final class EndInit implements UsiState {
 
     @Override
-    public UsiState readResponse(final PrintStream out,
+    public UsiState readResponse(final BlockingQueue<String> out,
                                  final BlockingQueue<String> in) {
         return null; // TODO: FIXME
     }
