@@ -18,7 +18,6 @@
 
 package org.media_as.takaki.jfshogiban;
 
-import org.codehaus.groovy.util.StringUtil;
 import org.media_as.takaki.jfshogiban.piece.IPiece;
 import org.media_as.takaki.jfshogiban.tostr.IStringConverter;
 

@@ -18,10 +18,10 @@
 
 package org.media_as.takaki.jfshogiban.piece;
 
-import org.media_as.takaki.jfshogiban.ShogiBan;
-import org.media_as.takaki.jfshogiban.tostr.IStringConverter;
 import org.media_as.takaki.jfshogiban.IllegalMoveException;
 import org.media_as.takaki.jfshogiban.Player;
+import org.media_as.takaki.jfshogiban.ShogiBan;
+import org.media_as.takaki.jfshogiban.tostr.IStringConverter;
 
 public interface IPiece {
     IPiece captured(final Player owner);

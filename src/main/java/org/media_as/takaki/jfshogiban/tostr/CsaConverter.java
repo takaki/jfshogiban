@@ -74,7 +74,7 @@ public final class CsaConverter extends AbstractStringConverter {
         if (PIECE.containsKey(piece)) {
             return PIECE.get(piece);
         } else {
-            throw new IllegalArgumentException("Unknown piece" + piece.toString());
+            throw new IllegalArgumentException("Unknown piece" + piece);
         }
     }
 

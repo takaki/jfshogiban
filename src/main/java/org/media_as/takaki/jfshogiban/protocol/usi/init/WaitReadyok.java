@@ -18,6 +18,7 @@
 
 package org.media_as.takaki.jfshogiban.protocol.usi.init;
 
+import org.apache.commons.lang3.StringUtils;
 import org.media_as.takaki.jfshogiban.protocol.usi.UsiChannel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,15 +31,16 @@ public class WaitReadyok implements UsiState {
             .getLogger(WaitReadyok.class);
 
     private final UsiChannel channel;
-    public WaitReadyok(UsiChannel channel){
+
+    public WaitReadyok(final UsiChannel channel) {
         this.channel = channel;
     }
 
     @Override
-    public UsiState readResponse(PrintStream out,
-                                 BlockingQueue<String> in) throws InterruptedException {
+    public UsiState readResponse(final PrintStream out,
+                                 final BlockingQueue<String> in) throws InterruptedException {
         final String line = in.take();
-        if (line.equals("readyok")) {
+        if (StringUtils.equals(line, "readyok")) {
             LOG.debug("> usinewgame");
             out.println("usinewgame");
             out.flush();

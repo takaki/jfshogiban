@@ -18,16 +18,10 @@
 
 package org.media_as.takaki.jfshogiban.tostr;
 
-import org.media_as.takaki.jfshogiban.Banmen;
 import org.media_as.takaki.jfshogiban.Mochigoma;
 import org.media_as.takaki.jfshogiban.Player;
 import org.media_as.takaki.jfshogiban.ShogiBan;
 import org.media_as.takaki.jfshogiban.piece.BasePiece;
-import org.media_as.takaki.jfshogiban.piece.IPiece;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 
 public interface IStringConverter {
 

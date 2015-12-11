@@ -29,7 +29,7 @@ import org.media_as.takaki.jfshogiban.action.PromoteMove;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
-public class Terminal implements IMoveChannel {
+public final class Terminal implements IMoveChannel {
 
     private final Scanner scanner;
 

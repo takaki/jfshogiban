@@ -27,6 +27,13 @@ public class PromoteMove implements IMovement {
     private final int tx;
     private final int ty;
 
+    public PromoteMove(final int fx, final int fy, final int tx, final int ty) {
+        this.fx = fx;
+        this.fy = fy;
+        this.tx = tx;
+        this.ty = ty;
+    }
+
     @Override
     public final Kyokumen action(
             final Kyokumen kyokumen) throws IllegalMoveException {
@@ -38,12 +45,6 @@ public class PromoteMove implements IMovement {
         return false;
     }
 
-    public PromoteMove(final int fx, final int fy, final int tx, final int ty) {
-        this.fx = fx;
-        this.fy = fy;
-        this.tx = tx;
-        this.ty = ty;
-    }
     @Override
     public String toString() {
         return String.format("PromoteMove: %d%d%d%d", fx, fy, tx, ty);

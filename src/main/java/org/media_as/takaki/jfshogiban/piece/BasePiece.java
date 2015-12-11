@@ -18,10 +18,9 @@
 
 package org.media_as.takaki.jfshogiban.piece;
 
-import org.media_as.takaki.jfshogiban.ShogiBan;
-import org.media_as.takaki.jfshogiban.tostr.CsaConverter;
-import org.media_as.takaki.jfshogiban.tostr.IStringConverter;
 import org.media_as.takaki.jfshogiban.Player;
+import org.media_as.takaki.jfshogiban.ShogiBan;
+import org.media_as.takaki.jfshogiban.tostr.IStringConverter;
 
 import java.util.Objects;
 
@@ -77,6 +76,6 @@ public abstract class BasePiece implements IPiece {
 
     @Override
     public final String toString() {
-        return String.join(":", getClass().getSimpleName().toString(), owner.toString());
+        return String.join(":", getClass().getSimpleName(), owner.toString());
     }
 }

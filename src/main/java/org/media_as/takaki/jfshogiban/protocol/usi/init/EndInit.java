@@ -23,13 +23,11 @@ import org.media_as.takaki.jfshogiban.protocol.usi.UsiChannel;
 import java.io.PrintStream;
 import java.util.concurrent.BlockingQueue;
 
-public class EndInit implements UsiState {
-
-    public EndInit() {
-    }
+public final class EndInit implements UsiState {
 
     @Override
-    public UsiState readResponse(PrintStream out, BlockingQueue<String> in) {
-        return null;
+    public UsiState readResponse(final PrintStream out,
+                                 final BlockingQueue<String> in) {
+        return null; // TODO: FIXME
     }
 }

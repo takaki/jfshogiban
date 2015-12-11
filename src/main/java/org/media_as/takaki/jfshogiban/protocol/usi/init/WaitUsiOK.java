@@ -25,21 +25,19 @@ import org.slf4j.LoggerFactory;
 
 import java.io.PrintStream;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.TimeUnit;
 
 public final class WaitUsiOK implements UsiState {
     private static final Logger LOG = LoggerFactory.getLogger(WaitUsiOK.class);
     private final UsiChannel channel;
 
-    public WaitUsiOK(UsiChannel channel) {
+    public WaitUsiOK(final UsiChannel channel) {
         this.channel = channel;
     }
 
     @Override
     public UsiState readResponse(final PrintStream out,
                                  final BlockingQueue<String> in) throws InterruptedException {
-        String line;
-        line = in.take();
+        final String line = in.take();
         if (StringUtils.equals(line, "usiok")) {
             LOG.debug("> isready");
             out.println("isready");

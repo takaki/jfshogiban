@@ -19,7 +19,10 @@
 package org.media_as.takaki.jfshogiban.tostr;
 
 import org.apache.commons.lang3.StringUtils;
-import org.media_as.takaki.jfshogiban.*;
+import org.media_as.takaki.jfshogiban.Koma;
+import org.media_as.takaki.jfshogiban.Mochigoma;
+import org.media_as.takaki.jfshogiban.Player;
+import org.media_as.takaki.jfshogiban.ShogiBan;
 import org.media_as.takaki.jfshogiban.piece.BasePiece;
 import org.media_as.takaki.jfshogiban.piece.IPiece;
 

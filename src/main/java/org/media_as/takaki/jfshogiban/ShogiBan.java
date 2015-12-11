@@ -128,7 +128,7 @@ public final class ShogiBan {
     // FIXME: ugly
     public static ShogiBan sfen(final String sfen) throws IllegalMoveException {
         int x = 9, y = 1;
-        ShogiBan shogiBan = ShogiBan.initialize();
+        ShogiBan shogiBan = initialize();
         for (int i = 0; i < sfen.length(); i++) {
             char ch = sfen.charAt(i);
             boolean promote = false;

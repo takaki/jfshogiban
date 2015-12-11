@@ -20,17 +20,17 @@ package org.media_as.takaki.jfshogiban.protocol.usi;
 
 import com.codepoetics.protonpack.StreamUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.media_as.takaki.jfshogiban.IllegalMoveException;
+import org.media_as.takaki.jfshogiban.PlayMove;
 import org.media_as.takaki.jfshogiban.Player;
 import org.media_as.takaki.jfshogiban.action.*;
 import org.media_as.takaki.jfshogiban.piece.*;
-import org.media_as.takaki.jfshogiban.tostr.IStringConverter;
-import org.media_as.takaki.jfshogiban.IllegalMoveException;
-import org.media_as.takaki.jfshogiban.PlayMove;
-import org.media_as.takaki.jfshogiban.tostr.SfenConverter;
 import org.media_as.takaki.jfshogiban.protocol.IMoveChannel;
 import org.media_as.takaki.jfshogiban.protocol.usi.init.EndInit;
-import org.media_as.takaki.jfshogiban.protocol.usi.init.InitUsi;
+import org.media_as.takaki.jfshogiban.protocol.usi.init.StartUsi;
 import org.media_as.takaki.jfshogiban.protocol.usi.init.UsiState;
+import org.media_as.takaki.jfshogiban.tostr.IStringConverter;
+import org.media_as.takaki.jfshogiban.tostr.SfenConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,7 +44,7 @@ import java.util.concurrent.*;
 import java.util.stream.Stream;
 
 @SuppressWarnings("ClassNamePrefixedWithPackageName")
-public class UsiChannel implements IMoveChannel {
+public final class UsiChannel implements IMoveChannel {
     private static final Logger LOG = LoggerFactory.getLogger(UsiChannel.class);
 
     private final PrintStream out; // TODO wrapper
@@ -76,7 +76,7 @@ public class UsiChannel implements IMoveChannel {
         }, 0, TimeUnit.MILLISECONDS);
 
         final Stream<UsiState> iterate = Stream
-                .iterate(new InitUsi(this), state0 -> {
+                .iterate(new StartUsi(this), state0 -> {
                     try {
                         return state0.readResponse(out, in);
                     } catch (final InterruptedException e) {
@@ -146,16 +146,18 @@ public class UsiChannel implements IMoveChannel {
                 case 'R':
                     return new DropMove(tx, ty, new KomaHisha(turn));
                 default:
-                    throw new RuntimeException("FIX ME: bestmove is " + bestmove);
+                    throw new RuntimeException(
+                            "FIX ME: bestmove is " + bestmove);
             }
         }
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
+
     @Override
-    public String toString(){
+    public String toString() {
         return String.join(":", getClass().getSimpleName(), name);
     }
 }

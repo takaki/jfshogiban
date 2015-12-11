@@ -107,7 +107,7 @@ public final class Mochigoma {
     // FIXME: ugly
     public static Mochigoma sfen(
             final String sfen) throws IllegalMoveException {
-        Mochigoma mochigoma = Mochigoma.initialize();
+        Mochigoma mochigoma = initialize();
         for (int i = 0; i < sfen.length(); i++) {
             char c = sfen.charAt(i);
             final int n;

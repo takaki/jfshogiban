@@ -26,11 +26,11 @@ import java.io.PrintStream;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
-public class InitUsi implements UsiState {
-    private static final Logger LOG = LoggerFactory.getLogger(InitUsi.class);
+public final class StartUsi implements UsiState {
+    private static final Logger LOG = LoggerFactory.getLogger(StartUsi.class);
     private final UsiChannel channel;
 
-    public InitUsi(UsiChannel usiChannel) {
+    public StartUsi(final UsiChannel usiChannel) {
         channel = usiChannel;
     }
 
