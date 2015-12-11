@@ -105,7 +105,7 @@ public final class UsiChannel implements IMoveChannel {
         final String sfen = kyokumen.convertString(converter);
         final String position = String.join(" ", "position sfen", sfen);
         out.add(position);
-        out.add("go byoyomi 500");
+        out.add("go byoyomi 1000");
         final Stream<BestmoveState> iterate = Stream
                 .iterate(new WaitBestmove(), state0 -> {
                     try {
@@ -164,7 +164,7 @@ public final class UsiChannel implements IMoveChannel {
     }
 
     @Override
-    public String toString() {
+    public String getPlayerName() {
         return String.join(":", getClass().getSimpleName(), name);
     }
 }

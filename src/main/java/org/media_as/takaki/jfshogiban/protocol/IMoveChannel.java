@@ -23,4 +23,5 @@ import org.media_as.takaki.jfshogiban.action.IMovement;
 
 public interface IMoveChannel {
     IMovement getMovement(Kyokumen kyokumen);
+    String getPlayerName();
 }

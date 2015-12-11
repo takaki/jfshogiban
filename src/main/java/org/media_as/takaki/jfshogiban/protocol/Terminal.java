@@ -54,5 +54,10 @@ public final class Terminal implements IMoveChannel {
 
     }
 
+    @Override
+    public String getPlayerName() {
+        return "Terminal";
+    }
+
 
 }

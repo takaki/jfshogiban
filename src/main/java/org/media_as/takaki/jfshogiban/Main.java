@@ -45,7 +45,7 @@ public final class Main {
                 new PlayMain(Kyokumen.startPosition(), 0, new UsiChannel(
                         Paths.get("/home/takaki/tmp/gpsfish/src"), "gpsfish"),
                         new UsiChannel(Paths.get("/home/takaki/tmp/apery/bin"),
-                                "apery")), playMain -> playMain.next());
+                                "apery")), IMain::next);
         final IMain playEnd = iterate
                 .filter(playMain -> playMain instanceof PlayEnd).findFirst()
                 .get();

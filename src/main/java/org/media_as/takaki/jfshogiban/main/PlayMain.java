@@ -38,7 +38,7 @@ public class PlayMain implements IMain {
 
     private final IMoveChannel channelSente;
     private final IMoveChannel channelGote;
-    private final int moves;
+    private final int moves;  // TODO: move list 
 
     public PlayMain(final Kyokumen kyokumen, final int moves,
                     final IMoveChannel channelSente,
