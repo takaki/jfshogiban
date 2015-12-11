@@ -18,29 +18,5 @@
 
 package org.media_as.takaki.jfshogiban.action;
 
-import org.media_as.takaki.jfshogiban.Kyokumen;
-
-public final class NormalMove implements IMovement {
-    private final int fx;
-    private final int fy;
-    private final int tx;
-    private final int ty;
-
-    public NormalMove(final int fx, final int fy, final int tx, final int ty) {
-        this.fx = fx;
-        this.fy = fy;
-        this.tx = tx;
-        this.ty = ty;
-    }
-
-    @Override
-    public Kyokumen action(final Kyokumen kyokumen) {
-        return kyokumen.normalMove(fx, fy, tx, ty);
-    }
-
-    @Override
-    public String toString() {
-        return String.format("NormalMove: %d%d%d%d", fx, fy, tx, ty);
-    }
-
+public interface EndMove extends IMovement{
 }

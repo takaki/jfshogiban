@@ -16,31 +16,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.media_as.takaki.jfshogiban.action;
+package org.media_as.takaki.jfshogiban.main;
 
-import org.media_as.takaki.jfshogiban.Kyokumen;
+public interface IMain {
+    IMain next();
 
-public final class NormalMove implements IMovement {
-    private final int fx;
-    private final int fy;
-    private final int tx;
-    private final int ty;
-
-    public NormalMove(final int fx, final int fy, final int tx, final int ty) {
-        this.fx = fx;
-        this.fy = fy;
-        this.tx = tx;
-        this.ty = ty;
-    }
-
-    @Override
-    public Kyokumen action(final Kyokumen kyokumen) {
-        return kyokumen.normalMove(fx, fy, tx, ty);
-    }
-
-    @Override
-    public String toString() {
-        return String.format("NormalMove: %d%d%d%d", fx, fy, tx, ty);
-    }
-
+    int getMoves();
 }

@@ -19,7 +19,6 @@
 package org.media_as.takaki.jfshogiban.protocol.usi.init;
 
 import org.apache.commons.lang3.StringUtils;
-import org.media_as.takaki.jfshogiban.protocol.usi.UsiChannel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,25 +26,23 @@ import java.util.concurrent.BlockingQueue;
 
 public final class WaitUsiOK implements UsiState {
     private static final Logger LOG = LoggerFactory.getLogger(WaitUsiOK.class);
-    private final UsiChannel channel;
+    private final String name;
 
-    public WaitUsiOK(final UsiChannel channel) {
-        this.channel = channel;
+    public WaitUsiOK(final String name) {
+        this.name = name;
     }
 
+    @SuppressWarnings("MethodWithMultipleReturnPoints")
     @Override
     public UsiState next(final BlockingQueue<String> out,
                          final BlockingQueue<String> in) throws InterruptedException {
         final String line = in.take();
         if (StringUtils.equals(line, "usiok")) {
             out.add("isready");
-            return new WaitReadyok(channel);
+            return new WaitReadyok(name);
         } else {
-            if (line.startsWith("id name")) {
-                final String name = line.split(" ")[2];
-                channel.setName(name);
-            }
-            return new WaitUsiOK(channel);
+            return line.startsWith("id name") ? new WaitUsiOK(
+                    line.split(" ")[2]) : new WaitUsiOK(name);
         }
     }
 }

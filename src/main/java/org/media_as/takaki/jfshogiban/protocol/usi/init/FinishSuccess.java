@@ -22,6 +22,12 @@ import java.util.concurrent.BlockingQueue;
 
 public final class FinishSuccess implements EndState {
 
+    private final String name;
+
+    public FinishSuccess(final String name) {
+        this.name = name;
+    }
+
     @Override
     public EndState next(final BlockingQueue<String> out,
                          final BlockingQueue<String> in) {
@@ -30,6 +36,6 @@ public final class FinishSuccess implements EndState {
 
     @Override
     public String getMessage() {
-        throw new RuntimeException("Should not call");
+        return name;
     }
 }

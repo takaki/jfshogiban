@@ -52,7 +52,7 @@ public final class UsiChannel implements IMoveChannel {
 
     private final BlockingQueue<String> in = new LinkedBlockingQueue<>();
     private final BlockingQueue<String> out = new LinkedBlockingQueue<>();
-    private String name; // FIXME
+    private final String name; // FIXME
 
     public UsiChannel(final Path directory,
                       final String exe) throws IOException {
@@ -86,23 +86,26 @@ public final class UsiChannel implements IMoveChannel {
         });
 
         final Stream<UsiState> iterate = Stream
-                .iterate(new StartUsi(this), state0 -> {
+                .iterate(new StartUsi(), state0 -> {
                     try {
                         return state0.next(out, in);
                     } catch (final InterruptedException e) {
                         return new FinishFail(e);
                     }
                 });
-        iterate.filter(usiState -> usiState instanceof EndState).findFirst();
+        final UsiState first = iterate
+                .filter(usiState -> usiState instanceof EndState).findFirst()
+                .get();
+        name = ((EndState) first).getMessage();
     }
 
     @Override
-    public IMovement  getMovement(final Kyokumen kyokumen) {
+    public IMovement getMovement(final Kyokumen kyokumen) {
         final IStringConverter converter = new SfenConverter();
         final String sfen = kyokumen.convertString(converter);
         final String position = String.join(" ", "position sfen", sfen);
         out.add(position);
-        out.add("go byoyomi 1000");
+        out.add("go byoyomi 500");
         final Stream<BestmoveState> iterate = Stream
                 .iterate(new WaitBestmove(), state0 -> {
                     try {
@@ -158,10 +161,6 @@ public final class UsiChannel implements IMoveChannel {
                             "FIX ME: bestmove is " + bestmove);
             }
         }
-    }
-
-    public void setName(final String name) {
-        this.name = name;
     }
 
     @Override

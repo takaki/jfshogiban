@@ -18,7 +18,9 @@
 
 package org.media_as.takaki.jfshogiban;
 
-import com.codepoetics.protonpack.StreamUtils;
+import org.media_as.takaki.jfshogiban.main.IMain;
+import org.media_as.takaki.jfshogiban.main.PlayEnd;
+import org.media_as.takaki.jfshogiban.main.PlayMain;
 import org.media_as.takaki.jfshogiban.protocol.usi.UsiChannel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,8 +28,6 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @SuppressWarnings({"HardCodedStringLiteral", "DuplicateStringLiteralInspection", "UtilityClassCanBeEnum"})
@@ -41,16 +41,16 @@ public final class Main {
     public static void main(final String[] args) throws IOException {
         LOG.debug(Arrays.toString(args));
 
-        final Stream<PlayMain> iterate = Stream.iterate(
-                new PlayMain(Kyokumen.startPosition(), false, new UsiChannel(
+        final Stream<IMain> iterate = Stream.iterate(
+                new PlayMain(Kyokumen.startPosition(), 0, new UsiChannel(
                         Paths.get("/home/takaki/tmp/gpsfish/src"), "gpsfish"),
                         new UsiChannel(Paths.get("/home/takaki/tmp/apery/bin"),
                                 "apery")), playMain -> playMain.next());
-        final List<PlayMain> collect = StreamUtils
-                .takeUntil(iterate, PlayMain::isFinished)
-                .collect(Collectors.toList());
+        final IMain playEnd = iterate
+                .filter(playMain -> playMain instanceof PlayEnd).findFirst()
+                .get();
+        final int moves = playEnd.getMoves() - 1;
 
-        final int moves = collect.size() - 1;
         LOG.debug("Game End: {} WON {} Moves",
                 (moves & 1) == 1 ? Player.SENTEBAN : Player.GOTEBAN, moves);
         System.exit(0); // FIXME

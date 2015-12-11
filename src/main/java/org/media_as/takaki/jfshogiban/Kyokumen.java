@@ -40,10 +40,6 @@ public final class Kyokumen {
                 Player.SENTEBAN);
     }
 
-    public static Kyokumen sfen(final String sfen) {
-        return SfenParser.kyokumen(sfen);
-    }
-
     public Kyokumen(final ShogiBan shogiBan, final Mochigoma mochigoma,
                     final Player turn) {
         this.shogiBan = shogiBan;

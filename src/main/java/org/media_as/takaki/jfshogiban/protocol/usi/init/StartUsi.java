@@ -18,7 +18,6 @@
 
 package org.media_as.takaki.jfshogiban.protocol.usi.init;
 
-import org.media_as.takaki.jfshogiban.protocol.usi.UsiChannel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,11 +26,6 @@ import java.util.concurrent.TimeUnit;
 
 public final class StartUsi implements UsiState {
     private static final Logger LOG = LoggerFactory.getLogger(StartUsi.class);
-    private final UsiChannel channel;
-
-    public StartUsi(final UsiChannel usiChannel) {
-        channel = usiChannel;
-    }
 
     @Override
     public UsiState next(final BlockingQueue<String> out,
@@ -39,6 +33,6 @@ public final class StartUsi implements UsiState {
         while (in.poll(100, TimeUnit.MILLISECONDS) != null) {
         }
         out.add("usi");
-        return new WaitUsiOK(channel);
+        return new WaitUsiOK("");
     }
 }

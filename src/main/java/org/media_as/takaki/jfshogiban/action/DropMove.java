@@ -21,26 +21,20 @@ package org.media_as.takaki.jfshogiban.action;
 import org.media_as.takaki.jfshogiban.Kyokumen;
 import org.media_as.takaki.jfshogiban.piece.IPiece;
 
-public class DropMove implements IMovement {
+public final class DropMove implements IMovement {
     private final int tx;
     private final int ty;
     private final IPiece koma;
-
-    @Override
-    public final Kyokumen action(
-            final Kyokumen kyokumen) {
-        return kyokumen.drop(tx, ty, koma);
-    }
-
-    @Override
-    public boolean isFinished() {
-        return false;
-    }
 
     public DropMove(final int tx, final int ty, final IPiece koma) {
         this.tx = tx;
         this.ty = ty;
         this.koma = koma;
+    }
+
+    @Override
+    public Kyokumen action(final Kyokumen kyokumen) {
+        return kyokumen.drop(tx, ty, koma);
     }
 
     @Override

@@ -20,7 +20,7 @@ package org.media_as.takaki.jfshogiban.action;
 
 import org.media_as.takaki.jfshogiban.Kyokumen;
 
-public class PromoteMove implements IMovement {
+public final class PromoteMove implements IMovement {
     private final int fx;
     private final int fy;
     private final int tx;
@@ -34,14 +34,8 @@ public class PromoteMove implements IMovement {
     }
 
     @Override
-    public final Kyokumen action(
-            final Kyokumen kyokumen) {
+    public Kyokumen action(final Kyokumen kyokumen) {
         return kyokumen.promotionMove(fx, fy, tx, ty);
-    }
-
-    @Override
-    public boolean isFinished() {
-        return false;
     }
 
     @Override

@@ -51,7 +51,7 @@ public final class Banmen {
 
     public IPiece pick(final int x, final int y) {
         if (isEmpty(x, y)) {
-            throw new IllegalMoveException("Can't pick empty.");
+            throw new IllegalMoveException("[Banmen] Can't pick empty.");
         }
         return shogiBan.get(x, y).get();
     }

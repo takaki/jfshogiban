@@ -20,16 +20,11 @@ package org.media_as.takaki.jfshogiban.action;
 
 import org.media_as.takaki.jfshogiban.Kyokumen;
 
-public final class ResignMove implements IMovement {
+public final class ResignMove implements EndMove {
 
     @Override
     public Kyokumen action(final Kyokumen kyokumen) {
         return kyokumen;
-    }
-
-    @Override
-    public boolean isFinished() {
-        return true;
     }
 
     @Override

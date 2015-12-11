@@ -22,6 +22,4 @@ import org.media_as.takaki.jfshogiban.Kyokumen;
 
 public interface IMovement {
     Kyokumen action(Kyokumen kyokumen);
-
-    boolean isFinished();
 }

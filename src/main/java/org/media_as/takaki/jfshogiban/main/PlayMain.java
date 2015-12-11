@@ -16,8 +16,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.media_as.takaki.jfshogiban;
+package org.media_as.takaki.jfshogiban.main;
 
+import org.media_as.takaki.jfshogiban.Kyokumen;
+import org.media_as.takaki.jfshogiban.Player;
+import org.media_as.takaki.jfshogiban.action.EndMove;
 import org.media_as.takaki.jfshogiban.action.IMovement;
 import org.media_as.takaki.jfshogiban.protocol.IMoveChannel;
 import org.media_as.takaki.jfshogiban.tostr.CsaConverter;
@@ -28,49 +31,49 @@ import org.slf4j.LoggerFactory;
 
 import java.io.PrintWriter;
 
-public final class PlayMain {
+public class PlayMain implements IMain {
     private static final Logger LOG = LoggerFactory.getLogger(PlayMain.class);
 
     private final Kyokumen kyokumen;
 
     private final IMoveChannel channelSente;
     private final IMoveChannel channelGote;
+    private final int moves;
 
-    private final boolean finished;// FIXME
-
-    public PlayMain(final Kyokumen kyokumen, final boolean finished,
+    public PlayMain(final Kyokumen kyokumen, final int moves,
                     final IMoveChannel channelSente,
                     final IMoveChannel channelGote) {
         this.kyokumen = kyokumen;
-        this.finished = finished;
+        this.moves = moves;
 
         final PrintWriter writer = new PrintWriter(System.out);
         writer.format("SFEN: %s\n", convertString(new SfenConverter()));
-        writer.format("N+%s\nN-%s\n%s\n", channelSente, channelGote,
-                convertString(new CsaConverter()));
+        writer.format("N+%s\nN-%s\n%s%d\n", channelSente, channelGote,
+                kyokumen.convertString(new CsaConverter()), moves);
         writer.flush();
 
         this.channelSente = channelSente;
         this.channelGote = channelGote;
-
     }
 
-    public PlayMain next() {
+    @Override
+    public IMain next() {
         final IMovement movement = (kyokumen
                 .getTurn() == Player.SENTEBAN ? channelSente : channelGote)
                 .getMovement(kyokumen);
         LOG.debug("{} {}", kyokumen.getTurn(), movement);
-
-        return new PlayMain(movement.action(kyokumen), movement.isFinished(),
-                channelSente, channelGote);
+        return movement instanceof EndMove ? new PlayEnd(
+                movement.action(kyokumen), moves + 1, channelSente,
+                channelGote) : new PlayMain(movement.action(kyokumen),
+                moves + 1, channelSente, channelGote);
     }
 
     public String convertString(final IStringConverter converter) {
         return kyokumen.convertString(converter);
     }
 
-    public boolean isFinished() {
-        return finished;
+    @Override
+    public int getMoves() {
+        return moves;
     }
-
 }

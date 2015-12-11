@@ -19,7 +19,6 @@
 package org.media_as.takaki.jfshogiban.protocol.usi.init;
 
 import org.apache.commons.lang3.StringUtils;
-import org.media_as.takaki.jfshogiban.protocol.usi.UsiChannel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,10 +28,10 @@ public final class WaitReadyok implements UsiState {
     private static final Logger LOG = LoggerFactory
             .getLogger(WaitReadyok.class);
 
-    private final UsiChannel channel;
+    private final String name;
 
-    public WaitReadyok(final UsiChannel channel) {
-        this.channel = channel;
+    public WaitReadyok(final String name) {
+        this.name = name;
     }
 
     @Override
@@ -41,9 +40,9 @@ public final class WaitReadyok implements UsiState {
         final String line = in.take();
         if (StringUtils.equals(line, "readyok")) {
             out.add("usinewgame");
-            return new FinishSuccess();
+            return new FinishSuccess(name);
         } else {
-            return new WaitReadyok(channel);
+            return new WaitReadyok(name);
         }
     }
 }
