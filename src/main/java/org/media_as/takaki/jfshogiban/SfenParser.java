@@ -59,7 +59,8 @@ public enum SfenParser {
 
     public static Mochigoma mochigoma(
             final String input) throws IllegalMoveException {
-        return mochigomaImpl(Mochigoma.initialize(), input);
+        return StringUtils.equals(input, "-") ? Mochigoma
+                .initialize() : mochigomaImpl(Mochigoma.initialize(), input);
     }
 
     private static Mochigoma mochigomaImpl(final Mochigoma mochigoma,

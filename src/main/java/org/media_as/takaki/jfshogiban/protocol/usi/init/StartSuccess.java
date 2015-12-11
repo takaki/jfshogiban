@@ -16,19 +16,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.media_as.takaki.jfshogiban.protocol.usi
+package org.media_as.takaki.jfshogiban.protocol.usi.init;
 
-import org.media_as.takaki.jfshogiban.Kyokumen
-import org.media_as.takaki.jfshogiban.PlayMove
-import spock.lang.Specification
+import java.util.concurrent.BlockingQueue;
 
-import java.nio.file.Paths
+public final class StartSuccess implements EndState {
 
-class UsiChannelTest extends Specification {
+    @Override
+    public EndState readResponse(final BlockingQueue<String> out,
+                                 final BlockingQueue<String> in) {
+        throw new RuntimeException("Should not call");
+    }
 
-    def "run channel"() {
-        def channel = new UsiChannel(Paths.get("/home/takaki/tmp/gpsfish/src"), "gpsfish")
-        expect:
-        channel.getMovement(new PlayMove(Kyokumen.startPosition(), false)) != null
+    @Override
+    public String getMessage() {
+        throw new RuntimeException("Should not call");
     }
 }

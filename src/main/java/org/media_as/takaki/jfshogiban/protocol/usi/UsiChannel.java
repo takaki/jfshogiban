@@ -18,16 +18,17 @@
 
 package org.media_as.takaki.jfshogiban.protocol.usi;
 
-import com.codepoetics.protonpack.StreamUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.media_as.takaki.jfshogiban.PlayMove;
 import org.media_as.takaki.jfshogiban.Player;
 import org.media_as.takaki.jfshogiban.action.*;
 import org.media_as.takaki.jfshogiban.piece.*;
 import org.media_as.takaki.jfshogiban.protocol.IMoveChannel;
-import org.media_as.takaki.jfshogiban.protocol.usi.init.EndInit;
-import org.media_as.takaki.jfshogiban.protocol.usi.init.StartUsi;
-import org.media_as.takaki.jfshogiban.protocol.usi.init.UsiState;
+import org.media_as.takaki.jfshogiban.protocol.usi.search.BestmoveState;
+import org.media_as.takaki.jfshogiban.protocol.usi.search.EndSearchState;
+import org.media_as.takaki.jfshogiban.protocol.usi.search.FoundBestmove;
+import org.media_as.takaki.jfshogiban.protocol.usi.search.WaitBestmove;
+import org.media_as.takaki.jfshogiban.protocol.usi.init.*;
 import org.media_as.takaki.jfshogiban.tostr.IStringConverter;
 import org.media_as.takaki.jfshogiban.tostr.SfenConverter;
 import org.slf4j.Logger;
@@ -37,7 +38,6 @@ import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.file.Path;
-import java.util.Optional;
 import java.util.Scanner;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
@@ -80,7 +80,7 @@ public final class UsiChannel implements IMoveChannel {
                     writer.flush();
                 }
             } catch (final InterruptedException e) {
-                throw new RuntimeException(e);
+                throw new RuntimeException(e); // FIXME
             }
         });
 
@@ -89,13 +89,10 @@ public final class UsiChannel implements IMoveChannel {
                     try {
                         return state0.readResponse(out, in);
                     } catch (final InterruptedException e) {
-                        e.printStackTrace();
-                        throw new RuntimeException(e);
+                        return new StartFail(e);
                     }
                 });
-        StreamUtils.takeUntil(iterate,
-                state0 -> state0.getClass().equals(EndInit.class))
-                .reduce((x, y) -> y);
+        iterate.filter(usiState -> usiState instanceof EndState).findFirst();
     }
 
     @Override
@@ -106,20 +103,20 @@ public final class UsiChannel implements IMoveChannel {
                 .join(" ", "position sfen", playMove.convertString(converter));
         out.add(position);
         out.add("go byoyomi 1000");
-        final WaitBestmove waitBestmove = new WaitBestmove(Optional.empty());
-        final Stream<WaitBestmove> iterate = Stream
-                .iterate(waitBestmove, state0 -> {
+        final Stream<BestmoveState> iterate = Stream
+                .iterate(new WaitBestmove(), state0 -> {
                     try {
-                        return state0.readResponse(in);
+                        return state0.readResponse(out, in);
                     } catch (final InterruptedException e) {
                         e.printStackTrace();
-                        throw new RuntimeException(e);
+                        throw new RuntimeException(e); // FIXME
+                        // return new EndSearchState????
                     }
                 });
-
-        final String bestmove = StreamUtils
-                .takeUntil(iterate, state0 -> state0 == null)
-                .reduce((x, y) -> y).get().getBestMove().get();
+        final BestmoveState found = iterate
+                .filter(usiState -> usiState instanceof EndSearchState)
+                .findFirst().get();
+        final String bestmove = found.getMessage();
         return toMovement(bestmove, playMove.getTurn());
     }
 

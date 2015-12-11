@@ -16,18 +16,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.media_as.takaki.jfshogiban.protocol.usi.init;
+package org.media_as.takaki.jfshogiban.protocol.usi.search;
 
-import org.media_as.takaki.jfshogiban.protocol.usi.UsiChannel;
-
-import java.io.PrintStream;
 import java.util.concurrent.BlockingQueue;
 
-public final class EndInit implements UsiState {
+public interface BestmoveState {
+    BestmoveState readResponse(BlockingQueue<String> out,
+                               BlockingQueue<String> in) throws InterruptedException;
 
-    @Override
-    public UsiState readResponse(final BlockingQueue<String> out,
-                                 final BlockingQueue<String> in) {
-        return null; // TODO: FIXME
-    }
+    String getMessage();
 }

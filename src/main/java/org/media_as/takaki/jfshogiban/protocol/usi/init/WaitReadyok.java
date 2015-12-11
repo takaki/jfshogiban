@@ -23,10 +23,9 @@ import org.media_as.takaki.jfshogiban.protocol.usi.UsiChannel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.PrintStream;
 import java.util.concurrent.BlockingQueue;
 
-public class WaitReadyok implements UsiState {
+public final class WaitReadyok implements UsiState {
     private static final Logger LOG = LoggerFactory
             .getLogger(WaitReadyok.class);
 
@@ -42,9 +41,8 @@ public class WaitReadyok implements UsiState {
         final String line = in.take();
         if (StringUtils.equals(line, "readyok")) {
             out.add("usinewgame");
-            return new EndInit();
+            return new StartSuccess();
         } else {
-            LOG.debug(line);
             return new WaitReadyok(channel);
         }
     }

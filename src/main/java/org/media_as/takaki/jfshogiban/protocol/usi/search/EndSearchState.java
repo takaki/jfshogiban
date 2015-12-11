@@ -16,19 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.media_as.takaki.jfshogiban.protocol.usi
+package org.media_as.takaki.jfshogiban.protocol.usi.search;
 
-import org.media_as.takaki.jfshogiban.Kyokumen
-import org.media_as.takaki.jfshogiban.PlayMove
-import spock.lang.Specification
-
-import java.nio.file.Paths
-
-class UsiChannelTest extends Specification {
-
-    def "run channel"() {
-        def channel = new UsiChannel(Paths.get("/home/takaki/tmp/gpsfish/src"), "gpsfish")
-        expect:
-        channel.getMovement(new PlayMove(Kyokumen.startPosition(), false)) != null
-    }
+public interface EndSearchState extends BestmoveState {
 }

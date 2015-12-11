@@ -16,43 +16,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.media_as.takaki.jfshogiban.protocol.usi;
+package org.media_as.takaki.jfshogiban.protocol.usi.search;
 
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.io.PrintStream;
-import java.util.Optional;
-import java.util.Queue;
 import java.util.concurrent.BlockingQueue;
 
-public class WaitBestmove {
-    private static final Logger LOG = LoggerFactory
-            .getLogger(WaitBestmove.class);
-    private final Optional<String> bestmove;
+public final class WaitBestmove implements BestmoveState {
 
-    public WaitBestmove(final Optional<String> bestmove) {
-        this.bestmove = bestmove;
-    }
-
-    public WaitBestmove readResponse(final BlockingQueue<String> in) throws InterruptedException {
-        if (bestmove.isPresent()) {
-            return null; // TODO: ugly
-        }
+    @Override
+    public BestmoveState readResponse(final BlockingQueue<String> out,
+                                      final BlockingQueue<String> in) throws InterruptedException {
         final String line = in.take();
         if (StringUtils.startsWith(line, "bestmove")) {
             final String[] split = line.split(" ");
-            return new WaitBestmove(Optional.of(split[1]));
+            return new FoundBestmove(split[1]);
         } else {
-            return new WaitBestmove(Optional.empty());
-
+            return new WaitBestmove();
         }
     }
 
-    public Optional<String> getBestMove() {
-        LOG.debug("bestmove is {}",
-                bestmove.isPresent() ? bestmove.get() : "empty");
-        return bestmove;
+    @Override
+    public String getMessage() {
+        throw new RuntimeException("Should not call");
     }
+
 }
