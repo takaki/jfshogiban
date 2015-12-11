@@ -18,13 +18,14 @@
 
 package org.media_as.takaki.jfshogiban;
 
+import org.apache.commons.lang3.StringUtils;
 import org.media_as.takaki.jfshogiban.piece.IPiece;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @SuppressWarnings("MagicCharacter")
-public enum SfenUtil {
+public enum SfenParser {
     ;
     private static final Map<Character, IPiece> SFEN_PIECE = new HashMap<>(14);
 
@@ -46,6 +47,14 @@ public enum SfenUtil {
         SFEN_PIECE.put('b', Koma.GOTE_KAKU);
         SFEN_PIECE.put('r', Koma.GOTE_HISYA);
         SFEN_PIECE.put('k', Koma.GOTE_GYOKU);
+    }
+
+    public static Kyokumen kyokumen(
+            final String sfen) throws IllegalMoveException {
+        final String[] token = sfen.split(" ");
+        return new Kyokumen(shogiBan(token[0]), mochigoma(token[2]),
+                player(token[1]));
+
     }
 
     public static Mochigoma mochigoma(
@@ -74,35 +83,37 @@ public enum SfenUtil {
                 mochigoma.push(SFEN_PIECE.get(ch)), num - 1, ch);
     }
 
-    // FIXME: ugly
-    public static ShogiBan shogiban(
+    public static ShogiBan shogiBan(
             final String sfen) throws IllegalMoveException {
-        int x = 9, y = 1;
-        ShogiBan shogiBan = ShogiBan.initialize();
-        for (int i = 0; i < sfen.length(); i++) {
-            char ch = sfen.charAt(i);
-            boolean promote = false;
+        return shogiBanImpl(ShogiBan.initialize(), 9, 1, sfen);
+    }
+
+    @SuppressWarnings({"TailRecursion", "IfStatementWithTooManyBranches", "MethodWithMultipleReturnPoints", "IfMayBeConditional", "HardcodedFileSeparator"})
+    private static ShogiBan shogiBanImpl(final ShogiBan shogiban, final int x,
+                                         final int y,
+                                         final String sfen) throws IllegalMoveException {
+        if (sfen.isEmpty()) {
+            return shogiban;
+        } else {
+            final char ch = sfen.charAt(0);
             if (Character.isDigit(ch)) {
-                final int n = Character.getNumericValue(ch);
-                x -= n;
+                return shogiBanImpl(shogiban, x - Character.getNumericValue(ch),
+                        y, sfen.substring(1));
             } else if (ch == '/') {
-                x = 9;
-                y++;
+                return shogiBanImpl(shogiban, 9, y + 1, sfen.substring(1));
+            } else if (ch == '+') {
+                return shogiBanImpl(shogiban.set(x, y,
+                        SFEN_PIECE.get(sfen.charAt(1)).promotion()), x - 1, y,
+                        sfen.substring(2));
             } else {
-                if (ch == '+') {
-                    i++;
-                    promote = true;
-                }
-                ch = sfen.charAt(i);
-                if (!SFEN_PIECE.containsKey(ch)) {
-                    throw new IllegalMoveException("Unknown=" + ch + x + y);
-                }
-                final IPiece piece = promote ? SFEN_PIECE.get(ch)
-                        .promotion() : SFEN_PIECE.get(ch);
-                shogiBan = shogiBan.set(x, y, piece);
-                x--;
+                return shogiBanImpl(shogiban.set(x, y, SFEN_PIECE.get(ch)),
+                        x - 1, y, sfen.substring(1));
             }
         }
-        return shogiBan;
+
+    }
+
+    public static Player player(final CharSequence sfen) {
+        return StringUtils.equals(sfen, "b") ? Player.SENTEBAN : Player.GOTEBAN;
     }
 }

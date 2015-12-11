@@ -23,7 +23,7 @@ import org.media_as.takaki.jfshogiban.tostr.IStringConverter;
 
 import java.util.Optional;
 
-/* Kyokumen understands Shogi move rule. */
+/* Kyokumen understands Shogi normalMove rule. */
 public final class Kyokumen {
     private final ShogiBan shogiBan;
     private final Mochigoma mochigoma;
@@ -41,9 +41,7 @@ public final class Kyokumen {
     }
 
     public static Kyokumen sfen(final String sfen) throws IllegalMoveException {
-        final String[] token = sfen.split(" ");
-        return new Kyokumen(SfenUtil.shogiban(token[0]), SfenUtil.mochigoma(token[2]),
-                token[1].equals("b") ? Player.SENTEBAN : Player.GOTEBAN);
+        return SfenParser.kyokumen(sfen);
     }
 
     public Kyokumen(final ShogiBan shogiBan, final Mochigoma mochigoma,
@@ -72,46 +70,31 @@ public final class Kyokumen {
         return shogiBan.get(x, y).get();
     }
 
-    public Kyokumen move(final int fx, final int fy, final int tx,
-                         final int ty) throws IllegalMoveException {
+    public Kyokumen normalMove(final int fx, final int fy, final int tx,
+                               final int ty) throws IllegalMoveException {
         checkMove(fx, fy, tx, ty);
-        if (isEmpty(tx, ty)) {
-            return new Kyokumen(getSet(fx, fy, tx, ty, pick(fx, fy)), mochigoma,
-                    turn.next());
-        } else {
-            if (isOwner(tx, ty)) {
-                throw new IllegalMoveException("Don't capture own piece.");
-            }
-            return new Kyokumen(getSet(fx, fy, tx, ty, pick(fx, fy)),
-                    mochigoma.push(pick(tx, ty).captured(turn)), turn.next());
-        }
+        return new Kyokumen(moveImpl(fx, fy, tx, ty, pick(fx, fy)),
+                isEmpty(tx, ty) ? mochigoma : mochigoma
+                        .push(pick(tx, ty).captured(turn)), turn.next());
     }
 
-    public Kyokumen promotion(final int fx, final int fy, final int tx,
-                              final int ty) throws IllegalMoveException {
+    public Kyokumen promotionMove(final int fx, final int fy, final int tx,
+                                  final int ty) throws IllegalMoveException {
         checkMove(fx, fy, tx, ty);
-        if (isEmpty(tx, ty)) {
-            return new Kyokumen(
-                    getSet(fx, fy, tx, ty, pick(fx, fy).promotion()), mochigoma,
-                    turn.next());
-        } else {
-            if (isOwner(tx, ty)) {
-                throw new IllegalMoveException("Don't capture own piece.");
-            }
-            return new Kyokumen(
-                    getSet(fx, fy, tx, ty, pick(fx, fy).promotion()),
-                    mochigoma.push(pick(tx, ty).captured(turn)), turn.next());
-        }
+        return new Kyokumen(moveImpl(fx, fy, tx, ty, pick(fx, fy).promotion()),
+                isEmpty(tx, ty) ? mochigoma : mochigoma
+                        .push(pick(tx, ty).captured(turn)), turn.next());
     }
 
-    private ShogiBan getSet(final int fx, final int fy, final int tx,
-                            final int ty, final IPiece koma) {
+    private ShogiBan moveImpl(final int fx, final int fy, final int tx,
+                              final int ty, final IPiece koma) {
         return shogiBan.remove(fx, fy).set(tx, ty, koma);
     }
 
-
     // TODO: Sennichite
     // TODO: Mate
+    // TODO: checkmate
+    // TODO: stalemate
     private void checkMove(final int fx, final int fy, final int tx,
                            final int ty) throws IllegalMoveException {
         if (!isOwner(fx, fy)) {
@@ -119,6 +102,9 @@ public final class Kyokumen {
         }
         if (!pick(fx, fy).checkMove(fx, fy, tx, ty, shogiBan)) {
             throw new IllegalMoveException("Move does not keep rule.");
+        }
+        if (!isEmpty(tx, ty) && isOwner(tx, ty)) {
+            throw new IllegalMoveException("Don't capture own piece.");
         }
     }
 

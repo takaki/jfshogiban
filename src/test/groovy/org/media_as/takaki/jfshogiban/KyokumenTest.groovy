@@ -25,7 +25,7 @@ class KyokumenTest extends Specification {
 
     def "can't move empty"() {
         when:
-        start.move(4, 4, 5, 5)
+        start.normalMove(4, 4, 5, 5)
 
         then:
         thrown(IllegalMoveException)
@@ -33,7 +33,7 @@ class KyokumenTest extends Specification {
 
     def "move own piece"() {
         when:
-        def b2 = start.move(7, 7, 7, 6)
+        def b2 = start.normalMove(7, 7, 7, 6)
 
         then:
         b2.pick(7, 6) == Koma.SENTE_FU
@@ -42,7 +42,7 @@ class KyokumenTest extends Specification {
 
     def "can't move not own piece"() {
         when:
-        start.move(1, 3, 1, 4)
+        start.normalMove(1, 3, 1, 4)
 
         then:
         thrown(IllegalMoveException)
@@ -50,7 +50,7 @@ class KyokumenTest extends Specification {
 
     def "change turn"() {
         when:
-        def b2 = start.move(7, 7, 7, 6)
+        def b2 = start.normalMove(7, 7, 7, 6)
 
         then:
         b2.getTurn() == Player.GOTEBAN;
@@ -58,38 +58,38 @@ class KyokumenTest extends Specification {
 
     def "capture piece"() {
         when:
-        def b2 = start.move(1, 7, 1, 6).move(1, 3, 1, 4).move(1, 6, 1, 5).move(1, 4, 1, 5)
+        def b2 = start.normalMove(1, 7, 1, 6).normalMove(1, 3, 1, 4).normalMove(1, 6, 1, 5).normalMove(1, 4, 1, 5)
         then:
         b2.countMochigoma(Koma.GOTE_FU) == 1
     }
 
     def "can't capture own piece"() {
         when:
-        start.move(1, 9, 1, 7)
+        start.normalMove(1, 9, 1, 7)
         then:
         thrown(IllegalMoveException)
     }
 
     def "Keep Fu move rule"() {
         when:
-        start.move(7, 7, 7, 5)
+        start.normalMove(7, 7, 7, 5)
         then:
         thrown(IllegalMoveException)
 
         when:
-        start.move(1, 7, 1, 6).move(1, 3, 1, 2)
+        start.normalMove(1, 7, 1, 6).normalMove(1, 3, 1, 2)
         then:
         thrown(IllegalMoveException)
     }
 
     def "Keep Keima move rule"() {
         when:
-        start.move(7, 7, 7, 6).move(3, 3, 3, 4).move(8, 9, 7, 7)
+        start.normalMove(7, 7, 7, 6).normalMove(3, 3, 3, 4).normalMove(8, 9, 7, 7)
         then:
         notThrown(IllegalMoveException)
 
         when:
-        start.move(7, 7, 7, 8).move(3, 3, 3, 4).move(8, 9, 8, 8)
+        start.normalMove(7, 7, 7, 8).normalMove(3, 3, 3, 4).normalMove(8, 9, 8, 8)
         then:
         thrown(IllegalMoveException)
     }
@@ -97,40 +97,40 @@ class KyokumenTest extends Specification {
 
     def "Keep Kin move rule"() {
         when:
-        start.move(4, 9, 6, 8)
+        start.normalMove(4, 9, 6, 8)
         then:
         thrown(IllegalMoveException)
     }
 
     def "Keep Kaku move rule"() {
         when:
-        start.move(8, 8, 5, 5)
+        start.normalMove(8, 8, 5, 5)
         then:
         thrown(IllegalMoveException)
 
         when:
-        start.move(7, 7, 7, 6).move(3, 3, 3, 4).move(8, 8, 5, 5)
+        start.normalMove(7, 7, 7, 6).normalMove(3, 3, 3, 4).normalMove(8, 8, 5, 5)
         then:
         notThrown(IllegalMoveException)
 
         when:
-        start.move(8, 8, 7, 8)
+        start.normalMove(8, 8, 7, 8)
         then:
         thrown(IllegalMoveException)
 
         when:
-        start.move(8, 8, 6, 6)
+        start.normalMove(8, 8, 6, 6)
         then:
         thrown(IllegalMoveException)
     }
 
     def "Keep Hisha move rule"() {
         when:
-        start.move(2, 8, 2, 6)
+        start.normalMove(2, 8, 2, 6)
         then:
         thrown(IllegalMoveException)
         when:
-        start.move(2, 8, 9, 8)
+        start.normalMove(2, 8, 9, 8)
         then:
         thrown(IllegalMoveException)
     }
@@ -138,8 +138,8 @@ class KyokumenTest extends Specification {
     def "Fu promotion"() {
         def test = new Kyokumen(ShogiBan.initialize().set(2, 4, Koma.SENTE_FU), Mochigoma.initialize(), Player.SENTEBAN)
         expect:
-        test.promotion(2, 4, 2, 3).pick(2, 3) == Koma.SENTE_TOKIN
-        test.promotion(2, 4, 2, 3).isEmpty(2, 4)
+        test.promotionMove(2, 4, 2, 3).pick(2, 3) == Koma.SENTE_TOKIN
+        test.promotionMove(2, 4, 2, 3).isEmpty(2, 4)
     }
 
 

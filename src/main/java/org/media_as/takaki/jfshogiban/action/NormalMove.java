@@ -37,7 +37,7 @@ public class NormalMove implements IMovement {
     @Override
     public final Kyokumen action(
             final Kyokumen kyokumen) throws IllegalMoveException {
-        return kyokumen.move(fx, fy, tx, ty);
+        return kyokumen.normalMove(fx, fy, tx, ty);
     }
 
     @Override

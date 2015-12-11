@@ -21,7 +21,7 @@ package org.media_as.takaki.jfshogiban
 import org.media_as.takaki.jfshogiban.tostr.SfenConverter
 import spock.lang.Specification
 
-class SfenUtilConverterTest extends Specification {
+class SfenParserConverterTest extends Specification {
     def converter = new SfenConverter()
 
     def "ShogiBan test"() {
