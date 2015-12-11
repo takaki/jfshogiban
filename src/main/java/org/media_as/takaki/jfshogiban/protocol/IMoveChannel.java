@@ -18,10 +18,9 @@
 
 package org.media_as.takaki.jfshogiban.protocol;
 
-import org.media_as.takaki.jfshogiban.IllegalMoveException;
 import org.media_as.takaki.jfshogiban.Kyokumen;
 import org.media_as.takaki.jfshogiban.action.IMovement;
 
 public interface IMoveChannel {
-    IMovement getMovement(Kyokumen kyokumen) throws IllegalMoveException;
+    IMovement getMovement(Kyokumen kyokumen);
 }

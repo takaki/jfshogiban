@@ -18,8 +18,6 @@
 
 package org.media_as.takaki.jfshogiban.piece
 
-import org.media_as.takaki.jfshogiban.Banmen
-import org.media_as.takaki.jfshogiban.IllegalMoveException
 import org.media_as.takaki.jfshogiban.Koma
 import org.media_as.takaki.jfshogiban.Player
 import org.media_as.takaki.jfshogiban.ShogiBan

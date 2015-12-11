@@ -1,20 +1,16 @@
 group 'org.media_as.takaki'
 version '0.0.0-SNAPSHOT'
 
-apply plugin: 'java'
-apply plugin: 'groovy'
-
 buildscript {
-    repositories {
-        jcenter()
-    }
-
+    repositories { jcenter() }
     dependencies {
-        classpath 'eu.appsatori:gradle-fatjar-plugin:0.3'
+        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.2'
     }
 }
 
-// apply plugin: 'eu.appsatori.fatjar'
+apply plugin: 'java'
+apply plugin: 'groovy'
+apply plugin: 'com.github.johnrengelman.shadow'
 
 //noinspection GroovyUnusedAssignment
 sourceCompatibility = 1.8
@@ -31,8 +27,6 @@ dependencies {
             'org.apache.commons:commons-lang3:3.4',
             'com.codepoetics:protonpack:1.7',
             'ch.qos.logback:logback-classic:1.1.3',
-
-//            'org.functionaljava:functionaljava:4.4'
     )
     testCompile(
             'junit:junit:4.12',
@@ -40,12 +34,9 @@ dependencies {
     )
 }
 
-task fatJar(type: Jar) {
-    baseName = project.name + '-all'
-    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
-    with jar
+shadowJar {
     manifest {
-//        attributes 'Implementation-Title': 'Gradle Quickstart', 'Implementation-Version': version
+        attributes("Implementation-Title": "JsShogiBan", "Implementation-Version": version)
         attributes 'Main-Class': 'org.media_as.takaki.jfshogiban.Main'
     }
 }

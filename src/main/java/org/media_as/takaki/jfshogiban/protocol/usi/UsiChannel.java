@@ -97,12 +97,9 @@ public final class UsiChannel implements IMoveChannel {
     }
 
     @Override
-    public IMovement getMovement(final Kyokumen kyokumen) {
+    public IMovement  getMovement(final Kyokumen kyokumen) {
         final IStringConverter converter = new SfenConverter();
         final String sfen = kyokumen.convertString(converter);
-        final Player turn = kyokumen.getTurn();
-
-
         final String position = String.join(" ", "position sfen", sfen);
         out.add(position);
         out.add("go byoyomi 1000");

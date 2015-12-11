@@ -50,7 +50,7 @@ public enum SfenParser {
     }
 
     public static Kyokumen kyokumen(
-            final String sfen) throws IllegalMoveException {
+            final String sfen) {
         final String[] token = sfen.split(" ");
         return new Kyokumen(shogiBan(token[0]), mochigoma(token[2]),
                 player(token[1]));
@@ -58,18 +58,18 @@ public enum SfenParser {
     }
 
     public static Mochigoma mochigoma(
-            final String input) throws IllegalMoveException {
+            final String input) {
         return StringUtils.equals(input, "-") ? Mochigoma
                 .initialize() : mochigomaImpl(Mochigoma.initialize(), input);
     }
 
     private static Mochigoma mochigomaImpl(final Mochigoma mochigoma,
-                                           final String input) throws IllegalMoveException {
+                                           final String input) {
         return input.isEmpty() ? mochigoma : parseMochigoma(mochigoma, input);
     }
 
     private static Mochigoma parseMochigoma(final Mochigoma mochigoma,
-                                            final String input) throws IllegalMoveException {
+                                            final String input) {
         final char ch = input.charAt(0);
         return Character.isDigit(ch) ? mochigomaImpl(
                 pushMochigoma(mochigoma, Character.getNumericValue(ch),
@@ -79,20 +79,20 @@ public enum SfenParser {
 
     private static Mochigoma pushMochigoma(final Mochigoma mochigoma,
                                            final int num,
-                                           final char ch) throws IllegalMoveException {
+                                           final char ch) {
         return num == 0 ? mochigoma : pushMochigoma(
                 mochigoma.push(SFEN_PIECE.get(ch)), num - 1, ch);
     }
 
     public static ShogiBan shogiBan(
-            final String sfen) throws IllegalMoveException {
+            final String sfen) {
         return shogiBanImpl(ShogiBan.initialize(), 9, 1, sfen);
     }
 
     @SuppressWarnings({"TailRecursion", "IfStatementWithTooManyBranches", "MethodWithMultipleReturnPoints", "IfMayBeConditional", "HardcodedFileSeparator"})
     private static ShogiBan shogiBanImpl(final ShogiBan shogiban, final int x,
                                          final int y,
-                                         final String sfen) throws IllegalMoveException {
+                                         final String sfen) {
         if (sfen.isEmpty()) {
             return shogiban;
         } else {

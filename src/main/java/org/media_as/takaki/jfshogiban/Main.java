@@ -40,20 +40,12 @@ public final class Main {
 
     public static void main(final String[] args) throws IOException {
         LOG.debug(Arrays.toString(args));
-        LOG.debug("run Main");
 
         final Stream<PlayMain> iterate = Stream.iterate(
                 new PlayMain(Kyokumen.startPosition(), false, new UsiChannel(
                         Paths.get("/home/takaki/tmp/gpsfish/src"), "gpsfish"),
                         new UsiChannel(Paths.get("/home/takaki/tmp/apery/bin"),
-                                "apery")), playMain -> {
-                    try {
-                        return playMain.next();
-                    } catch (final IllegalMoveException e) {
-                        LOG.debug("*** Raise Exception ***");
-                        throw new RuntimeException(e);
-                    }
-                });
+                                "apery")), playMain -> playMain.next());
         final List<PlayMain> collect = StreamUtils
                 .takeUntil(iterate, PlayMain::isFinished)
                 .collect(Collectors.toList());

@@ -40,7 +40,7 @@ public final class Kyokumen {
                 Player.SENTEBAN);
     }
 
-    public static Kyokumen sfen(final String sfen) throws IllegalMoveException {
+    public static Kyokumen sfen(final String sfen) {
         return SfenParser.kyokumen(sfen);
     }
 
@@ -63,7 +63,7 @@ public final class Kyokumen {
         return shogiBan.get(x, y);
     }
 
-    public IPiece pick(final int x, final int y) throws IllegalMoveException {
+    public IPiece pick(final int x, final int y) {
         if (isEmpty(x, y)) {
             throw new IllegalMoveException("Can't pick empty.");
         }
@@ -71,7 +71,7 @@ public final class Kyokumen {
     }
 
     public Kyokumen normalMove(final int fx, final int fy, final int tx,
-                               final int ty) throws IllegalMoveException {
+                               final int ty) {
         checkMove(fx, fy, tx, ty);
         return new Kyokumen(moveImpl(fx, fy, tx, ty, pick(fx, fy)),
                 isEmpty(tx, ty) ? mochigoma : mochigoma
@@ -79,7 +79,7 @@ public final class Kyokumen {
     }
 
     public Kyokumen promotionMove(final int fx, final int fy, final int tx,
-                                  final int ty) throws IllegalMoveException {
+                                  final int ty) {
         checkMove(fx, fy, tx, ty);
         return new Kyokumen(moveImpl(fx, fy, tx, ty, pick(fx, fy).promotion()),
                 isEmpty(tx, ty) ? mochigoma : mochigoma
@@ -96,7 +96,7 @@ public final class Kyokumen {
     // TODO: checkmate
     // TODO: stalemate
     private void checkMove(final int fx, final int fy, final int tx,
-                           final int ty) throws IllegalMoveException {
+                           final int ty) {
         if (!isOwner(fx, fy)) {
             throw new IllegalMoveException("Don't move not own piece.");
         }
@@ -109,13 +109,13 @@ public final class Kyokumen {
     }
 
     public Kyokumen drop(final int tx, final int ty,
-                         final IPiece koma) throws IllegalMoveException {
+                         final IPiece koma) {
         return new Kyokumen(shogiBan.set(tx, ty, koma), mochigoma.remove(koma),
                 turn.next());
     }
 
     private boolean isOwner(final int x,
-                            final int y) throws IllegalMoveException {
+                            final int y) {
         return pick(x, y).isOwner(turn);
     }
 

@@ -18,7 +18,6 @@
 
 package org.media_as.takaki.jfshogiban.action;
 
-import org.media_as.takaki.jfshogiban.IllegalMoveException;
 import org.media_as.takaki.jfshogiban.Kyokumen;
 import org.media_as.takaki.jfshogiban.piece.IPiece;
 
@@ -29,7 +28,7 @@ public class DropMove implements IMovement {
 
     @Override
     public final Kyokumen action(
-            final Kyokumen kyokumen) throws IllegalMoveException {
+            final Kyokumen kyokumen) {
         return kyokumen.drop(tx, ty, koma);
     }
 

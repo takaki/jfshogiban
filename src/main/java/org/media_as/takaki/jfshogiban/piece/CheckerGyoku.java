@@ -18,9 +18,6 @@
 
 package org.media_as.takaki.jfshogiban.piece;
 
-import org.media_as.takaki.jfshogiban.Banmen;
-import org.media_as.takaki.jfshogiban.IllegalMoveException;
-
 public interface CheckerGyoku {
     default boolean checkGyokuMove(final int fx, final int fy, final int tx,
                                    final int ty) {

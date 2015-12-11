@@ -24,7 +24,7 @@ import org.media_as.takaki.jfshogiban.tostr.IStringConverter;
 
 import java.util.Optional;
 
-public final class Banmen { // TODO : merge with Kyokumen
+public final class Banmen {
     private final ShogiBan shogiBan;
     private final Mochigoma mochigoma;
 
@@ -49,15 +49,14 @@ public final class Banmen { // TODO : merge with Kyokumen
         return shogiBan.isEmpty(x, y);
     }
 
-    public IPiece pick(final int x, final int y) throws IllegalMoveException {
+    public IPiece pick(final int x, final int y) {
         if (isEmpty(x, y)) {
             throw new IllegalMoveException("Can't pick empty.");
         }
         return shogiBan.get(x, y).get();
     }
 
-    public Banmen set(final int x, final int y,
-                      final IPiece koma) throws IllegalMoveException {
+    public Banmen set(final int x, final int y, final IPiece koma) {
         if (!isEmpty(x, y)) {
             throw new IllegalMoveException(
                     String.format("Try to put %s on other piece.", koma));
@@ -71,39 +70,35 @@ public final class Banmen { // TODO : merge with Kyokumen
         return new Banmen(shogiBan.set(x, y, koma), mochigoma);
     }
 
-    public Banmen remove(final int x, final int y) throws IllegalMoveException {
+    public Banmen remove(final int x, final int y) {
         if (isEmpty(x, y)) {
             throw new IllegalMoveException("Try to remove piece from empty.");
         }
         return new Banmen(shogiBan.remove(x, y), mochigoma);
     }
 
-    public Banmen move(final int fx, final int fy, final int tx,
-                       final int ty) throws IllegalMoveException {
+    public Banmen move(final int fx, final int fy, final int tx, final int ty) {
         return remove(fx, fy).set(tx, ty, pick(fx, fy));
     }
 
     public Banmen promotion(final int fx, final int fy, final int tx,
-                            final int ty) throws IllegalMoveException {
+                            final int ty) {
         return remove(fx, fy).set(tx, ty, pick(fx, fy).promotion());
     }
 
-    public Banmen capture(final int x, final int y,
-                          final Player player) throws IllegalMoveException {
+    public Banmen capture(final int x, final int y, final Player player) {
         return remove(x, y).pushMochigoma(pick(x, y).captured(player));
     }
 
-    public Banmen pushMochigoma(final IPiece koma) throws IllegalMoveException {
+    public Banmen pushMochigoma(final IPiece koma) {
         return new Banmen(shogiBan, mochigoma.push(koma));
     }
 
-    public Banmen removeMochigoma(
-            final IPiece koma) throws IllegalMoveException {
+    public Banmen removeMochigoma(final IPiece koma) {
         return new Banmen(shogiBan, mochigoma.remove(koma));
     }
 
-    public Banmen drop(final int x, final int y,
-                       final IPiece koma) throws IllegalMoveException {
+    public Banmen drop(final int x, final int y, final IPiece koma) {
         return removeMochigoma(koma).set(x, y, koma);
     }
 

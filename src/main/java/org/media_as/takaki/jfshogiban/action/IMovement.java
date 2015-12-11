@@ -18,10 +18,10 @@
 
 package org.media_as.takaki.jfshogiban.action;
 
-import org.media_as.takaki.jfshogiban.IllegalMoveException;
 import org.media_as.takaki.jfshogiban.Kyokumen;
 
 public interface IMovement {
-    Kyokumen action(Kyokumen kyokumen) throws IllegalMoveException;
+    Kyokumen action(Kyokumen kyokumen);
+
     boolean isFinished();
 }

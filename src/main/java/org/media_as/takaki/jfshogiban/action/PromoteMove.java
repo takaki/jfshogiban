@@ -18,7 +18,6 @@
 
 package org.media_as.takaki.jfshogiban.action;
 
-import org.media_as.takaki.jfshogiban.IllegalMoveException;
 import org.media_as.takaki.jfshogiban.Kyokumen;
 
 public class PromoteMove implements IMovement {
@@ -36,7 +35,7 @@ public class PromoteMove implements IMovement {
 
     @Override
     public final Kyokumen action(
-            final Kyokumen kyokumen) throws IllegalMoveException {
+            final Kyokumen kyokumen) {
         return kyokumen.promotionMove(fx, fy, tx, ty);
     }
 

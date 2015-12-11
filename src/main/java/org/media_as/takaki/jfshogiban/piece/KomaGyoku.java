@@ -33,7 +33,7 @@ public final class KomaGyoku extends BasePiece implements CheckerGyoku {
     }
 
     @Override
-    public BasePiece promotion() throws IllegalMoveException {
+    public BasePiece promotion() {
         throw new IllegalMoveException("Gyoku can't promotion.");
     }
 

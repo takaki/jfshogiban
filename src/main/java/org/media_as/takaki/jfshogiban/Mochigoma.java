@@ -24,7 +24,6 @@ import org.media_as.takaki.jfshogiban.tostr.IStringConverter;
 
 import java.util.*;
 import java.util.function.Function;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 public final class Mochigoma {
@@ -55,7 +54,7 @@ public final class Mochigoma {
         this.mochigoma = Collections.unmodifiableMap(mochigoma);
     }
 
-    public Mochigoma push(final IPiece koma) throws IllegalMoveException {
+    public Mochigoma push(final IPiece koma) {
         if (!MOCHIGOMA.contains(koma)) {
             //noinspection HardCodedStringLiteral
             throw new IllegalMoveException(
@@ -66,7 +65,7 @@ public final class Mochigoma {
         return new Mochigoma(komaMap);
     }
 
-    public Mochigoma remove(final IPiece koma) throws IllegalMoveException {
+    public Mochigoma remove(final IPiece koma) {
         if (count(koma) <= 0) {
             //noinspection HardCodedStringLiteral
             throw new IllegalMoveException(String.format("%s is empty.", koma));

@@ -18,7 +18,6 @@
 
 package org.media_as.takaki.jfshogiban.action;
 
-import org.media_as.takaki.jfshogiban.IllegalMoveException;
 import org.media_as.takaki.jfshogiban.Kyokumen;
 
 public final class ResignMove implements IMovement {
