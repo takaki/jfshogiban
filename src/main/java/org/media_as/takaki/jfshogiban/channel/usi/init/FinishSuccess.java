@@ -16,28 +16,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.media_as.takaki.jfshogiban.protocol.usi.init;
-
-import org.apache.commons.lang3.exception.ExceptionUtils;
+package org.media_as.takaki.jfshogiban.channel.usi.init;
 
 import java.util.concurrent.BlockingQueue;
 
-public final class FinishFail implements EndState {
-    private final InterruptedException e;
+public final class FinishSuccess implements EndState {
 
-    public FinishFail(final InterruptedException e) {
-        this.e = e;
+    private final String name;
+
+    public FinishSuccess(final String name) {
+        this.name = name;
     }
-
 
     @Override
     public EndState next(final BlockingQueue<String> out,
                          final BlockingQueue<String> in) {
-        throw new RuntimeException("FinishFail must not call next.");
+        throw new RuntimeException("Should not call");
     }
 
     @Override
     public String getMessage() {
-        return ExceptionUtils.getStackTrace(e);
+        return name;
     }
 }

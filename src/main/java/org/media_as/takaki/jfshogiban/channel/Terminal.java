@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.media_as.takaki.jfshogiban.protocol;
+package org.media_as.takaki.jfshogiban.channel;
 
 import org.media_as.takaki.jfshogiban.core.Kyokumen;
 import org.media_as.takaki.jfshogiban.move.IMovement;

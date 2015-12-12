@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.media_as.takaki.jfshogiban.protocol.usi.search;
+package org.media_as.takaki.jfshogiban.channel.usi.search;
 
 import java.util.concurrent.BlockingQueue;
 

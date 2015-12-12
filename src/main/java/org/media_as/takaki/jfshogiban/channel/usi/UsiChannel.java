@@ -16,21 +16,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.media_as.takaki.jfshogiban.protocol.usi;
+package org.media_as.takaki.jfshogiban.channel.usi;
 
 import org.apache.commons.lang3.StringUtils;
+import org.media_as.takaki.jfshogiban.channel.IMoveChannel;
+import org.media_as.takaki.jfshogiban.channel.usi.init.EndState;
+import org.media_as.takaki.jfshogiban.channel.usi.init.FinishFail;
+import org.media_as.takaki.jfshogiban.channel.usi.init.StartUsi;
+import org.media_as.takaki.jfshogiban.channel.usi.init.UsiState;
+import org.media_as.takaki.jfshogiban.channel.usi.search.BestmoveState;
+import org.media_as.takaki.jfshogiban.channel.usi.search.EndSearchState;
+import org.media_as.takaki.jfshogiban.channel.usi.search.WaitBestmove;
 import org.media_as.takaki.jfshogiban.core.Kyokumen;
 import org.media_as.takaki.jfshogiban.core.Player;
 import org.media_as.takaki.jfshogiban.move.*;
 import org.media_as.takaki.jfshogiban.piece.*;
-import org.media_as.takaki.jfshogiban.protocol.IMoveChannel;
-import org.media_as.takaki.jfshogiban.protocol.usi.init.EndState;
-import org.media_as.takaki.jfshogiban.protocol.usi.init.FinishFail;
-import org.media_as.takaki.jfshogiban.protocol.usi.init.StartUsi;
-import org.media_as.takaki.jfshogiban.protocol.usi.init.UsiState;
-import org.media_as.takaki.jfshogiban.protocol.usi.search.BestmoveState;
-import org.media_as.takaki.jfshogiban.protocol.usi.search.EndSearchState;
-import org.media_as.takaki.jfshogiban.protocol.usi.search.WaitBestmove;
 import org.media_as.takaki.jfshogiban.tostr.IStringConverter;
 import org.media_as.takaki.jfshogiban.tostr.SfenConverter;
 import org.slf4j.Logger;

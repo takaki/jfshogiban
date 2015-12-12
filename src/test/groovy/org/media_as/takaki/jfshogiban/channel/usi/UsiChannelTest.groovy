@@ -16,25 +16,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.media_as.takaki.jfshogiban.protocol.usi.search;
+package org.media_as.takaki.jfshogiban.channel.usi
 
-import java.util.concurrent.BlockingQueue;
+import org.media_as.takaki.jfshogiban.core.Kyokumen
+import spock.lang.Ignore
+import spock.lang.Specification
 
-public final class FoundBestmove implements EndSearchState {
+import java.nio.file.Paths
 
-    private final String bestmove;
+class UsiChannelTest extends Specification {
 
-    public FoundBestmove(final String bestmove) {
-        this.bestmove = bestmove;
-    }
-
-    @Override
-    public String getMessage() {
-        return bestmove;
-    }
-
-    @Override
-    public BestmoveState next(final BlockingQueue<String> in) {
-        throw new RuntimeException("FoundBestmove should not call");
+    @Ignore
+    def "run channel"() {
+        def channel = new UsiChannel(Paths.get("/home/takaki/tmp/gpsfish/src"), "gpsfish")
+        expect:
+        channel.getMovement(Kyokumen.startPosition()) != null
     }
 }

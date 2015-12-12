@@ -16,7 +16,28 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.media_as.takaki.jfshogiban.protocol.usi.search;
+package org.media_as.takaki.jfshogiban.channel.usi.init;
 
-public interface EndSearchState extends BestmoveState {
+import org.apache.commons.lang3.exception.ExceptionUtils;
+
+import java.util.concurrent.BlockingQueue;
+
+public final class FinishFail implements EndState {
+    private final InterruptedException e;
+
+    public FinishFail(final InterruptedException e) {
+        this.e = e;
+    }
+
+
+    @Override
+    public EndState next(final BlockingQueue<String> out,
+                         final BlockingQueue<String> in) {
+        throw new RuntimeException("FinishFail must not call next.");
+    }
+
+    @Override
+    public String getMessage() {
+        return ExceptionUtils.getStackTrace(e);
+    }
 }

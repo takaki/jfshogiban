@@ -16,20 +16,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.media_as.takaki.jfshogiban.protocol.usi
+package org.media_as.takaki.jfshogiban.channel.usi.init;
 
-import org.media_as.takaki.jfshogiban.core.Kyokumen
-import spock.lang.Ignore
-import spock.lang.Specification
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.nio.file.Paths
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.TimeUnit;
 
-class UsiChannelTest extends Specification {
+public final class StartUsi implements UsiState {
+    private static final Logger LOG = LoggerFactory.getLogger(StartUsi.class);
 
-    @Ignore
-    def "run channel"() {
-        def channel = new UsiChannel(Paths.get("/home/takaki/tmp/gpsfish/src"), "gpsfish")
-        expect:
-        channel.getMovement(Kyokumen.startPosition()) != null
+    @Override
+    public UsiState next(final BlockingQueue<String> out,
+                         final BlockingQueue<String> in) throws InterruptedException {
+        while (in.poll(100, TimeUnit.MILLISECONDS) != null) {
+        }
+        out.add("usi");
+        return new WaitUsiOK("");
     }
 }

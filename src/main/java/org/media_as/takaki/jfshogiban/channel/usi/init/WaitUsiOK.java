@@ -16,23 +16,33 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.media_as.takaki.jfshogiban.protocol.usi.init;
+package org.media_as.takaki.jfshogiban.channel.usi.init;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.TimeUnit;
 
-public final class StartUsi implements UsiState {
-    private static final Logger LOG = LoggerFactory.getLogger(StartUsi.class);
+public final class WaitUsiOK implements UsiState {
+    private static final Logger LOG = LoggerFactory.getLogger(WaitUsiOK.class);
+    private final String name;
 
+    public WaitUsiOK(final String name) {
+        this.name = name;
+    }
+
+    @SuppressWarnings("MethodWithMultipleReturnPoints")
     @Override
     public UsiState next(final BlockingQueue<String> out,
                          final BlockingQueue<String> in) throws InterruptedException {
-        while (in.poll(100, TimeUnit.MILLISECONDS) != null) {
+        final String line = in.take();
+        if (StringUtils.equals(line, "usiok")) {
+            out.add("isready");
+            return new WaitReadyok(name);
+        } else {
+            return line.startsWith("id name") ? new WaitUsiOK(
+                    line.split(" ")[2]) : new WaitUsiOK(name);
         }
-        out.add("usi");
-        return new WaitUsiOK("");
     }
 }

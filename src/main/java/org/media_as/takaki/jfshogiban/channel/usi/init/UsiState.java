@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.media_as.takaki.jfshogiban.protocol.usi.init;
+package org.media_as.takaki.jfshogiban.channel.usi.init;
 
 
 import java.util.concurrent.BlockingQueue;

@@ -18,8 +18,8 @@
 
 package org.media_as.takaki.jfshogiban.main;
 
+import org.media_as.takaki.jfshogiban.channel.IMoveChannel;
 import org.media_as.takaki.jfshogiban.core.Kyokumen;
-import org.media_as.takaki.jfshogiban.protocol.IMoveChannel;
 import org.media_as.takaki.jfshogiban.tostr.CsaConverter;
 import org.media_as.takaki.jfshogiban.tostr.SfenConverter;
 

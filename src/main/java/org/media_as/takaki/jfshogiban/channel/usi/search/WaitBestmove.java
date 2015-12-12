@@ -16,33 +16,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.media_as.takaki.jfshogiban.protocol.usi.init;
+package org.media_as.takaki.jfshogiban.channel.usi.search;
 
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.BlockingQueue;
 
-public final class WaitUsiOK implements UsiState {
-    private static final Logger LOG = LoggerFactory.getLogger(WaitUsiOK.class);
-    private final String name;
+public final class WaitBestmove implements BestmoveState {
 
-    public WaitUsiOK(final String name) {
-        this.name = name;
-    }
-
-    @SuppressWarnings("MethodWithMultipleReturnPoints")
     @Override
-    public UsiState next(final BlockingQueue<String> out,
-                         final BlockingQueue<String> in) throws InterruptedException {
+    public BestmoveState next(
+            final BlockingQueue<String> in) throws InterruptedException {
         final String line = in.take();
-        if (StringUtils.equals(line, "usiok")) {
-            out.add("isready");
-            return new WaitReadyok(name);
-        } else {
-            return line.startsWith("id name") ? new WaitUsiOK(
-                    line.split(" ")[2]) : new WaitUsiOK(name);
-        }
+        return StringUtils.startsWith(line, "bestmove") ? new FoundBestmove(
+                line.split(" ")[1]) : new WaitBestmove();
     }
+
+    @Override
+    public String getMessage() {
+        throw new RuntimeException("WaitBestMove should not call");
+    }
+
 }

@@ -16,25 +16,33 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.media_as.takaki.jfshogiban.protocol.usi.search;
+package org.media_as.takaki.jfshogiban.channel.usi.init;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.BlockingQueue;
 
-public final class WaitBestmove implements BestmoveState {
+public final class WaitReadyok implements UsiState {
+    private static final Logger LOG = LoggerFactory
+            .getLogger(WaitReadyok.class);
+
+    private final String name;
+
+    public WaitReadyok(final String name) {
+        this.name = name;
+    }
 
     @Override
-    public BestmoveState next(
-            final BlockingQueue<String> in) throws InterruptedException {
+    public UsiState next(final BlockingQueue<String> out,
+                         final BlockingQueue<String> in) throws InterruptedException {
         final String line = in.take();
-        return StringUtils.startsWith(line, "bestmove") ? new FoundBestmove(
-                line.split(" ")[1]) : new WaitBestmove();
+        if (StringUtils.equals(line, "readyok")) {
+            out.add("usinewgame");
+            return new FinishSuccess(name);
+        } else {
+            return new WaitReadyok(name);
+        }
     }
-
-    @Override
-    public String getMessage() {
-        throw new RuntimeException("WaitBestMove should not call");
-    }
-
 }
