@@ -69,6 +69,8 @@ public final class SfenConverter extends AbstractStringConverter {
 
     }
 
+    private static final String[] INDEX_MAP = {"a", "b", "c", "d", "e", "f", "g", "h", "i"};
+
     @Override
     public String convertPlayer(final Player player) {
         return player == Player.SENTEBAN ? "b" : "w";
@@ -119,6 +121,28 @@ public final class SfenConverter extends AbstractStringConverter {
         return String
                 .join(" ", shogiBan.convertString(this), turn.convert(this),
                         mochigoma.convertString(this), "1");
+    }
+
+    @Override
+    public String convertNormalMove(final int fx, final int fy, final int tx,
+                                    final int ty) {
+        return String.format("%s%s%s%s", fx, INDEX_MAP[fy - 1], tx,
+                INDEX_MAP[ty - 1]);
+    }
+
+    @Override
+    public String convertPromoteMove(final int fx, final int fy, final int tx,
+                                     final int ty) {
+        return String.format("%s%s%s%s+", fx, INDEX_MAP[fy - 1], tx,
+                INDEX_MAP[ty - 1]);
+    }
+
+    @Override
+    public String convertDropMove(final int tx, final int ty,
+                                  final IPiece koma) {
+        return String.format("%s*%s%s",
+                StringUtils.upperCase(koma.convertString(this)), tx,
+                INDEX_MAP[ty - 1]); // FIXME
     }
 
 

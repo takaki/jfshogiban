@@ -19,6 +19,7 @@
 package org.media_as.takaki.jfshogiban.move;
 
 import org.media_as.takaki.jfshogiban.core.Kyokumen;
+import org.media_as.takaki.jfshogiban.tostr.IStringConverter;
 
 public final class NormalMove implements IMovement {
     private final int fx;
@@ -36,6 +37,11 @@ public final class NormalMove implements IMovement {
     @Override
     public Kyokumen action(final Kyokumen kyokumen) {
         return kyokumen.normalMove(fx, fy, tx, ty);
+    }
+
+    @Override
+    public String convertString(final IStringConverter converter) {
+        return converter.convertNormalMove(fx,fy,tx,ty);
     }
 
     @Override

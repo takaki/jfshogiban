@@ -19,12 +19,18 @@
 package org.media_as.takaki.jfshogiban.move;
 
 import org.media_as.takaki.jfshogiban.core.Kyokumen;
+import org.media_as.takaki.jfshogiban.tostr.IStringConverter;
 
 public final class ResignMove implements EndMove {
 
     @Override
     public Kyokumen action(final Kyokumen kyokumen) {
         return kyokumen;
+    }
+
+    @Override
+    public String convertString(IStringConverter converter) {
+        return "resign"; // FIXME
     }
 
     @Override

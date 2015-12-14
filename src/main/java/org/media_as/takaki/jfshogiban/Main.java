@@ -24,11 +24,13 @@ import org.media_as.takaki.jfshogiban.core.Player;
 import org.media_as.takaki.jfshogiban.main.IMain;
 import org.media_as.takaki.jfshogiban.main.PlayEnd;
 import org.media_as.takaki.jfshogiban.main.PlayMain;
+import org.media_as.takaki.jfshogiban.move.IMovement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.Stream;
 
@@ -44,8 +46,10 @@ public final class Main {
         LOG.debug(Arrays.toString(args));
 
         final Stream<IMain> iterate = Stream.iterate(
-                new PlayMain(Kyokumen.startPosition(), 0, new UsiChannel(
-                        Paths.get("/home/takaki/tmp/gpsfish/src"), "gpsfish"),
+                new PlayMain(Kyokumen.startPosition(), new ArrayList<>(),
+                        new UsiChannel(
+                                Paths.get("/home/takaki/tmp/gpsfish/src"),
+                                "gpsfish"),
                         new UsiChannel(Paths.get("/home/takaki/tmp/apery/bin"),
                                 "apery")), IMain::next);
         final IMain playEnd = iterate

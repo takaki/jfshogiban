@@ -26,6 +26,7 @@ import org.media_as.takaki.jfshogiban.tostr.CsaConverter;
 import org.media_as.takaki.jfshogiban.tostr.IStringConverter;
 
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.Scanner;
 
 public final class Terminal implements IMoveChannel {
@@ -37,11 +38,12 @@ public final class Terminal implements IMoveChannel {
     }
 
     @Override
-    public IMovement getMovement(final Kyokumen kyokumen) {
+    public IMovement getMovement(final Kyokumen startpos,
+                                 List<IMovement> movements) {
         final PrintWriter writer = new PrintWriter(System.out);
         final IStringConverter csaConverter = new CsaConverter();
         //        writer.println(playMain.convertString(csaConverter));
-        writer.print(String.join("", kyokumen.getTurn().convert(csaConverter),
+        writer.print(String.join("", startpos.getTurn().convert(csaConverter),
                 "> "));
         writer.flush();
         final String input = scanner.next();

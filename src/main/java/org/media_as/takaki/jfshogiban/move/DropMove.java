@@ -20,6 +20,7 @@ package org.media_as.takaki.jfshogiban.move;
 
 import org.media_as.takaki.jfshogiban.core.Kyokumen;
 import org.media_as.takaki.jfshogiban.piece.IPiece;
+import org.media_as.takaki.jfshogiban.tostr.IStringConverter;
 
 public final class DropMove implements IMovement {
     private final int tx;
@@ -35,6 +36,11 @@ public final class DropMove implements IMovement {
     @Override
     public Kyokumen action(final Kyokumen kyokumen) {
         return kyokumen.drop(tx, ty, koma);
+    }
+
+    @Override
+    public String convertString(IStringConverter converter) {
+        return converter.convertDropMove(tx,ty,koma);
     }
 
     @Override

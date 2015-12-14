@@ -40,11 +40,13 @@ import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public final class UsiChannel implements IMoveChannel {
@@ -100,10 +102,15 @@ public final class UsiChannel implements IMoveChannel {
     }
 
     @Override
-    public IMovement getMovement(final Kyokumen kyokumen) {
+    public IMovement getMovement(final Kyokumen startpos,
+                                 final List<IMovement> movements) {
         final IStringConverter converter = new SfenConverter();
-        final String sfen = kyokumen.convertString(converter);
-        final String position = String.join(" ", "position sfen", sfen);
+        final String sfen = startpos.convertString(converter);
+        final String moves = movements.stream()
+                .map(m -> m.convertString(converter))
+                .collect(Collectors.joining(" "));
+        final String position = String
+                .join(" ", "position sfen", sfen, "moves", moves);
         out.add(position);
         out.add("go byoyomi 1000");
         final Stream<BestmoveState> iterate = Stream
@@ -120,7 +127,8 @@ public final class UsiChannel implements IMoveChannel {
                 .filter(usiState -> usiState instanceof EndSearchState)
                 .findFirst().get();
         final String bestmove = found.getMessage();
-        return toMovement(bestmove, kyokumen.getTurn());
+        return toMovement(bestmove,
+                movements.size() % 2 == 0 ? Player.SENTEBAN : Player.GOTEBAN); // FIXME
     }
 
     private static IMovement toMovement(final String bestmove,
@@ -166,5 +174,10 @@ public final class UsiChannel implements IMoveChannel {
     @Override
     public String getPlayerName() {
         return String.join(":", getClass().getSimpleName(), name);
+    }
+
+    @Override
+    public String toString(){
+        return getPlayerName();
     }
 }

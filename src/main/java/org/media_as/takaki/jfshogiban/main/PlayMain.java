@@ -30,26 +30,32 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public final class PlayMain implements IMain {
     private static final Logger LOG = LoggerFactory.getLogger(PlayMain.class);
 
-    private final Kyokumen kyokumen;
+    private final Kyokumen startpos;
 
     private final IMoveChannel channelSente;
     private final IMoveChannel channelGote;
-    private final int moves;  // TODO: move list
+    private final List<IMovement> movements;
 
-    public PlayMain(final Kyokumen kyokumen, final int moves,
+    public PlayMain(final Kyokumen startpos, final List<IMovement> movements,
                     final IMoveChannel channelSente,
                     final IMoveChannel channelGote) {
-        this.kyokumen = kyokumen;
-        this.moves = moves;
 
+        LOG.debug("{}", movements);
+        this.startpos = startpos;
+        this.movements = Collections.unmodifiableList(movements);
+        final Kyokumen current = movements.stream().reduce(startpos,
+                (kyokumen, movement) -> movement.action(kyokumen), (x, y) -> y);
         final PrintWriter writer = new PrintWriter(System.out);
-        writer.format("SFEN: %s\n", convertString(new SfenConverter()));
+        writer.format("SFEN: %s\n", current.convertString(new SfenConverter()));
         writer.format("N+%s\nN-%s\n%s%d\n", channelSente, channelGote,
-                kyokumen.convertString(new CsaConverter()), moves);
+                current.convertString(new CsaConverter()), movements.size());
         writer.flush();
 
         this.channelSente = channelSente;
@@ -58,22 +64,20 @@ public final class PlayMain implements IMain {
 
     @Override
     public IMain next() {
-        final IMovement movement = (kyokumen
+        final IMovement movement = (startpos
                 .getTurn() == Player.SENTEBAN ? channelSente : channelGote)
-                .getMovement(kyokumen);
-        LOG.debug("{} {}", kyokumen.getTurn(), movement);
-        return movement instanceof EndMove ? new PlayEnd(
-                movement.action(kyokumen), moves + 1, channelSente,
-                channelGote) : new PlayMain(movement.action(kyokumen),
-                moves + 1, channelSente, channelGote);
+                .getMovement(startpos, movements);
+        LOG.debug("{} {}", startpos.getTurn(), movement);
+        final List<IMovement> movements = new ArrayList<>(this.movements);
+        movements.add(movement);
+        return movement instanceof EndMove ? new PlayEnd(startpos, movements,
+                channelSente, channelGote) : new PlayMain(startpos, movements,
+                channelSente, channelGote);
     }
 
-    public String convertString(final IStringConverter converter) {
-        return kyokumen.convertString(converter);
-    }
 
     @Override
     public int getMoves() {
-        return moves;
+        return movements.size();
     }
 }

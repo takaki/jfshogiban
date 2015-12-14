@@ -16,20 +16,28 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.media_as.takaki.jfshogiban.channel.usi
+package org.media_as.takaki.jfshogiban.main
 
+import org.media_as.takaki.jfshogiban.channel.IMoveChannel
+import org.media_as.takaki.jfshogiban.channel.Terminal
 import org.media_as.takaki.jfshogiban.core.Kyokumen
-import spock.lang.Ignore
+import org.media_as.takaki.jfshogiban.move.IMovement
+import org.media_as.takaki.jfshogiban.move.NormalMove
 import spock.lang.Specification
 
-import java.nio.file.Paths
+class PlayMainTest extends Specification {
+    def playmain = new PlayMain(Kyokumen.startPosition(), new ArrayList<IMovement>(), new Terminal(), new Terminal())
 
-class UsiChannelTest extends Specification {
-
-    @Ignore
-    def "run channel"() {
-        def channel = new UsiChannel(Paths.get("/home/takaki/tmp/gpsfish/src"), "gpsfish")
+    def "playmain moves"() {
         expect:
-        channel.getMovement(Kyokumen.startPosition(),) != null
+        playmain.getMoves() == 0
+    }
+
+    def "moves"() {
+        def moves = Arrays.asList(new NormalMove(7, 7, 7, 6), new NormalMove(8, 3, 8, 4))
+        when:
+        new PlayMain(Kyokumen.startPosition(), moves, new Terminal(), new Terminal())
+        then:
+        notThrown(RuntimeException)
     }
 }

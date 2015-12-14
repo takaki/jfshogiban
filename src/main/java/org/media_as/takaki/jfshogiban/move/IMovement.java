@@ -19,7 +19,10 @@
 package org.media_as.takaki.jfshogiban.move;
 
 import org.media_as.takaki.jfshogiban.core.Kyokumen;
+import org.media_as.takaki.jfshogiban.tostr.IStringConverter;
 
 public interface IMovement {
     Kyokumen action(Kyokumen kyokumen);
+
+    String convertString(IStringConverter converter);
 }

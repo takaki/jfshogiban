@@ -22,6 +22,7 @@ import org.media_as.takaki.jfshogiban.core.Mochigoma;
 import org.media_as.takaki.jfshogiban.core.Player;
 import org.media_as.takaki.jfshogiban.core.ShogiBan;
 import org.media_as.takaki.jfshogiban.piece.BasePiece;
+import org.media_as.takaki.jfshogiban.piece.IPiece;
 
 public interface IStringConverter {
 
@@ -36,4 +37,10 @@ public interface IStringConverter {
     String convertShogiban(ShogiBan shogiban);
 
     String convertKyokumen(ShogiBan shogiBan, Mochigoma mochigoma, Player turn);
+
+    String convertPromoteMove(int fx, int fy, int tx, int ty);
+
+    String convertNormalMove(int fx, int fy, int tx, int ty);
+
+    String convertDropMove(int tx, int ty, IPiece koma);
 }

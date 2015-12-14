@@ -21,7 +21,10 @@ package org.media_as.takaki.jfshogiban.channel;
 import org.media_as.takaki.jfshogiban.core.Kyokumen;
 import org.media_as.takaki.jfshogiban.move.IMovement;
 
+import java.util.List;
+
 public interface IMoveChannel {
-    IMovement getMovement(Kyokumen kyokumen);
+    IMovement getMovement(Kyokumen startpos, List<IMovement> movements);
+
     String getPlayerName();
 }

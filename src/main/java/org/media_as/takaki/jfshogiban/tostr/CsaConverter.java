@@ -124,4 +124,21 @@ public final class CsaConverter extends AbstractStringConverter {
                 System.lineSeparator());
     }
 
+    @Override
+    public String convertPromoteMove(final int fx, final int fy, final int tx,
+                                     final int ty) {
+        throw new RuntimeException("Not implemented.");
+    }
+
+    @Override
+    public String convertNormalMove(final int fx, final int fy, final int tx,
+                                    final int ty) {
+        throw new RuntimeException("Not implemented.");
+    }
+
+    @Override
+    public String convertDropMove(int tx, int ty, IPiece koma) {
+        throw new RuntimeException("Not implemented.");
+    }
+
 }
