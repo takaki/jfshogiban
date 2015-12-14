@@ -59,8 +59,6 @@ public final class Main {
 
         LOG.debug("Game End: {} WON {} Moves",
                 (moves & 1) == 1 ? Player.SENTEBAN : Player.GOTEBAN, moves);
-        System.exit(0); // FIXME
-
     }
 
 

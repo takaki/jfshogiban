@@ -32,7 +32,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public final class CsaConverter extends AbstractStringConverter {
+public final class CsaConverter implements IStringConverter {
 
     private static final Map<IPiece, String> PIECE = new HashMap<>(28);
 
@@ -85,9 +85,10 @@ public final class CsaConverter extends AbstractStringConverter {
 
     @Override
     public String convertMochigoma(final Mochigoma mochigoma) {
-        return String.join("", "P+", mochigomaLine(mochigoma, SENTE_LIST),
+        return String.join("", "P+", mochigomaLine(mochigoma, Koma.SENTE_LIST),
                 System.lineSeparator(), "P-",
-                mochigomaLine(mochigoma, GOTE_LIST), System.lineSeparator());
+                mochigomaLine(mochigoma, Koma.GOTE_LIST),
+                System.lineSeparator());
 
     }
 
@@ -137,7 +138,8 @@ public final class CsaConverter extends AbstractStringConverter {
     }
 
     @Override
-    public String convertDropMove(int tx, int ty, IPiece koma) {
+    public String convertDropMove(final int tx, final int ty,
+                                  final IPiece koma) {
         throw new RuntimeException("Not implemented.");
     }
 

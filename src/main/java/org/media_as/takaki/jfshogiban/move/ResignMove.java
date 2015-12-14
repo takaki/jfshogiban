@@ -29,7 +29,7 @@ public final class ResignMove implements EndMove {
     }
 
     @Override
-    public String convertString(IStringConverter converter) {
+    public String convertString(final IStringConverter converter) {
         return "resign"; // FIXME
     }
 

@@ -39,8 +39,8 @@ public final class DropMove implements IMovement {
     }
 
     @Override
-    public String convertString(IStringConverter converter) {
-        return converter.convertDropMove(tx,ty,koma);
+    public String convertString(final IStringConverter converter) {
+        return converter.convertDropMove(tx, ty, koma);
     }
 
     @Override

@@ -50,14 +50,6 @@ public final class PlayMain implements IMain {
         LOG.debug("{}", movements);
         this.startpos = startpos;
         this.movements = Collections.unmodifiableList(movements);
-        final Kyokumen current = movements.stream().reduce(startpos,
-                (kyokumen, movement) -> movement.action(kyokumen), (x, y) -> y);
-        final PrintWriter writer = new PrintWriter(System.out);
-        writer.format("SFEN: %s\n", current.convertString(new SfenConverter()));
-        writer.format("N+%s\nN-%s\n%s%d\n", channelSente, channelGote,
-                current.convertString(new CsaConverter()), movements.size());
-        writer.flush();
-
         this.channelSente = channelSente;
         this.channelGote = channelGote;
     }
@@ -70,6 +62,15 @@ public final class PlayMain implements IMain {
         LOG.debug("{} {}", startpos.getTurn(), movement);
         final List<IMovement> movements = new ArrayList<>(this.movements);
         movements.add(movement);
+
+        final Kyokumen current = movements.stream()
+                .reduce(startpos, (kyokumen, move) -> move.action(kyokumen), (x, y) -> y);
+        final PrintWriter writer = new PrintWriter(System.out);
+        writer.format("SFEN: %s\n", current.convertString(new SfenConverter()));
+        writer.format("N+%s\nN-%s\n%s%d\n", channelSente, channelGote,
+                current.convertString(new CsaConverter()), movements.size());
+        writer.flush();
+
         return movement instanceof EndMove ? new PlayEnd(startpos, movements,
                 channelSente, channelGote) : new PlayMain(startpos, movements,
                 channelSente, channelGote);

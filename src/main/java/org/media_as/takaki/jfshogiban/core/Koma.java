@@ -20,6 +20,10 @@ package org.media_as.takaki.jfshogiban.core;
 
 import org.media_as.takaki.jfshogiban.piece.*;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 @SuppressWarnings("ClassWithTooManyFields")
 public enum Koma {
     ;
@@ -54,4 +58,10 @@ public enum Koma {
     public static final IPiece GOTE_NARIKYO = new KomaNarikyo(Player.GOTEBAN);
     public static final IPiece GOTE_TOKIN = new KomaTokin(Player.GOTEBAN);
 
+    public static final List<IPiece> SENTE_LIST = Collections.unmodifiableList(
+            Arrays.asList(SENTE_FU, SENTE_KYOSHA, SENTE_KEIMA, SENTE_GIN,
+                    SENTE_KIN, SENTE_KAKU, SENTE_HISYA));
+    public static final List<IPiece> GOTE_LIST = Collections.unmodifiableList(
+            Arrays.asList(GOTE_FU, GOTE_KYOSHA, GOTE_KEIMA, GOTE_GIN, GOTE_KIN,
+                    GOTE_KAKU, GOTE_HISYA));
 }

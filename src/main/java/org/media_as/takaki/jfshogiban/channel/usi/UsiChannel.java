@@ -54,7 +54,7 @@ public final class UsiChannel implements IMoveChannel {
 
     private final BlockingQueue<String> in = new LinkedBlockingQueue<>();
     private final BlockingQueue<String> out = new LinkedBlockingQueue<>();
-    private final String name; // FIXME
+    private final String name;
 
     public UsiChannel(final Path directory,
                       final String exe) throws IOException {

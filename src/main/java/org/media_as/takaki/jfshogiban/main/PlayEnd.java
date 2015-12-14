@@ -35,15 +35,6 @@ public final class PlayEnd implements IMain {
     public PlayEnd(final Kyokumen startpos, final List<IMovement> movements,
                    final IMoveChannel channelSente,
                    final IMoveChannel channelGote) {
-
-        final Kyokumen current = movements.stream().reduce(startpos,
-                (kyokumen, movement) -> movement.action(kyokumen), (x, y) -> y);
-        final PrintWriter writer = new PrintWriter(System.out);
-        writer.format("SFEN: %s\n", current.convertString(new SfenConverter()));
-        writer.format("N+%s\nN-%s\n%s%d\n", channelSente, channelGote,
-                current.convertString(new CsaConverter()), movements.size());
-        writer.flush();
-
         this.movements = movements;
     }
 

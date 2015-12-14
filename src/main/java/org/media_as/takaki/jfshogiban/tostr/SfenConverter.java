@@ -33,7 +33,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public final class SfenConverter extends AbstractStringConverter {
+public final class SfenConverter implements IStringConverter {
     private static final Map<IPiece, String> PIECE_SFEN = new HashMap<>(28);
 
     static {
@@ -83,8 +83,8 @@ public final class SfenConverter extends AbstractStringConverter {
 
     @Override
     public String convertMochigoma(final Mochigoma mochigoma) {
-        final Collection<IPiece> all = new ArrayList<>(SENTE_LIST);
-        all.addAll(GOTE_LIST);
+        final Collection<IPiece> all = new ArrayList<>(Koma.SENTE_LIST);
+        all.addAll(Koma.GOTE_LIST);
         final String tmp = all.stream().filter(p -> mochigoma.count(p) > 0)
                 .map(p -> String.join("", mochigoma.count(p) > 1 ? Integer
                         .toString(mochigoma.count(p)) : "", PIECE_SFEN.get(p)))
