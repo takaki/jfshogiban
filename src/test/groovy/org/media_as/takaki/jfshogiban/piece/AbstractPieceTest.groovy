@@ -21,7 +21,7 @@ package org.media_as.takaki.jfshogiban.piece
 import org.media_as.takaki.jfshogiban.core.Player
 import spock.lang.Specification
 
-class BasePieceTest extends Specification {
+class AbstractPieceTest extends Specification {
     def "compare pieces each other" () {
         expect:
         new KomaFu(Player.SENTEBAN).equals(new KomaFu(Player.SENTEBAN))

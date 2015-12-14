@@ -24,7 +24,6 @@ import org.media_as.takaki.jfshogiban.core.Player;
 import org.media_as.takaki.jfshogiban.main.IMain;
 import org.media_as.takaki.jfshogiban.main.PlayEnd;
 import org.media_as.takaki.jfshogiban.main.PlayMain;
-import org.media_as.takaki.jfshogiban.move.IMovement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -59,6 +58,7 @@ public final class Main {
 
         LOG.debug("Game End: {} WON {} Moves",
                 (moves & 1) == 1 ? Player.SENTEBAN : Player.GOTEBAN, moves);
+        System.exit(0);
     }
 
 

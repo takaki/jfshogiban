@@ -21,7 +21,7 @@ package org.media_as.takaki.jfshogiban.piece;
 import org.media_as.takaki.jfshogiban.core.Player;
 import org.media_as.takaki.jfshogiban.core.ShogiBan;
 
-public final class KomaGin extends BasePiece {
+public final class KomaGin extends AbstractPiece implements IPiece {
     public KomaGin(final Player owner) {
         super(owner);
     }

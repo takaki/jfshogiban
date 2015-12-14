@@ -23,7 +23,7 @@ import org.media_as.takaki.jfshogiban.core.ShogiBan;
 
 import java.util.stream.IntStream;
 
-public final class KomaKyosha extends BasePiece {
+public final class KomaKyosha extends AbstractPiece implements IPiece {
     public KomaKyosha(final Player owner) {
         super(owner);
     }

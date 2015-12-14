@@ -21,14 +21,14 @@ package org.media_as.takaki.jfshogiban.tostr;
 import org.media_as.takaki.jfshogiban.core.Mochigoma;
 import org.media_as.takaki.jfshogiban.core.Player;
 import org.media_as.takaki.jfshogiban.core.ShogiBan;
-import org.media_as.takaki.jfshogiban.piece.BasePiece;
+import org.media_as.takaki.jfshogiban.piece.AbstractPiece;
 import org.media_as.takaki.jfshogiban.piece.IPiece;
 
 public interface IStringConverter {
 
     String convertPlayer(Player player);
 
-    String convertPiece(BasePiece piece);
+    String convertPiece(AbstractPiece piece);
 
     String convertMochigoma(Mochigoma mochigoma);
 

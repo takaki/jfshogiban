@@ -23,7 +23,7 @@ import org.media_as.takaki.jfshogiban.core.Koma;
 import org.media_as.takaki.jfshogiban.core.Mochigoma;
 import org.media_as.takaki.jfshogiban.core.Player;
 import org.media_as.takaki.jfshogiban.core.ShogiBan;
-import org.media_as.takaki.jfshogiban.piece.BasePiece;
+import org.media_as.takaki.jfshogiban.piece.AbstractPiece;
 import org.media_as.takaki.jfshogiban.piece.IPiece;
 
 import java.util.Collection;
@@ -75,7 +75,7 @@ public final class CsaConverter implements IStringConverter {
     }
 
     @Override
-    public String convertPiece(final BasePiece piece) {
+    public String convertPiece(final AbstractPiece piece) {
         if (PIECE.containsKey(piece)) {
             return PIECE.get(piece);
         } else {

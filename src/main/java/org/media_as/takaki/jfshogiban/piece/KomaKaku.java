@@ -21,13 +21,13 @@ package org.media_as.takaki.jfshogiban.piece;
 import org.media_as.takaki.jfshogiban.core.Player;
 import org.media_as.takaki.jfshogiban.core.ShogiBan;
 
-public final class KomaKaku extends BasePiece implements CheckerKaku {
+public final class KomaKaku extends AbstractPiece implements IPiece, CheckerKaku {
     public KomaKaku(final Player owner) {
         super(owner);
     }
 
     @Override
-    public BasePiece promotion() {
+    public KomaUma promotion() {
         return new KomaUma(getOwner());
     }
 
@@ -38,7 +38,7 @@ public final class KomaKaku extends BasePiece implements CheckerKaku {
     }
 
     @Override
-    public BasePiece captured(final Player owner) {
+    public KomaKaku captured(final Player owner) {
         return new KomaKaku(owner);
     }
 

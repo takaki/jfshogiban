@@ -21,7 +21,7 @@ package org.media_as.takaki.jfshogiban.piece;
 import org.media_as.takaki.jfshogiban.core.Player;
 import org.media_as.takaki.jfshogiban.core.ShogiBan;
 
-public final class KomaNarikei extends BasePiece implements CheckerKin {
+public final class KomaNarikei extends AbstractPiece implements IPiece, CheckerKin {
     public KomaNarikei(final Player owner) {
         super(owner);
     }
@@ -32,7 +32,7 @@ public final class KomaNarikei extends BasePiece implements CheckerKin {
     }
 
     @Override
-    public BasePiece promotion() {
+    public KomaNarikei promotion() {
         return new KomaNarikei(getOwner());
     }
 

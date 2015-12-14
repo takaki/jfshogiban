@@ -23,7 +23,7 @@ import org.media_as.takaki.jfshogiban.core.ShogiBan;
 
 import java.util.stream.IntStream;
 
-public final class KomaFu extends BasePiece {
+public final class KomaFu extends AbstractPiece implements  IPiece {
     public KomaFu(final Player owner) {
         super(owner);
     }

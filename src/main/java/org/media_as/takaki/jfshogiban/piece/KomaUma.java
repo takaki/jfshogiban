@@ -21,7 +21,7 @@ package org.media_as.takaki.jfshogiban.piece;
 import org.media_as.takaki.jfshogiban.core.Player;
 import org.media_as.takaki.jfshogiban.core.ShogiBan;
 
-public final class KomaUma extends BasePiece implements CheckerKaku, CheckerGyoku {
+public final class KomaUma extends AbstractPiece implements IPiece, CheckerKaku, CheckerGyoku {
 
     public KomaUma(final Player owner) {
         super(owner);
@@ -33,7 +33,7 @@ public final class KomaUma extends BasePiece implements CheckerKaku, CheckerGyok
     }
 
     @Override
-    public BasePiece promotion() {
+    public KomaUma promotion() {
         return new KomaUma(getOwner());
     }
 

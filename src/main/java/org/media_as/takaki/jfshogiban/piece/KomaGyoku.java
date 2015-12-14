@@ -22,7 +22,7 @@ import org.media_as.takaki.jfshogiban.core.Player;
 import org.media_as.takaki.jfshogiban.core.ShogiBan;
 import org.media_as.takaki.jfshogiban.exception.IllegalMoveException;
 
-public final class KomaGyoku extends BasePiece implements CheckerGyoku {
+public final class KomaGyoku extends AbstractPiece implements IPiece, CheckerGyoku {
     public KomaGyoku(final Player owner) {
         super(owner);
     }
@@ -33,7 +33,7 @@ public final class KomaGyoku extends BasePiece implements CheckerGyoku {
     }
 
     @Override
-    public BasePiece promotion() {
+    public KomaGyoku promotion() {
         throw new IllegalMoveException("Gyoku can't promotion.");
     }
 

@@ -21,7 +21,7 @@ package org.media_as.takaki.jfshogiban.piece;
 import org.media_as.takaki.jfshogiban.core.Player;
 import org.media_as.takaki.jfshogiban.core.ShogiBan;
 
-public final class KomaRyu extends BasePiece implements CheckerHisha, CheckerGyoku {
+public final class KomaRyu extends AbstractPiece implements IPiece, CheckerHisha, CheckerGyoku {
     public KomaRyu(final Player owner) {
         super(owner);
     }
@@ -32,15 +32,15 @@ public final class KomaRyu extends BasePiece implements CheckerHisha, CheckerGyo
     }
 
     @Override
-    public BasePiece promotion() {
+    public KomaRyu promotion() {
         return new KomaRyu(getOwner());
     }
 
     @Override
     public boolean checkMove(final int fx, final int fy, final int tx,
                              final int ty, final ShogiBan shogiBan) {
-        return checkHishaMove(fx, fy, tx, ty, shogiBan) || checkGyokuMove(fx, fy,
-                tx, ty);
+        return checkHishaMove(fx, fy, tx, ty, shogiBan) || checkGyokuMove(fx,
+                fy, tx, ty);
     }
 
 }

@@ -24,16 +24,13 @@ import org.media_as.takaki.jfshogiban.tostr.IStringConverter;
 
 import java.util.Objects;
 
-public abstract class BasePiece implements IPiece {
+public abstract class AbstractPiece {
     private final Player owner;
 
-    @Override
     public final boolean isOwner(final Player player) {
         return owner == player;
     }
 
-    @SuppressWarnings("DesignForExtension")
-    @Override
     public boolean canSet(final int x, final int y, final ShogiBan banmen) {
         return true;
     }
@@ -49,15 +46,15 @@ public abstract class BasePiece implements IPiece {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof BasePiece)) {
+        if (!(obj instanceof AbstractPiece)) {
             return false;
         }
-        final BasePiece bp = (BasePiece) obj;
+        final AbstractPiece bp = (AbstractPiece) obj;
         return bp.getClass() == getClass() && bp.owner == owner;
 
     }
 
-    protected BasePiece(final Player owner) {
+    protected AbstractPiece(final Player owner) {
         this.owner = owner;
     }
 
@@ -69,7 +66,6 @@ public abstract class BasePiece implements IPiece {
         return owner;
     }
 
-    @Override
     public final String convertString(final IStringConverter converter) {
         return converter.convertPiece(this);
     }
