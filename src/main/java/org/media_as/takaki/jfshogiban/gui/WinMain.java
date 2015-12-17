@@ -30,13 +30,14 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import org.apache.batik.transcoder.TranscoderException;
 import org.apache.batik.transcoder.TranscoderInput;
-import org.media_as.takaki.jfshogiban.gui.BufferedImageTranscoder;
+import org.media_as.takaki.jfshogiban.core.Kyokumen;
 
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Optional;
 
 public class WinMain extends Application {
 
@@ -53,14 +54,34 @@ public class WinMain extends Application {
         final StackPane root = new StackPane();
         //        root.getChildren().add(btn);
         final GridPane gridPane = new GridPane();
+        gridPane.setGridLinesVisible(true);
+        final Kyokumen kyokumen = Kyokumen.startPosition();
+        drawPiece(gridPane, kyokumen);
+        root.getChildren().add(gridPane);
+        //noinspection ImplicitNumericConversion
+        final Scene scene = new Scene(root, 500, 500);
+        stage.setTitle("Hello World!");
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    private static void drawPiece(final GridPane gridPane,
+                                  final Kyokumen kyokumen) {
         for (int x = 0; x < 9; x++) {
             for (int y = 0; y < 9; y++) {
-                final ImageView view = createImage();
+//                final ImageView view = createImage();
                 final int finalX = 9 - x;
                 final int finalY = y + 1;
-                view.setOnMouseClicked(ev -> System.out
-                        .println(String.format("press %d %d", finalX, finalY)));
-                gridPane.add(view, x, y + 1);
+                final Optional<ImageView> view = kyokumen.get(finalX, finalY)
+                        .map(PieceImage::getImageView);
+                final int finalX1 = x;
+                final int finalY1 = y + 1;
+                view.ifPresent(v -> {
+                    v.setOnMouseClicked(ev -> System.out.println(
+                            String.format("press %d %d", finalX, finalY)));
+                    gridPane.add(v, finalX1, finalY1);
+                });
+
 
             }
         }
@@ -71,22 +92,16 @@ public class WinMain extends Application {
             label.setAlignment(Pos.CENTER);
             gridPane.add(label, x, 0);
         }
-        for (int x = 0; x < 9; x++) {
+        for (int y = 0; y < 9; y++) {
             final Label label = new Label();
             label.setOnMouseClicked(
                     mouseEvent -> System.out.println("clicked"));
             label.setPrefHeight(50);
-            label.setText(Integer.toString(x));
+            label.setPrefWidth(30);
+            label.setText(Integer.toString(y + 1));
             label.setAlignment(Pos.CENTER);
-            gridPane.add(label, 9, x + 1);
+            gridPane.add(label, 9, y + 1);
         }
-        gridPane.setGridLinesVisible(true);
-        root.getChildren().add(gridPane);
-        //noinspection ImplicitNumericConversion
-        final Scene scene = new Scene(root, 500, 500);
-        stage.setTitle("Hello World!");
-        stage.setScene(scene);
-        stage.show();
     }
 
     static ImageView createImage() throws IOException, TranscoderException {
