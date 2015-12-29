@@ -19,7 +19,7 @@
 package org.media_as.takaki.jfshogiban.gui;
 
 import javafx.application.Application;
-import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -42,6 +42,8 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.stream.Stream;
 
 public class WinMain extends Application {
@@ -58,13 +60,24 @@ public class WinMain extends Application {
         VBox root = new VBox();
         final Button button = new Button();
         button.setText("start");
-        button.setOnMouseClicked(mouseEvent -> Platform.runLater(() -> {
-            try {
-                update();
-            } catch (final IOException e) {
-                throw new RuntimeException(e);
+        final Task<Void> task = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                try {
+                    update();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return null;
             }
-        }));
+        };
+        button.setOnMouseClicked(mouseEvent -> {
+            button.setDisable(true);
+            button.setText("Running");
+            final ExecutorService service = Executors.newSingleThreadExecutor();
+            service.execute(task);
+        });
+
         root.getChildren().addAll(initGridPane(), button);
         final Scene scene = new Scene(root, 500, 500);
         stage.setTitle("Hello World!");
@@ -132,7 +145,6 @@ public class WinMain extends Application {
                         .get(9 - finalX, finalY + 1)
                         .map(PieceImage::getSvgImage);
                 view.ifPresent(v -> views[finalX][finalY].setImage(v));
-
             }
         }
     }
