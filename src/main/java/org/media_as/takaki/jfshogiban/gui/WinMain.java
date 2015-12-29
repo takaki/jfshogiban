@@ -19,57 +19,99 @@
 package org.media_as.takaki.jfshogiban.gui;
 
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.embed.swing.SwingFXUtils;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import org.apache.batik.transcoder.TranscoderException;
 import org.apache.batik.transcoder.TranscoderInput;
+import org.media_as.takaki.jfshogiban.channel.usi.UsiChannel;
 import org.media_as.takaki.jfshogiban.core.Kyokumen;
+import org.media_as.takaki.jfshogiban.core.Player;
+import org.media_as.takaki.jfshogiban.main.IMain;
+import org.media_as.takaki.jfshogiban.main.PlayEnd;
+import org.media_as.takaki.jfshogiban.main.PlayMain;
+import org.media_as.takaki.jfshogiban.main.PlayWinMain;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Optional;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.stream.Stream;
 
 public class WinMain extends Application {
+    private static final Logger LOG = LoggerFactory.getLogger(WinMain.class);
 
-    private static final String HOME_TAKAKI_TMP_XBOARD_TEST_SVG = "/home/takaki/tmp/xboard/WhiteRook.svg";
+    private StackPane root;
 
     public static void main(final String[] args) throws Exception {
-//        jpg();
         launch(args);
     }
 
-    @SuppressWarnings({"ProhibitedExceptionDeclared", "UseOfSystemOutOrSystemErr", "DesignForExtension"})
     @Override
     public void start(final Stage stage) throws Exception {
-        final StackPane root = new StackPane();
-        //        root.getChildren().add(btn);
-        final GridPane gridPane = new GridPane();
-        gridPane.setGridLinesVisible(true);
-        final Kyokumen kyokumen = Kyokumen.startPosition();
-        drawPiece(gridPane, kyokumen);
-        root.getChildren().add(gridPane);
-        //noinspection ImplicitNumericConversion
+        root = new StackPane();
+        //final Kyokumen kyokumen = Kyokumen.startPosition();
+//        GridPane gridPane = new GridPane();
+//        gridPane.setGridLinesVisible(true);
+
+        root.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                Platform.runLater(() -> {
+                    try {
+                        update(stage);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+            }
+        });
         final Scene scene = new Scene(root, 500, 500);
         stage.setTitle("Hello World!");
         stage.setScene(scene);
         stage.show();
     }
 
-    private static void drawPiece(final GridPane gridPane,
-                                  final Kyokumen kyokumen) {
+    public void update(Stage stage) throws IOException {
+        final Stream<IMain> iterate = Stream.iterate(
+                new PlayWinMain(Kyokumen.startPosition(), new ArrayList<>(),
+                        new UsiChannel(
+                                Paths.get("/home/takaki/tmp/gpsfish/src"),
+                                "gpsfish"),
+                        new UsiChannel(Paths.get("/home/takaki/tmp/apery/bin"),
+                                "apery"), root, stage), IMain::next);
+        final IMain playEnd = iterate
+                .filter(playMain -> playMain instanceof PlayEnd).findFirst()
+                .get();
+        final int moves = playEnd.getMoves() - 1;
+
+        LOG.debug("Game End: {} WON {} Moves",
+                (moves & 1) == 1 ? Player.SENTEBAN : Player.GOTEBAN, moves);
+    }
+
+    public static void drawPiece(final GridPane gridPane,
+                                 final Kyokumen kyokumen) {
         for (int x = 0; x < 9; x++) {
             for (int y = 0; y < 9; y++) {
-//                final ImageView view = createImage();
                 final int finalX = 9 - x;
                 final int finalY = y + 1;
                 final Optional<ImageView> view = kyokumen.get(finalX, finalY)
@@ -81,8 +123,6 @@ public class WinMain extends Application {
                             String.format("press %d %d", finalX, finalY)));
                     gridPane.add(v, finalX1, finalY1);
                 });
-
-
             }
         }
         for (int x = 0; x < 9; x++) {
@@ -102,21 +142,6 @@ public class WinMain extends Application {
             label.setAlignment(Pos.CENTER);
             gridPane.add(label, 9, y + 1);
         }
-    }
-
-    static ImageView createImage() throws IOException, TranscoderException {
-        final BufferedImageTranscoder imageTranscoder = new BufferedImageTranscoder();
-
-        final Path path = Paths.get(HOME_TAKAKI_TMP_XBOARD_TEST_SVG);
-        final TranscoderInput input = new TranscoderInput(
-                Files.newInputStream(path));
-        imageTranscoder.transcode(input, null);
-        final BufferedImage bufferedImage = imageTranscoder.getBufferedImage();
-        final WritableImage image = SwingFXUtils.toFXImage(bufferedImage, null);
-        final ImageView imageView = new ImageView(image);
-        imageView.setFitWidth(50);
-        imageView.setFitHeight(50);
-        return imageView;
     }
 
 }

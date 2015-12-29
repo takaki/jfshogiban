@@ -96,7 +96,7 @@ public class PieceImage {
 
     }
 
-    public static ImageView getImageView(IPiece koma) {
+    public static ImageView getImageView(final IPiece koma) {
         final ImageView imageView = new ImageView(SVG_MAP.get(koma));
         imageView.setFitWidth(50);
         imageView.setFitHeight(50);
