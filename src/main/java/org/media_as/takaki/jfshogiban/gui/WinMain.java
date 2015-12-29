@@ -20,47 +20,34 @@ package org.media_as.takaki.jfshogiban.gui;
 
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.concurrent.Task;
-import javafx.embed.swing.SwingFXUtils;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.image.WritableImage;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import org.apache.batik.transcoder.TranscoderException;
-import org.apache.batik.transcoder.TranscoderInput;
 import org.media_as.takaki.jfshogiban.channel.usi.UsiChannel;
 import org.media_as.takaki.jfshogiban.core.Kyokumen;
 import org.media_as.takaki.jfshogiban.core.Player;
 import org.media_as.takaki.jfshogiban.main.IMain;
 import org.media_as.takaki.jfshogiban.main.PlayEnd;
-import org.media_as.takaki.jfshogiban.main.PlayMain;
 import org.media_as.takaki.jfshogiban.main.PlayWinMain;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.awt.image.BufferedImage;
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Optional;
-import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.stream.Stream;
 
 public class WinMain extends Application {
     private static final Logger LOG = LoggerFactory.getLogger(WinMain.class);
 
-    private StackPane root;
+    private final ImageView[][] views = new ImageView[9][9];
 
     public static void main(final String[] args) throws Exception {
         launch(args);
@@ -68,37 +55,32 @@ public class WinMain extends Application {
 
     @Override
     public void start(final Stage stage) throws Exception {
-        root = new StackPane();
-        //final Kyokumen kyokumen = Kyokumen.startPosition();
-//        GridPane gridPane = new GridPane();
-//        gridPane.setGridLinesVisible(true);
-
-        root.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                Platform.runLater(() -> {
-                    try {
-                        update(stage);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                });
+        VBox root = new VBox();
+        final Button button = new Button();
+        button.setText("start");
+        button.setOnMouseClicked(mouseEvent -> Platform.runLater(() -> {
+            try {
+                update();
+            } catch (final IOException e) {
+                throw new RuntimeException(e);
             }
-        });
+        }));
+        root.getChildren().addAll(initGridPane(), button);
         final Scene scene = new Scene(root, 500, 500);
         stage.setTitle("Hello World!");
         stage.setScene(scene);
         stage.show();
+        drawPiece(Kyokumen.startPosition());
     }
 
-    public void update(Stage stage) throws IOException {
+    public void update() throws IOException {
         final Stream<IMain> iterate = Stream.iterate(
                 new PlayWinMain(Kyokumen.startPosition(), new ArrayList<>(),
                         new UsiChannel(
                                 Paths.get("/home/takaki/tmp/gpsfish/src"),
                                 "gpsfish"),
                         new UsiChannel(Paths.get("/home/takaki/tmp/apery/bin"),
-                                "apery"), root, stage), IMain::next);
+                                "apery"), this), IMain::next);
         final IMain playEnd = iterate
                 .filter(playMain -> playMain instanceof PlayEnd).findFirst()
                 .get();
@@ -108,21 +90,16 @@ public class WinMain extends Application {
                 (moves & 1) == 1 ? Player.SENTEBAN : Player.GOTEBAN, moves);
     }
 
-    public static void drawPiece(final GridPane gridPane,
-                                 final Kyokumen kyokumen) {
+    private GridPane initGridPane() {
+        GridPane gridPane = new GridPane();
+        gridPane.setGridLinesVisible(true);
         for (int x = 0; x < 9; x++) {
             for (int y = 0; y < 9; y++) {
-                final int finalX = 9 - x;
-                final int finalY = y + 1;
-                final Optional<ImageView> view = kyokumen.get(finalX, finalY)
-                        .map(PieceImage::getImageView);
-                final int finalX1 = x;
-                final int finalY1 = y + 1;
-                view.ifPresent(v -> {
-                    v.setOnMouseClicked(ev -> System.out.println(
-                            String.format("press %d %d", finalX, finalY)));
-                    gridPane.add(v, finalX1, finalY1);
-                });
+                final ImageView view = new ImageView();
+                view.setFitHeight(50);
+                view.setFitWidth(50);
+                views[x][y] = view;
+                gridPane.add(view, x, y + 1);
             }
         }
         for (int x = 0; x < 9; x++) {
@@ -141,6 +118,22 @@ public class WinMain extends Application {
             label.setText(Integer.toString(y + 1));
             label.setAlignment(Pos.CENTER);
             gridPane.add(label, 9, y + 1);
+        }
+        return gridPane;
+    }
+
+    public void drawPiece(final Kyokumen kyokumen) {
+        for (int x = 0; x < 9; x++) {
+            for (int y = 0; y < 9; y++) {
+                final int finalX = x;
+                final int finalY = y;
+                views[finalX][finalY].setImage(null);
+                final Optional<Image> view = kyokumen
+                        .get(9 - finalX, finalY + 1)
+                        .map(PieceImage::getSvgImage);
+                view.ifPresent(v -> views[finalX][finalY].setImage(v));
+
+            }
         }
     }
 

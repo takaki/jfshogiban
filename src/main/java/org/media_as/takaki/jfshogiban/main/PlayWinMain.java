@@ -18,11 +18,7 @@
 
 package org.media_as.takaki.jfshogiban.main;
 
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 import org.media_as.takaki.jfshogiban.channel.IMoveChannel;
-import org.media_as.takaki.jfshogiban.channel.usi.UsiChannel;
 import org.media_as.takaki.jfshogiban.core.Kyokumen;
 import org.media_as.takaki.jfshogiban.core.Player;
 import org.media_as.takaki.jfshogiban.gui.WinMain;
@@ -46,14 +42,12 @@ public final class PlayWinMain implements IMain {
     private final IMoveChannel channelSente;
     private final IMoveChannel channelGote;
     private final List<IMovement> movements;
-    private final StackPane rootPane;
-    private final Stage stage;
+    private final WinMain main;
 
     public PlayWinMain(final Kyokumen startpos, final List<IMovement> movements,
                        final IMoveChannel channelSente,
-                       final IMoveChannel channelGote, final StackPane rootPane, final Stage stage) {
-        this.rootPane = rootPane;
-        this.stage = stage;
+                       final IMoveChannel channelGote, final WinMain main) {
+        this.main = main;
         LOG.debug("{}", movements);
         this.startpos = startpos;
         this.movements = Collections.unmodifiableList(movements);
@@ -77,20 +71,12 @@ public final class PlayWinMain implements IMain {
         writer.format("N+%s\nN-%s\n%s%d\n", channelSente, channelGote,
                 current.convertString(new CsaConverter()), movements.size());
         writer.flush();
-        LOG.debug("before draw");
-
-        GridPane gridPane = new GridPane();
-        gridPane.setGridLinesVisible(true);
-        WinMain.drawPiece(gridPane, current);
-        LOG.debug("a");
-        rootPane.getChildren().removeAll();
-        LOG.debug("b");
-        rootPane.getChildren().add(gridPane);
-        stage.show();
-        LOG.debug("after draw");
+        LOG.debug("draw");
+        main.drawPiece(current);
+        LOG.debug("draw done");
         return movement instanceof EndMove ? new PlayEnd(startpos, movements,
                 channelSente, channelGote) : new PlayWinMain(startpos, movements,
-                channelSente, channelGote, rootPane, stage);
+                channelSente, channelGote, main);
     }
 
 

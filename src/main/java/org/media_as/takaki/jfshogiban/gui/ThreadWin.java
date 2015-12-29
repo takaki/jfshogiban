@@ -26,6 +26,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import org.apache.commons.lang3.time.StopWatch;
@@ -48,7 +49,9 @@ public class ThreadWin extends Application {
         final Scene scene = new Scene(root, 500, 500);
         Button button = new Button();
         button.setText("Hello Button");
-        root.getChildren().add(button);
+        GridPane grid = new GridPane();
+        root.getChildren().add(grid);
+        grid.add(button, 0, 0);
         stage.setTitle("Hello World!");
         stage.setScene(scene);
         stage.show();
@@ -60,14 +63,16 @@ public class ThreadWin extends Application {
                 return new Task<Void>() {
                     @Override
                     protected Void call() throws Exception {
-                        while (true) {
+                        //while (true) {
                             try {
-                                Thread.sleep(100);
+                                Thread.sleep(400);
                                 Platform.runLater(() -> updateButton(button));
+                                //Platform.runLater(() -> replaceButton(grid));
                             } catch (InterruptedException e) {
                                 throw new RuntimeException(e);
                             }
-                        }
+                        //}
+                        return null;
                     }
                 };
             }
@@ -80,6 +85,13 @@ public class ThreadWin extends Application {
             }
         });
 
+    }
+
+    private void replaceButton(GridPane grid) {
+        Button button = new Button();
+        button.setText("hoge: " + stopWatch);
+        LOG.debug("add");
+        grid.add(button,0,0);
     }
 
     private void updateButton(Button button) {

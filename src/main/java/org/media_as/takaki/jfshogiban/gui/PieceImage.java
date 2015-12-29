@@ -102,4 +102,7 @@ public class PieceImage {
         imageView.setFitHeight(50);
         return imageView;
     }
+    public static Image getSvgImage(final IPiece koma) {
+        return SVG_MAP.get(koma);
+    }
 }
