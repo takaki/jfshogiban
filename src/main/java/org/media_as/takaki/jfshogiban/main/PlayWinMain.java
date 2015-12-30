@@ -18,6 +18,7 @@
 
 package org.media_as.takaki.jfshogiban.main;
 
+import javafx.application.Platform;
 import org.media_as.takaki.jfshogiban.channel.IMoveChannel;
 import org.media_as.takaki.jfshogiban.core.Kyokumen;
 import org.media_as.takaki.jfshogiban.core.Player;
@@ -35,7 +36,8 @@ import java.util.Collections;
 import java.util.List;
 
 public final class PlayWinMain implements IMain {
-    private static final Logger LOG = LoggerFactory.getLogger(PlayWinMain.class);
+    private static final Logger LOG = LoggerFactory
+            .getLogger(PlayWinMain.class);
 
     private final Kyokumen startpos;
 
@@ -65,18 +67,21 @@ public final class PlayWinMain implements IMain {
         movements.add(movement);
 
         final Kyokumen current = movements.stream()
-                .reduce(startpos, (kyokumen, move) -> move.action(kyokumen), (x, y) -> y);
+                .reduce(startpos, (kyokumen, move) -> move.action(kyokumen),
+                        (x, y) -> y);
         final PrintWriter writer = new PrintWriter(System.out);
         writer.format("SFEN: %s\n", current.convertString(new SfenConverter()));
         writer.format("N+%s\nN-%s\n%s%d\n", channelSente, channelGote,
                 current.convertString(new CsaConverter()), movements.size());
         writer.flush();
         LOG.debug("draw");
-        main.drawPiece(current);
+        main.drawPiece(current); // TODO: -> current.method(widget)
+        Platform.runLater(() -> main
+                .drawInfo(channelSente, channelGote, current, movements));
         LOG.debug("draw done");
         return movement instanceof EndMove ? new PlayEnd(startpos, movements,
-                channelSente, channelGote) : new PlayWinMain(startpos, movements,
-                channelSente, channelGote, main);
+                channelSente, channelGote) : new PlayWinMain(startpos,
+                movements, channelSente, channelGote, main);
     }
 
 

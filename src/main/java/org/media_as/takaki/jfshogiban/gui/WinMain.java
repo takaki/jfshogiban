@@ -27,29 +27,41 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.media_as.takaki.jfshogiban.channel.IMoveChannel;
 import org.media_as.takaki.jfshogiban.channel.usi.UsiChannel;
+import org.media_as.takaki.jfshogiban.core.Koma;
 import org.media_as.takaki.jfshogiban.core.Kyokumen;
 import org.media_as.takaki.jfshogiban.core.Player;
 import org.media_as.takaki.jfshogiban.main.IMain;
 import org.media_as.takaki.jfshogiban.main.PlayEnd;
 import org.media_as.takaki.jfshogiban.main.PlayWinMain;
+import org.media_as.takaki.jfshogiban.move.IMovement;
+import org.media_as.takaki.jfshogiban.piece.IPiece;
+import org.media_as.takaki.jfshogiban.tostr.CsaConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class WinMain extends Application {
     private static final Logger LOG = LoggerFactory.getLogger(WinMain.class);
 
     private final ImageView[][] views = new ImageView[9][9];
+    private final Label gote = new Label();
+    private final Label sente = new Label();
+    private final Label info = new Label();
 
     public static void main(final String[] args) throws Exception {
         launch(args);
@@ -57,7 +69,7 @@ public class WinMain extends Application {
 
     @Override
     public void start(final Stage stage) throws Exception {
-        VBox root = new VBox();
+        final VBox root = new VBox();
         final Button button = new Button();
         button.setText("start");
         final Task<Void> task = new Task<Void>() {
@@ -65,7 +77,7 @@ public class WinMain extends Application {
             protected Void call() throws Exception {
                 try {
                     update();
-                } catch (IOException e) {
+                } catch (final IOException e) {
                     e.printStackTrace();
                 }
                 return null;
@@ -78,8 +90,17 @@ public class WinMain extends Application {
             service.execute(task);
         });
 
-        root.getChildren().addAll(initGridPane(), button);
-        final Scene scene = new Scene(root, 500, 500);
+        gote.setText("Gote");
+        sente.setText("Sente");
+        final HBox goteBox = new HBox();
+        final HBox senteBox = new HBox();
+        final HBox infoBox = new HBox();
+        goteBox.getChildren().addAll(gote);
+        senteBox.getChildren().addAll(sente);
+        infoBox.getChildren().add(info);
+        root.getChildren()
+                .addAll(goteBox, initGridPane(), senteBox, infoBox, button);
+        final Scene scene = new Scene(root, 600, 600);
         stage.setTitle("Hello World!");
         stage.setScene(scene);
         stage.show();
@@ -104,7 +125,7 @@ public class WinMain extends Application {
     }
 
     private GridPane initGridPane() {
-        GridPane gridPane = new GridPane();
+        final GridPane gridPane = new GridPane();
         gridPane.setGridLinesVisible(true);
         for (int x = 0; x < 9; x++) {
             for (int y = 0; y < 9; y++) {
@@ -147,6 +168,27 @@ public class WinMain extends Application {
                 view.ifPresent(v -> views[finalX][finalY].setImage(v));
             }
         }
+    }
+
+    public void drawInfo(IMoveChannel channelSente, IMoveChannel channelGote,
+                         Kyokumen current, List<IMovement> movements) {
+        final List<IPiece> SENTE_LIST = Arrays
+                .asList(Koma.SENTE_FU, Koma.SENTE_KYOSHA, Koma.SENTE_KEIMA,
+                        Koma.SENTE_GIN, Koma.SENTE_KIN, Koma.SENTE_KAKU,
+                        Koma.SENTE_HISYA);
+        final List<IPiece> GOTE_LIST = Arrays
+                .asList(Koma.GOTE_FU, Koma.GOTE_KYOSHA, Koma.GOTE_KEIMA,
+                        Koma.GOTE_GIN, Koma.GOTE_KIN, Koma.GOTE_KAKU,
+                        Koma.GOTE_HISYA);
+
+
+        sente.setText(channelSente + SENTE_LIST.stream()
+                .map(p -> p.convertString(new CsaConverter()) + current
+                        .countMochigoma(p)).collect(Collectors.joining(",")));
+        gote.setText(channelGote + GOTE_LIST.stream()
+                .map(p -> p.convertString(new CsaConverter()) + current
+                        .countMochigoma(p)).collect(Collectors.joining(",")));
+        info.setText(String.format("Moves = %d", movements.size()));
     }
 
 }
