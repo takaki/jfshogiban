@@ -27,6 +27,9 @@ dependencies {
             'org.apache.commons:commons-lang3:3.4',
             'com.codepoetics:protonpack:1.7',
             'ch.qos.logback:logback-classic:1.1.3',
+            'org.apache.xmlgraphics:batik-transcoder:1.8',
+            'org.apache.xmlgraphics:xmlgraphics-commons:1.5',
+//            'org.apache.xmlgraphics:xmlgraphics-commons:2.0.1',
     )
     testCompile(
             'junit:junit:4.12',

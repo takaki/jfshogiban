@@ -24,4 +24,5 @@ public interface BestmoveState {
     BestmoveState next(BlockingQueue<String> in) throws InterruptedException;
 
     String getMessage();
+
 }

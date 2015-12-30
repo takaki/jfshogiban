@@ -16,31 +16,30 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.media_as.takaki.jfshogiban.channel.usi.search;
+package org.media_as.takaki.jfshogiban.gui;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.batik.transcoder.TranscoderException;
+import org.apache.batik.transcoder.TranscoderOutput;
+import org.apache.batik.transcoder.image.ImageTranscoder;
 
-import java.util.concurrent.BlockingQueue;
+import java.awt.image.BufferedImage;
 
-public final class WaitBestmove implements BestmoveState {
+public final class BufferedImageTranscoder extends ImageTranscoder {
 
-    private final String info;
+    private BufferedImage img = null;
 
-    public WaitBestmove(final String info) {
-        this.info = info;
+    @Override
+    public BufferedImage createImage(final int width, final int height) {
+        return new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
     }
 
     @Override
-    public BestmoveState next(
-            final BlockingQueue<String> in) throws InterruptedException {
-        final String line = in.take();
-        return StringUtils.startsWith(line, "bestmove") ? new FoundBestmove(
-                info, line.split(" ")[1]) : new WaitBestmove(info);
+    public void writeImage(final BufferedImage img,
+                           final TranscoderOutput output) throws TranscoderException {
+        this.img = img;
     }
 
-    @Override
-    public String getMessage() {
-        throw new RuntimeException("WaitBestMove should not call");
+    public BufferedImage getBufferedImage() {
+        return img;
     }
-
 }

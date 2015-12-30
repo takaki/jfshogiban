@@ -34,7 +34,6 @@ import java.util.Arrays;
 import java.util.stream.Stream;
 
 @SuppressWarnings({"HardCodedStringLiteral", "DuplicateStringLiteralInspection", "UtilityClassCanBeEnum"})
-// public class Main extends Application {
 public final class Main {
     private static final Logger LOG = LoggerFactory.getLogger(Main.class);
 
@@ -62,25 +61,4 @@ public final class Main {
     }
 
 
-//    public static void main(final String[] args) {
-//        launch(args);
-//    }
-//
-//    @SuppressWarnings({"ProhibitedExceptionDeclared", "UseOfSystemOutOrSystemErr", "DesignForExtension"})
-//    @Override
-//    public void start(final Stage stage) throws Exception {
-//        final Button btn = new Button();
-//        btn.setText("Say 'Hello World'");
-//        btn.setOnAction(event -> System.out.println("Hello World!"));
-//
-//        final StackPane root = new StackPane();
-//        root.getChildren().add(btn);
-//
-//        //noinspection ImplicitNumericConversion
-//        final Scene scene = new Scene(root, 300, 250);
-//
-//        stage.setTitle("Hello World!");
-//        stage.setScene(scene);
-//        stage.show();
-//    }
 }
