@@ -101,7 +101,7 @@ public class WinMain extends Application {
         root.getChildren()
                 .addAll(goteBox, initGridPane(), senteBox, infoBox, button);
         final Scene scene = new Scene(root, 600, 600);
-        stage.setTitle("Hello World!");
+        stage.setTitle("jfshogiban");
         stage.setScene(scene);
         stage.show();
         drawPiece(Kyokumen.startPosition());

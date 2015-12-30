@@ -24,12 +24,18 @@ import java.util.concurrent.BlockingQueue;
 
 public final class WaitBestmove implements BestmoveState {
 
+    private final String info;
+
+    public WaitBestmove(final String info) {
+        this.info = info;
+    }
+
     @Override
     public BestmoveState next(
             final BlockingQueue<String> in) throws InterruptedException {
         final String line = in.take();
         return StringUtils.startsWith(line, "bestmove") ? new FoundBestmove(
-                line.split(" ")[1]) : new WaitBestmove();
+                info, line.split(" ")[1]) : new WaitBestmove(info);
     }
 
     @Override

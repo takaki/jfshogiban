@@ -114,7 +114,7 @@ public final class UsiChannel implements IMoveChannel {
         out.add(position);
         out.add("go byoyomi 1000");
         final Stream<BestmoveState> iterate = Stream
-                .iterate(new WaitBestmove(), state0 -> {
+                .iterate(new WaitBestmove(""), state0 -> {
                     try {
                         return state0.next(in);
                     } catch (final InterruptedException e) {

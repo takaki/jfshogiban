@@ -22,9 +22,11 @@ import java.util.concurrent.BlockingQueue;
 
 public final class FoundBestmove implements EndSearchState {
 
+    private final String info;
     private final String bestmove;
 
-    public FoundBestmove(final String bestmove) {
+    public FoundBestmove(final String info, final String bestmove) {
+        this.info = info;
         this.bestmove = bestmove;
     }
 
@@ -35,6 +37,6 @@ public final class FoundBestmove implements EndSearchState {
 
     @Override
     public BestmoveState next(final BlockingQueue<String> in) {
-        throw new RuntimeException("FoundBestmove should not call");
+        throw new RuntimeException("should not call FoundBestmove");
     }
 }
